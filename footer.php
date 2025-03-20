@@ -31,7 +31,7 @@
             </ul>
         </div>
         <div class="col-md-3">
-            <a href="#" class="btn_apparts">Купить апартаменты</a>
+            <a href="https://baden-apart.ru/" target="_blank" class="btn_apparts">Купить апартаменты</a>
         </div>
     </div>
     <div class="container footer__container footer__container-2">
