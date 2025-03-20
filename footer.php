@@ -10,24 +10,39 @@
  */
 
 ?>
-
-	<footer id="colophon" class="site-footer">
-		<div class="site-info">
-			<a href="<?php echo esc_url( __( 'https://wordpress.org/', 'baden' ) ); ?>">
-				<?php
-				/* translators: %s: CMS name, i.e. WordPress. */
-				printf( esc_html__( 'Proudly powered by %s', 'baden' ), 'WordPress' );
-				?>
-			</a>
-			<span class="sep"> | </span>
-				<?php
-				/* translators: 1: Theme name, 2: Theme author. */
-				printf( esc_html__( 'Theme: %1$s by %2$s.', 'baden' ), 'baden', '<a href="http://alexandr.pw">Alexandr Vlasov</a>' );
-				?>
-		</div><!-- .site-info -->
-	</footer><!-- #colophon -->
-</div><!-- #page -->
-
+<section class="footer">
+    <div class="container footer__container">
+        <div class="col-md-3">
+            <div class="footer__logo">
+                <img src="<?php the_badden_assets('img', 'logo-footer_white.svg'); ?>" alt="">
+            </div>
+            <div class="footer__text">
+            </div>
+        </div>
+        <div class="col-md-6">
+            <ul class="nav flex-column">
+                <li class="nav-item"><a href="#" class="nav-link">Еткуль</a></li>
+                <li class="nav-item"><a href="#" class="nav-link">Реж</a></li>
+                <li class="nav-item"><a href="#" class="nav-link">Уктус</a></li>
+                <li class="nav-item"><a href="#" class="nav-link">Курган</a></li>
+                <li class="nav-item"><a href="#" class="nav-link">Тургояк</a></li>
+                <li class="nav-item"><a href="#" class="nav-link">Cuba-Cuba</a></li>
+                <li class="nav-item"><a href="#" class="nav-link">Шарташ пляж</a></li>
+            </ul>
+        </div>
+        <div class="col-md-3">
+            <a href="#" class="btn_apparts">Купить апартаменты</a>
+        </div>
+    </div>
+    <div class="container footer__container footer__container-2">
+        <p class="copyright">2025 &copy; Баден-Баден</p>
+        <ul class="nav">
+            <li class="nav-item"><a class="nav-link" href="#">Реквизиты</a></li>
+            <li class="nav-item"><a class="nav-link" href="#">Правила посещения «Фабрика отдыха»</a></li>
+            <li class="nav-item"><a class="nav-link" href="#">Правила оплаты</a></li>
+        </ul>
+    </div>
+</section>
 <?php wp_footer(); ?>
 
 </body>
