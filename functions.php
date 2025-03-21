@@ -264,4 +264,66 @@ if( function_exists('acf_add_options_page') ) {
         'capability'    => 'edit_posts',
         'redirect'      => false
     ));
+
+    acf_add_options_sub_page(array(
+        'page_title'    => 'Блоки',
+        'menu_title'    => 'ACF Блоки',
+        'parent_slug'   => 'theme-settings',
+		'capability'    => 'edit_posts'
+    ));
 }
+
+function restrict_acf_options_page_access() {
+    if (is_admin() && isset($_GET['page']) && $_GET['page'] === 'theme-acf-settings') {
+        $current_user = wp_get_current_user();
+        if ($current_user->user_login !== 'Developer') {
+            wp_die(__('У вас нет доступа к этой странице.'));
+        }
+    }
+}
+add_action('admin_init', 'restrict_acf_options_page_access');
+
+/**
+ * ACF Block Category
+ */
+function register_acf_block_category($categories, $post) {
+    return array_merge(
+        $categories,
+        [
+            [
+                'slug'  => 'baden-baden',
+                'title' => __('Баден Баден', 'textdomain'),
+                'icon'  => 'admin-site'
+            ]
+        ]
+    );
+}
+add_filter('block_categories_all', 'register_acf_block_category', 10, 2);
+
+function register_acf_blocks_from_admin() {
+    if (have_rows('acf_blocks', 'option')) {
+        while (have_rows('acf_blocks', 'option')) {
+            the_row();
+            
+            $name = get_sub_field('nazvanie');
+            $slug = get_sub_field('slug');
+            $template_file = get_sub_field('fajl_shablona');
+            
+            if ($name && $slug && $template_file) {
+                acf_register_block_type([
+                    'name'              => $slug,
+                    'title'             => __($name),
+                    'render_template'   => get_template_directory() . '/template-parts/blocks/acf-' . $template_file . '.php',
+                    'category'          => 'baden-baden',
+                    'icon'              => 'admin-generic',
+                    'keywords'          => [$name, 'acf'],
+                    'supports'          => [
+                        'align' => true,
+                        'anchor' => true,
+                    ],
+                ]);
+            }
+        }
+    }
+}
+add_action('acf/init', 'register_acf_blocks_from_admin');
