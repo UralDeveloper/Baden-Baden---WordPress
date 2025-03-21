@@ -14,7 +14,7 @@
     <div class="container footer__container">
         <div class="col-md-3">
             <div class="footer__logo">
-                <img src="<?php the_badden_assets('img', 'logo-footer_white.svg'); ?>" alt="">
+                <a href="<?php home_url('/')?>"><img src="<?php the_badden_assets('img', 'logo-footer_white.svg'); ?>" alt=""></a>
             </div>
             <div class="footer__text">
             </div>

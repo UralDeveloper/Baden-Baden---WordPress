@@ -164,6 +164,9 @@ function baden_scripts() {
 }
 add_action( 'wp_enqueue_scripts', 'baden_scripts' );
 
+/**
+ * Возвращает URL папки с ассетами
+ */
 function get_badden_assets($type, $file) {
     $base_url = get_template_directory_uri(); // Получаем URL темы
 
@@ -185,7 +188,9 @@ function get_badden_assets($type, $file) {
     return esc_url($base_url . $type . $file);
 }
 
-
+/**
+ * Выводит URL папки с ассетами
+ */
 function the_badden_assets($type, $file) {
     $base_url = get_template_directory_uri(); 
 
@@ -205,4 +210,58 @@ function the_badden_assets($type, $file) {
     }
 
     echo esc_url($base_url . $type . $file);
+}
+
+/**
+ * Register custom post types and taxonomies.
+ */
+function register_custom_post_types() {
+    $post_types = [
+        'prozhivanie' => ['name' => 'Проживание', 'taxonomy' => 'tip_kompleksa'],
+        'spa' => ['name' => 'СПА'],
+        'vodnye_termy' => ['name' => 'Водные Термы'],
+        'bannaya_kollekciya' => ['name' => 'Банная коллекция'],
+        'akcii' => ['name' => 'Акции', 'taxonomy' => 'akcii_category'],
+        'sertifikaty' => ['name' => 'Сертификаты']
+    ];
+    
+    foreach ($post_types as $slug => $data) {
+        register_post_type($slug, [
+            'labels' => [
+                'name' => $data['name'],
+                'singular_name' => $data['name'],
+            ],
+            'public' => true,
+            'menu_position' => 5,
+            'supports' => ['title', 'editor', 'thumbnail', 'excerpt', 'custom-fields'],
+            'has_archive' => true,
+            'show_in_rest' => true,
+        ]);
+        
+        if (!empty($data['taxonomy'])) {
+            register_taxonomy($data['taxonomy'], $slug, [
+                'labels' => [
+                    'name' => 'Категории ' . $data['name'],
+                    'singular_name' => 'Категория ' . $data['name'],
+                ],
+                'public' => true,
+                'hierarchical' => true,
+                'show_in_rest' => true,
+            ]);
+        }
+    }
+}
+add_action('init', 'register_custom_post_types');
+
+/**
+ * ACF Options Page
+ */
+if( function_exists('acf_add_options_page') ) {
+    acf_add_options_page(array(
+        'page_title'    => 'Настройки шаблона',
+        'menu_title'    => 'Настройки сайта',
+        'menu_slug'     => 'theme-settings',
+        'capability'    => 'edit_posts',
+        'redirect'      => false
+    ));
 }
