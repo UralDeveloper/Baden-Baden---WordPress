@@ -65,7 +65,9 @@ if (! empty($block['anchor'])) {
                                                 <img src="<?php echo get_the_post_thumbnail_url( $post_ids, 'full' ); ?>" alt="<?php echo get_the_title( $post_ids ); ?>">
                                             </div>
                                             <div class="accommodation__text">
-                                                <div class="price"><?php the_field('accommodation-price', $post_ids); ?> ₽</div>
+                                                <?php if ( get_field('accommodation-price', $post_ids) ) : ?>
+                                                    <div class="price"><?php the_field('accommodation-price', $post_ids); ?> ₽</div>
+                                                <?php endif; ?>
                                                 <h3><?php echo get_the_title( $post_ids ); ?></h3>
                                                 <p><?php echo get_the_excerpt( $post_ids ); ?></p>
                                                 <a href="<?php echo get_permalink( $post_ids ); ?>" class="accommodation__button btn btn--border btn--hoverBlue">Забронировать</a>
