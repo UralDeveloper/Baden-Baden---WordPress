@@ -1,0 +1,62 @@
+.btn
+    font-size: 16px
+    padding: 12px 40px
+    border-radius: 12px
+    text-transform: uppercase
+    &--border
+        border: 1px solid #fff
+        color: #fff
+        box-shadow: none
+        &:hover
+            background-color: #fff
+            color: #000
+            box-shadow: none
+        &:active, &:focus
+            background-color: transparentize(#fff, 0.2)
+            color: #000
+            box-shadow: none
+        &-black
+            border: 1px solid #000
+            color: #000
+        &-darkBlue
+            border: 1px solid $darkBlue
+            color: $darkBlue
+            &:hover
+                background-color: $darkBlue
+                color: #fff
+    &--hoverBlue
+        &:hover
+            background-color: $mainColor
+            color: #fff
+            border-color: $mainColor
+            box-shadow: none
+        &:active, &:focus
+            background-color: transparentize($mainColor, 0.2)
+            color: #fff
+            box-shadow: none
+    &--blue
+        background: $mainColor
+        color: #fff
+        border: 1px solid $mainColor
+        outline: none
+        box-shadow: none
+        &:hover
+            background-color: darken($mainColor, 5%)
+            color: #fff
+            box-shadow: none
+        &:active, &:focus
+            background-color: transparentize($mainColor, 0.2)
+            color: #fff
+            box-shadow: none
+    &--darkBlue
+        background-color: $darkBlue
+        color: #fff
+        &:hover
+            background-color: transparentize($darkBlue, 0.2)
+            color: #fff
+    &--link
+        &.active
+            font-weight: 600
+
+.border-radius-90
+    border-radius: 90px

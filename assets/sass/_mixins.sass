@@ -1,12 +1,12 @@
-@mixin desctop() 
-  @media screen and (min-width: 1680px) 
-    @content
+@mixin desktop() 
+    @media (1680px <= width) 
+        @content
 @mixin laptop() 
-  @media screen and (max-width: 1679px) and (min-width: 1200px) 
-    @content
+    @media (1200px <= width <= 1679px)
+        @content
 @mixin tablet() 
-  @media screen and (max-width: 1199px) and (min-width: 768px) 
-    @content
+    @media (768px <= width <= 1199px)
+        @content
 @mixin mobile() 
-  @media screen and (max-width: 767px) 
-    @content
+    @media (width <= 767px) 
+        @content

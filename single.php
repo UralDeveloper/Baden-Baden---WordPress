@@ -9,32 +9,61 @@
 
 get_header();
 ?>
+<section class="firstScreen_singlePage">
+    <div class="firstScreen_singlePage__bg">
+        <img src="<?php the_post_thumbnail_url(); ?>" alt="">
+    </div>
+    <div class="firstScreen_singlePage__content container">
+        <div class="firstScreen_singlePage__title">
+            <h1><?php the_title(); ?></h1>
+        </div>
+    </div>
+</section>
 
-	<main id="primary" class="site-main">
+<section id="travelline" class="container">
+	<div class="travel-script"></div>
+</section>
 
-		<?php
-		while ( have_posts() ) :
-			the_post();
+<main class="singleArticle container">
+    <article>
+        <div class="article-meta">
+            <div class="article-date">
+                <img src="<?php the_badden_assets('img', 'calendar.svg')?>" alt="Дата публикации">
+                <span><?php echo get_the_date(); ?></span>
+            </div>
+            <div class="article-category">
+                <img src="<?php the_badden_assets('img', 'mark.svg')?>" alt="Категория публикации">
+				<?php
+					// Указываем нужные таксономии вручную (если пусто, будут выведены все таксономии)
+					$custom_taxonomies = [];
+					if ( empty( $custom_taxonomies ) ) {
+						$custom_taxonomies = get_taxonomies( [ 'public' => true ], 'names' );
+					}
+					$post_id = get_the_ID();
 
-			get_template_part( 'template-parts/content', get_post_type() );
+					if ( $post_id ) {
+						foreach ( $custom_taxonomies as $taxonomy ) {
+							// Получаем термины (категории) текущей записи для указанной таксономии
+							$terms = get_the_terms( $post_id, $taxonomy );
 
-			the_post_navigation(
-				array(
-					'prev_text' => '<span class="nav-subtitle">' . esc_html__( 'Previous:', 'baden' ) . '</span> <span class="nav-title">%title</span>',
-					'next_text' => '<span class="nav-subtitle">' . esc_html__( 'Next:', 'baden' ) . '</span> <span class="nav-title">%title</span>',
-				)
-			);
-
-			// If comments are open or we have at least one comment, load up the comment template.
-			if ( comments_open() || get_comments_number() ) :
-				comments_template();
-			endif;
-
-		endwhile; // End of the loop.
-		?>
-
-	</main><!-- #main -->
+							if ( ! empty( $terms ) && ! is_wp_error( $terms ) ) {
+								foreach ( $terms as $term ) {
+									echo '<span>' . esc_html( $term->name ) . '</span>';
+								}
+							}
+						}
+					}
+				?>
+            </div>
+        </div>
+        <div class="article-content">
+			<?php the_content(); ?>
+        </div>
+    </article>
+    <aside>
+		<?php get_sidebar(); ?>
+    </aside>
+</main>
 
 <?php
-get_sidebar();
 get_footer();

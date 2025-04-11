@@ -1,9 +1,193 @@
 $mainColor: #57a1d4
-
+$darkBlue: #2864FF
+$mainBlockPadding: 40px 0
 @import mixins
+@import components
+
 
 body
     font-family: 'Gilroy', serif
+a
+    color: $darkBlue
+    text-decoration: none
+/*
+ * @name Шапка
+ */
+.header
+    position: fixed
+    z-index: 20
+    width: 100%
+    padding-top: 20px
+    padding-bottom: 20px
+    background-color: transparent
+    transition: background-color 0.5s
+    &.scrolled
+        background-color: rgb(27, 27, 27, 0.9)
+    .nav
+        &-link
+            color: #fff
+            font-weight: 400
+            display: flex
+            flex-direction: column
+            align-items: center
+            &::after
+                content: ''
+                width: 0
+                height: 1px
+                background-color: #fff
+                transition: width 0.3s
+            &:hover
+                &::after
+                    width: 40%
+            &.active
+                &::after
+                    width: 80%
+    &__container
+        display: flex
+        flex-direction: row
+        justify-content: space-between
+    &__social
+        display: flex
+        flex-direction: row
+        gap: 12px
+        align-items: center
+    &__menu
+        @include mobile()
+            display: none
+    &__mobile
+        display: none
+        @include mobile()
+            display: flex
+            align-items: center
+            justify-content: center
+        .header__menu-btn
+            display: block
+            background: none
+            border: none
+            box-shadow: none
+            outline: none
+            display: flex
+            align-items: center
+            justify-content: center
+            font-size: 28px
+            color: #fff
+        .nav
+            flex-direction: column
+            align-items: flex-start
+            border-bottom: 1px solid #ccc
+            padding-bottom: 20px
+            margin-bottom: 20px
+            &-link
+                color: #000
+                text-transform: uppercase
+                font-size: 20px
+                text-align: left
+                align-items: flex-start
+                justify-content: flex-start
+        .subNav
+            padding-left: 0
+            list-style-type: none
+            .nav
+                &-link
+                    text-transform: none
+                    text-align: left
+                    font-style: italic
+                    color: #3d4d57
+
+.footer
+    padding: 36px 0
+    background-color: #f2f9ff
+    &__container
+        display: flex
+        flex-direction: row
+        flex-wrap: wrap
+        gap: 40px
+        justify-content: space-between
+    &__copyright
+        ul
+            padding-left: 0
+            margin-bottom: 0
+            margin-top: 20px
+            color: #4E5D70
+            list-style-type: none
+            font-size: 12px
+            a
+                text-decoration: none
+                color: #4e5d70
+    &__nav
+        display: grid
+        grid-template-columns: repeat(2, 1fr)
+        gap: 24px
+        ul
+            padding-left: 0
+            margin-bottom: 0
+            margin-top: 20px
+            color: #4E5D70
+            list-style-type: none
+            font-size: 16px
+            a
+                text-decoration: none
+                color: #4e5d70
+
+.contacts
+    position: relative
+    display: flex
+    align-items: center
+    justify-content: flex-end
+    @include mobile()
+        flex-direction: column
+    .container
+        position: absolute
+        inset: 0
+        display: flex
+        align-items: center
+        justify-content: flex-end
+        padding-top: 60px
+        padding-bottom: 60px
+        pointer-events: none
+        user-select: none
+        @include mobile()
+            position: relative
+            justify-content: flex-start
+    &__contacts
+        display: flex
+        flex-direction: column
+        gap: 40px
+        background-color: #fff
+        padding: 40px 40px
+        user-select: text
+        pointer-events: all
+        @include mobile()
+            padding: 40px 20px
+        &__title
+            h2
+                font-size: 52px
+                color: $mainColor
+                text-align: center
+                text-transform: uppercase
+                margin-bottom: 0
+        &__items
+            display: grid
+            grid-template-columns: repeat(2, 1fr)
+            @include mobile()
+                grid-template-columns: repeat(1, 1fr)
+                gap: 20px
+        &__item
+            display: flex
+            flex-direction: column
+            .location_name
+                color: $mainColor
+                font-size: 16px
+                font-weight: 500
+            div
+                display: flex
+                flex-direction: row
+                gap: 4px
+                a
+                    text-decoration: none
+                    color: #000
+            img
+                width: 20px
 
 .firstScreen
     position: relative
@@ -58,6 +242,10 @@ body
     position: relative
     display: flex
     align-items: flex-end
+    &.firstScreen--house
+        height: 640px
+        align-items: center
+        text-align: center
     &__bg
         position: absolute
         height: 100%
@@ -81,7 +269,7 @@ body
         z-index: 2
         padding-bottom: 40px
         h1
-            font-size: 80px
+            font-size: clamp(52px, 5vw, 80px)
             color: #fff
             font-family: "Cormorant SC",sans-serif
             text-transform: uppercase
@@ -92,274 +280,309 @@ body
             color: #fff
             text-wrap: balance
 
-.block__header
-    h2
-        text-align: center
-        margin-bottom: 0
-        color: $mainColor
-        font-size: 52px
-        font-weight: 400
-        text-transform: uppercase
-        font-family: 'Cormorant SC', sans-serif
-        @include mobile()
-            font-size: clamp(36px, 5vw, 52px)
-
-.accommodation
-    padding: 60px 0
+.titleBlock
+    text-align: center
     display: flex
     flex-direction: column
-    gap: 40px
-    &__container
+    align-items: center
+    justify-content: center
+    h2
+        font-size: clamp(40px, 5vw, 52px)
+        color: $mainColor
+        font-family: "Cormorant SC",sans-serif
+        text-transform: uppercase
+        font-weight: 400
+    &:after
+        content: ''
+        display: block
+        width: 72px
+        height: 1px
+        background-color: $mainColor
+
+.titleWrapper
+    display: flex
+    flex-direction: column
+    align-items: center
+    gap: 20px
+    padding: 40px 0
+    ul
         display: flex
-        flex-direction: column
+        flex-direction: row
         gap: 40px
-    &__wrapper
-        display: flex
-        flex-direction: column
-        gap: 40px
-        align-items: center
-        padding-top: 40px
-        padding-bottom: 40px
-    &__header
-        display: grid
-        grid-template-columns: 1fr 1fr
-        gap: 20px 20px
-        @include mobile()
-            grid-template-columns: 1fr
-        h3
-            font-size: 32px
-            text-align: left
-            text-transform: uppercase
-            margin-bottom: 0
-            font-family: 'Cormorant SC', sans-serif
-        p
-            margin-bottom: 0
-            color: #6f6f6f
-            line-height: 1.2em
-            text-wrap: balance
-            text-align: right
-            @include mobile()
-                text-align: left
-    &__list
-        display: grid
-        @include mobile()
-            grid-template-columns: repeat(1, 1fr)
-        &--columns
-            &-2
-                grid-template-columns: repeat(2, 1fr)
-                gap: 32px 20px
-            &-3
-                grid-template-columns: repeat(3, 1fr)
-                gap: 32px 20px
-            &-4
-                grid-template-columns: repeat(4, 1fr)
-                gap: 32px 20px
-    &__item
-        width: 100%
-        display: flex
-        flex-direction: column
-        gap: 20px
-    &__img
-        height: 100%
-        border-radius: 20px
-        overflow: hidden
-        position: relative
-        height: 320px
-        .price
-            position: absolute
-            top: 20px
-            right: 20px
-            border-radius: 90px
-            background-color: #fff
-            padding: 4px 16px
+        justify-content: center
+        list-style-type: none
+        padding-left: 0
+        li
+            font-size: 20px
             font-weight: 600
+            a
+                text-decoration: none
+                font-weight: 400
+                color: #000
+    p
+        text-align: center
+        text-wrap: balance
+        font-size: 16px
+        margin-bottom: 12px
+        &:not(:nth-last-child(1))
+            margin-bottom: 0
+        &:has(b)
+            margin-bottom: 0
+
+.accommodation
+    padding: $mainBlockPadding
+    &-slider
+        @include mobile()
+            height: 560px
+    &__item
+        max-height: 600px
+        display: flex
+        flex-direction: column
+        justify-content: center
+        padding: 0 40px
+        position: relative
+        box-sizing: border-box
+        @include mobile()
+            padding: 0 0
+            max-height: none
+    &__image
+        position: relative
+        width: 100%
+        height: 100%
+        &::after
+            content: ''
+            position: absolute
+            inset: 0
+            background-color: #000
+            opacity: 0.3
         img
             width: 100%
             height: 100%
             object-fit: cover
             object-position: center
     &__text
-        padding: 0 20px
+        width: 100%
+        height: 100%
+        padding: 40px 40px
+        position: absolute
         display: flex
-        flex-direction: column
         align-items: flex-start
-        gap: 20px
-        h4
-            font-size: 24px
-            margin-bottom: 0
-            font-weight: 600
-            a
-                color: #323232
-                text-decoration: none
-        p
-            font-size: 16px
-            &:not(&:nth-last-child(1))
-                margin-bottom: 0
-    &__button
-        background-color: $mainColor
-        color: #fff
-        padding: 4px 16px
-        font-weight: 300
-        border-radius: 90px
-        text-decoration: none
-        transition: all 0.3s
-        &:hover
-            background-color: transparentize($mainColor, 0.2)
-            color: #fff
-        &:focus,
-        &:active
-            background-color: darken($mainColor, 10%)
-
-/*
- * @name Водные термы
- */
-.whoceTers
-    padding: 60px 0
-    display: flex
-    flex-direction: column
-    gap: 40px
-    overflow: hidden
-    &__header
-        text-align: center
-        display: flex
+        justify-content: center
         flex-direction: column
-        align-items: center
-        justify-content: center
-        gap: 20px
-    &__btn
-        border-radius: 90px
-        font-size: 16px
-        color: #fff
-        background-color: $mainColor
-        text-decoration: none
-        padding: 8px 24px
-        transition: all 0.3s
-        &:hover
-            background-color: transparentize($mainColor, 0.2)
+        max-width: 700px
+        gap: 20px 0
+        .price
             color: #fff
-        &:focus,
-        &:active
-            background-color: darken($mainColor, 10%)
-    .nav
-        justify-content: center
-        @include mobile()
-            overflow: auto
-            flex-direction: row
-            flex-wrap: nowrap
-            justify-content: flex-start
-        &-link
-            background-color: #fff
-            border: none
-            color: #323232
+            font-size: 20px
             display: flex
             flex-direction: column
-            align-items: center
-            gap: 0
-            @include mobile()
-                width: max-content
+            gap: 8px
             &::after
                 content: ''
-                width: 20%
+                width: 60px
                 height: 1px
-                background-color: $mainColor
-                transition: width 0.3s
-            &.active
-                font-weight: 600
-                &::after
-                    width: 60%
-    &__tabWrapper
-        overflow: visible
-        .tab-pane
-            &.active.show
-                display: flex
-                flex-direction: column
-                gap: 40px
+                background-color: #fff
+        h3
+            color: #fff
+            font-size: clamp(32px, 5vw, 44px)
+            font-family: "Cormorant SC",sans-serif
+            text-transform: uppercase
+            font-weight: 900
+            a
+                color: #fff
+                text-decoration: none
         p
-            text-align: center
-            text-wrap: balance
-            max-width: 960px
-            margin: 0 auto
+            margin-bottom: 0
+            color: #fff
+            font-size: 18px
+
+.whoceTers
+    padding: $mainBlockPadding
+    overflow: hidden
+    &-slider
+        overflow: visible
+        padding: 0 40px
         .swiper
-            overflow: visible
-            max-width: 960px
-            @include mobile()
-                max-width: 100%
             &-slide
+                height: auto
+                aspect-ratio: 16/8
                 width: 100%
-                height: 500px
-                overflow: hidden
-                border-radius: 20px
-                @include mobile()
-                    height: 400px
+                &.photoSize-1x1
+                    aspect-ratio: 1/1
                 img
                     width: 100%
                     height: 100%
                     object-fit: cover
                     object-position: center
 
-/*
- * @name Спецпредложения
- */
-.specialOffers
-    padding: 60px 0
-    display: flex
-    flex-direction: column
-    gap: 40px
-    &__list
+.spaGrid
+    padding: $mainBlockPadding
+    &__grid
         display: grid
-        grid-template-columns: repeat(3, 1fr)
-        gap: 32px 20px
+        grid-template-columns: repeat(4, 1fr)
+        grid-gap: 20px
+        grid-template-rows: 320px 320px
+        grid-template-areas: "photo_1 photo_1 photo_4 photo_4" "photo_2 photo_3 photo_4 photo_4"
         @include mobile()
             grid-template-columns: repeat(1, 1fr)
-    &__item
-        position: relative
-        border-radius: 20px
-        overflow: hidden
-        &--background
-            position: relative
-            &::after
-                background-color: transparentize(#323232, 0.6)
-                content: ''
-                inset: 0
-                width: 100%
-                height: 100%
-                z-index: 2
-                position: absolute
-            img
-                width: 100%
-                height: 100%
-                object-fit: cover
-                object-position: center
-        &--text
-            position: absolute
-            inset: 0
+            grid-template-areas: "photo_1" "photo_2" "photo_3" "photo_4"
+            grid-template-rows: repeat(4, auto)
+    &__photo
+        img
             width: 100%
             height: 100%
-            z-index: 3
-            padding: 20px 20px
-            display: flex
-            flex-direction: column
-            align-items: flex-start
-            justify-content: flex-end
-            gap: 20px
-            h3
-                font-size: 32px
-                font-weight: 600
-                color: #fff
-                text-wrap: balance
-            a
-                background-color: #fff
-                color: #323232
-                text-decoration: none
-                border-radius: 90px
-                padding: 4px 16px
-                transition: all 0.3s
-                &:hover
-                    background-color: transparentize(#fff, 0.1)
+            object-fit: cover
+            object-position: center
+        &:nth-child(1)
+            grid-area: photo_1
+        &:nth-child(2)
+            grid-area: photo_2
+            aspect-ratio: 1/1
+        &:nth-child(3)
+            grid-area: photo_3
+            aspect-ratio: 1/1
+        &:nth-child(4)
+            grid-area: photo_4
 
-/*
- * @name Цены
- */
+.specialOffers
+    padding: $mainBlockPadding
+    &__wrapper
+        .swiper
+            &-wrapper
+                align-items: stretch
+    &__content
+        display: flex
+        flex-direction: column
+        align-items: center
+        justify-content: center
+    &__item
+        display: flex
+        align-items: flex-start
+        justify-content: flex-start
+        position: relative
+        height: auto
+        &--location
+            color: #fff
+    &__photo
+        height: 100%
+        width: 100%
+        &::after
+            content: ''
+            position: absolute
+            inset: 0
+            background-color: #000
+            opacity: 0.3
+        img
+            width: 100%
+            height: 100%
+            object-fit: cover
+            object-position: center
+    &__content
+        position: absolute
+        inset: 0
+        padding: 20px 20px
+        display: flex
+        flex-direction: column
+        align-items: flex-start
+        gap: 20px
+        h3
+            color: #fff
+            font-size: 24px
+            font-weight: 400
+            text-transform: uppercase
+        span
+            &.category
+                color: #fff
+                font-size: 16px
+                font-weight: 400
+        a
+            color: #fff
+            &::before
+                content: ''
+                width: 100%
+                height: 100%
+                inset: 0
+                display: block
+                position: absolute
+    &__footer
+        padding-top: 40px
+        display: flex
+        align-items: center
+        justify-content: center
+
+.singleArticle
+    display: grid
+    grid-template-columns: 1fr 320px
+    grid-gap: 28px
+    padding-top: 60px
+    padding-bottom: 60px
+    @include mobile()
+        grid-template-columns: repeat(1, 1fr)
+    &__item
+        border-bottom: 1px solid #ccc
+        margin-bottom: 40px
+        h2
+            a
+                color: #000
+                text-decoration: none
+                font-weight: 600
+
+.article
+    &-meta
+        padding: 0 0 40px
+        display: flex
+        flex-direction: row
+        gap: 20px
+        font-size: 14px
+        &_small
+            font-size: 12px
+            padding-bottom: 0
+            img
+                width: 16px
+                height: auto
+    &-date,
+    &-category
+        display: flex
+        flex-direction: row
+        align-items: center
+        gap: 4px
+    &-image
+        width: 100%
+        height: 400px
+        margin-bottom: 20px
+        img
+            width: 100%
+            height: 100%
+            object-fit: cover
+            object-position: center
+    &-content
+        font-size: 20px
+    &-footer
+        padding-bottom: 20px
+
+.sidebar
+    &:not(&:nth-last-child(1))
+        margin-bottom: 40px
+    h2
+        font-size: 36px
+        font-weight: 400
+        padding-bottom: 8px
+    ul
+        padding-left: 0
+        margin-bottom: 0
+        li
+            padding: 8px 0
+            border-bottom: 1px solid #ccc
+            list-style-type: none
+            a
+                font-size: 20px
+                color: #000
+                text-decoration: none
+
+#map
+    width: 100%
+    height: 520px
+
 .pricing
     padding: 60px 0
     &__container
@@ -382,6 +605,8 @@ body
         background-color: transparentize($mainColor, 0.95)
         padding: 20px 20px
         border-radius: 20px
+        @include mobile()
+            grid-template-columns: repeat(1, 1fr)
     &__title
         h3
             font-size: 32px
@@ -396,12 +621,16 @@ body
         display: grid
         grid-template-columns: repeat(3, 1fr)
         gap: 20px
+        @include mobile()
+            grid-template-columns: repeat(1,1fr)
         &--col
             display: flex
             flex-direction: column
             gap: 20px
             &:not(&:nth-last-child(1))
                 border-right: 1px solid rgb(50, 50, 50, 0.2)
+                @include mobile()
+                    border-right: none
         &--priceList
             padding-left: 0
             margin-bottom: 0
@@ -412,108 +641,327 @@ body
             font-size: 20px
             font-weight: 600
             opacity: 0.8
-/*
- * @name Шапка
- */
-.header
-    position: fixed
-    z-index: 20
-    width: 100%
-    padding-top: 20px
-    padding-bottom: 20px
-    background-color: transparent
-    transition: background-color 0.5s
-    &.scrolled
-        background-color: rgb(27, 27, 27, 0.9)
+
+.advantages
+    padding: $mainBlockPadding
     &__container
+    &__list
+        display: grid
+        grid-template-columns: repeat(3, 1fr)
+        gap: 24px 0
+        @include mobile()
+            grid-template-columns: repeat(1, 1fr)
+    &__item
         display: flex
-        flex-direction: row
-        justify-content: space-between
-    &__social
-        display: flex
-        flex-direction: row
-        gap: 12px
+        flex-direction: column
         align-items: center
-    .nav
-        &-link
-            color: #fff
-            font-weight: 400
+        justify-content: center
+        padding: 0px 80px
+        gap: 20px
+        &:not(&:nth-last-child(1))
+            position: relative
+            &:after
+                content: ''
+                width: 1px
+                height: 80%
+                background-color: #ccc
+                position: absolute
+                top: auto
+                bottom: auto
+                right: 0
+            @include mobile()
+                &::after
+                    display: none
+        &-icon
+            img
+                height: 80px
+                width: auto
+        &-text
+            p
+                margin-bottom: 0
+                text-align: center
+                text-wrap: balance
+
+.gridContent
+    padding: $mainBlockPadding
+    &--chess
+    &__content
+        display: grid
+        grid-template-columns: repeat(2, 1fr)
+        @include mobile()
+            grid-template-columns: repeat(1, 1fr)
+        &:nth-child(even)
+            @include desktop()
+                direction: rtl
+                *
+                    direction: ltr
+            @include laptop()
+                direction: rtl
+                *
+                    direction: ltr
+        &--image
+            img
+                width: 100%
+                height: 100%
+                aspect-ratio: 5/4
+                object-fit: cover
+                object-position: center 
+        &--text
+            padding: 0 80px
+            display: flex
+            align-items: flex-start
+            justify-content: center
+            flex-direction: column
+            .titleBlock
+                h2
+                    margin-bottom: 20px
+                    text-align: left
+                &::after
+                    display: none
+            @include mobile()
+                padding: 40px 40px
+
+.additionalServices
+    padding: $mainBlockPadding
+    &__title
+    &__list
+        margin: 0 auto
+        margin-top: 40px
+        padding-left: 0
+        max-width: 960px
+        display: grid
+        grid-template-columns: repeat(2, 1fr)
+        list-style-type: none
+        @include mobile()
+            grid-template-columns: repeat(1, 1fr)
+        li
+            font-size: 24px
+.galleryCarousel
+    padding: $mainBlockPadding
+    overflow: hidden
+    &-carousel
+        overflow: visible
+        padding: 0 40px
+        .swiper
+            &-slide
+                height: auto
+                aspect-ratio: 16/8
+                width: 100%
+                img
+                    width: 100%
+                    height: 100%
+                    object-fit: cover
+                    object-position: center
+
+.readMoreHomes
+    padding: $mainBlockPadding
+    &__wrapper
+        background-color: #f6fafd
+        padding: 40px 0
+        .container
+            display: grid
+            grid-template-columns: repeat(2, 1fr)
+            gap: 40px
+            @include mobile()
+                grid-template-columns: repeat(1, 1fr)
+    &__list
+        p
+            margin-bottom: 16px
+            font-size: 20px
+        ul
+            font-size: 20px
             display: flex
             flex-direction: column
-            align-items: center
-            &::after
-                content: ''
-                width: 0
-                height: 1px
-                background-color: #fff
-                transition: width 0.3s
-            &:hover
-                &::after
-                    width: 40%
-            &.active
-                &::after
-                    width: 80%
-/*
- * @name Подвал
- */
-.footer
-    background-color: #1b1b1b
-    padding: 40px 0
-    margin-top: 40px
-    &__container
+            gap: 12px
+    &__footer
+        display: flex
+        align-items: center
+        justify-content: center
+        padding: 40px 0 0
+
+.additionalServicesCard
+    padding: $mainBlockPadding
+    &__wrapper
+        display: grid
+        grid-template-columns: repeat(3, 1fr)
+        gap: 20px 40px
+        @include mobile()
+            grid-template-columns: repeat(1, 1fr)
+    &__item
+        border: 1px solid rgba(78,93,112,.25)
+        display: flex
+        flex-direction: column
+        align-items: center
+        justify-content: center
+        padding: 40px 20px
+        &--title
+            margin-bottom: 0
+            font-family: "Cormorant SC",sans-serif
+            font-size: 36px
+            color: $mainColor
+        &--text
+            margin-bottom: 0
+            font-size: 16px
+            text-align: center
+
+.certificate
+    padding: $mainBlockPadding
+    &__wrapper
         display: flex
         flex-direction: row
-        gap: 20px
+        gap: 60px 20px
+        display: grid
+        grid-template-columns: 2fr 1fr 1fr
         @include mobile()
-            flex-direction: column
-        &-2
-            padding-top: 20px
-            margin-top: 20px
-            border-top: 1px solid rgba(255, 255, 255, 0.2)
+            grid-template-columns: repeat(1, 1fr)
+    &__item
+        display: flex
+        flex-direction: column
+        gap: 20px
+        // &--row
+        &:nth-child(1),
+        &:nth-child(3n+4)
+            display: grid
+            grid-template-columns: repeat(2, 1fr)
+            align-items: center
+            justify-content: center
+            @include mobile()
+                grid-template-columns: 1fr
+        &--preview
+            position: relative
+            width: 100%
+            height: min-content
+            border-radius: 8px
+            overflow: hidden
+        &--image
+            height: 100%
+            width: 100%
+            img
+                width: 100%
+                height: 100%
+                object-position: right
+                object-fit: cover
+        &--meta 
+            position: absolute
+            bottom: 0
+            left: 0
+            right: 0
+            width: 100%
+            display: flex
+            flex-direction: row
+            padding: 12px
+            justify-content: space-between
+            align-items: center
+        &--price
+            background-color: #fff
+            font-weight: 600
+            font-size: 20px
+            color: $mainColor
+            padding: 4px 12px
+            border-radius: 8px
+        &--cart
+            button
+                background: #0066a4
+                border-radius: 900px
+                border: none
+                padding: 8px 16px
+        &--info
+        &--subTitle
+            font-size: 14px
+            color: #0066a4
+            text-transform: uppercase
+        &--title
+            font-size: 24px
+            color: #0066a4
+            font-weight: 600
+            text-transform: uppercase
+
+.modal__certificate
+    .modal
+        &-body
+            position: relative
+            padding-top: 0
+            padding-bottom: 0
+            .btn-close
+                position: absolute
+                background: #525663 url(../img/remove.png) no-repeat center
+                width: 44px
+                height: 44px
+                border-radius: 22px
+                top: -40px
+                right: -22px
+                border: none
+                box-sizing: border-box
+                cursor: pointer
+                opacity: 1
+        &-content
+            border-radius: 16px
+            padding: 20px 0
+        &-preview
+            border-radius: 12px
+            overflow: hidden
+            position: relative
+        &-image
+            pointer-events: none
+            user-select: none
+            img
+                width: 100%
+                height: auto
+        &-price
+            position: absolute
+            bottom: 0
+            left: 0
+            padding: 20px 24px
+            &--sum
+                font-size: 36px
+                color: #fff
+                font-weight: 700
+                line-height: 1em
+            &--subTitle
+                font-size: 16px
+                color: #fff
+                margin-bottom: 0
+                line-height: 1em
+        &-info
+            padding: 24px 12px
+        &-description
+            border-bottom: 1px solid #DAE1EE
+            padding-bottom: 12px
+            margin-bottom: 12px
+            p
+                margin-bottom: 0
+                font-size: 16px
+        &-total
             display: flex
             flex-direction: row
             justify-content: space-between
             align-items: center
-            @include mobile()
-                flex-direction: column-reverse
-            .copyright
-                color: #fff
-                opacity: 0.46
+            font-size: 24px
+            font-weight: 600
+            &--title
+            &--price
+        &-form
+            p
                 margin-bottom: 0
-            .nav
-                gap: 12px 20px
-                &-link
-                    opacity: 1
-                    transition: all 0.3s
-                    &:not(:hover)
-                        opacity: 0.46
-        .nav
-            align-items: flex-start
-            &-item
-                justify-content: flex-start
-            &-link
-                padding: 4px 0
-                color: #fff
-                align-items: flex-start
-                width: max-content
-            &.flex-column
-                display: grid
-                grid-template-columns: repeat(2, 1fr)
-                align-items: flex-start
-        .btn_apparts
-            background: none
-            box-shadow: inset 0 0 0 2px #fff
-            color: #fff
-            padding: 16px 32px
-            text-decoration: none
-            border-radius: 12px
-            transition: all 0.2s
-            text-transform: uppercase
-            font-size: 16px
-            font-weight: 400
+                text-align: center
+                text-wrap: balance
+                font-size: 12px
+                margin-top: 12px
+                line-height: 1.1em
+            .form
+                &-control
+                    border: 1px solid #DAE1EE
+                    border-radius: 90px
+                    background-color: #F2F4F9
+                    outline: none
+                    padding: 8px 24px
+        &-buttons
+            padding-top: 20px
             display: flex
-            align-items: center
-            justify-content: center
-            &:hover
-                background-color: #fff
-                color: #1b1b1b
+            flex-direction: row
+            flex-wrap: wrap
+            justify-content: space-between
+            @include mobile()
+                gap: 12px
+                .btn
+                    width: 100%

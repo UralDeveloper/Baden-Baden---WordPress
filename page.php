@@ -15,24 +15,61 @@
 get_header();
 ?>
 
-	<main id="primary" class="site-main">
+<section class="firstScreen_singlePage">
+    <div class="firstScreen_singlePage__bg">
+        <img src="<?php the_post_thumbnail_url(); ?>" alt="">
+    </div>
+    <div class="firstScreen_singlePage__content container">
+        <div class="firstScreen_singlePage__title">
+            <h1><?php the_title(); ?></h1>
+        </div>
+    </div>
+</section>
 
-		<?php
-		while ( have_posts() ) :
-			the_post();
+<section id="travelline" class="container">
+	<div class="travel-script"></div>
+</section>
 
-			get_template_part( 'template-parts/content', 'page' );
+<main class="singleArticle container">
+    <article>
+        <div class="article-meta">
+            <div class="article-date">
+                <img src="<?php the_badden_assets('img', 'calendar.svg')?>" alt="Дата публикации">
+                <span><?php echo get_the_date(); ?></span>
+            </div>
+            <div class="article-category">
+                <img src="<?php the_badden_assets('img', 'mark.svg')?>" alt="Категория публикации">
+				<?php
+					// Указываем нужные таксономии вручную (если пусто, будут выведены все таксономии)
+					$custom_taxonomies = [];
+					if ( empty( $custom_taxonomies ) ) {
+						$custom_taxonomies = get_taxonomies( [ 'public' => true ], 'names' );
+					}
+					$post_id = get_the_ID();
 
-			// If comments are open or we have at least one comment, load up the comment template.
-			if ( comments_open() || get_comments_number() ) :
-				comments_template();
-			endif;
+					if ( $post_id ) {
+						foreach ( $custom_taxonomies as $taxonomy ) {
+							// Получаем термины (категории) текущей записи для указанной таксономии
+							$terms = get_the_terms( $post_id, $taxonomy );
 
-		endwhile; // End of the loop.
-		?>
-
-	</main><!-- #main -->
+							if ( ! empty( $terms ) && ! is_wp_error( $terms ) ) {
+								foreach ( $terms as $term ) {
+									echo '<span>' . esc_html( $term->name ) . '</span>';
+								}
+							}
+						}
+					}
+				?>
+            </div>
+        </div>
+        <div class="article-content">
+			<?php the_content(); ?>
+        </div>
+    </article>
+    <aside>
+		<?php get_sidebar(); ?>
+    </aside>
+</main>
 
 <?php
-get_sidebar();
 get_footer();
