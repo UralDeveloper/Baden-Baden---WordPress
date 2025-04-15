@@ -262,12 +262,13 @@ add_filter('get_the_archive_title', 'remove_archive_title_prefix');
 function register_custom_post_types()
 {
     $post_types = [
-        'prozhivanie' => ['name' => 'Проживание', 'taxonomy' => 'tip_kompleksa'],
+        'prozhivanie' => ['name' => 'Проживание', 'taxonomy' => 'tip_kompleksa', 'name_taxonomy' => 'Тип комплекса'],
         'spa' => ['name' => 'СПА'],
         'vodnye_termy' => ['name' => 'Водные Термы'],
         'bannaya_kollekciya' => ['name' => 'Банная коллекция'],
-        'akcii' => ['name' => 'Акции', 'taxonomy' => 'akcii_category'],
-        'sertifikaty' => ['name' => 'Сертификаты']
+        'akcii' => ['name' => 'Акции', 'taxonomy' => 'akcii_category', 'name_taxonomy' => 'Категории акций'],
+        'sertifikaty' => ['name' => 'Сертификаты'],
+        'straight' => ['name' => 'Туры', 'taxonomy' => 'tour_category', 'name_taxonomy' => 'Категории туров'],
     ];
 
     foreach ($post_types as $slug => $data) {
@@ -286,7 +287,7 @@ function register_custom_post_types()
         if (!empty($data['taxonomy'])) {
             register_taxonomy($data['taxonomy'], $slug, [
                 'labels' => [
-                    'name' => $data['name'],
+                    'name' => $data['name_taxonomy'],
                     'singular_name' => 'Категории' . $data['name'],
                 ],
                 'public' => true,
