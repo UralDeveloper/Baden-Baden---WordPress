@@ -20,13 +20,26 @@ if ( ! empty($block['anchor'] ) ) {
 	<?php if ( have_rows( 'block_galereya_karusel' ) ) : ?>
 		<?php while ( have_rows( 'block_galereya_karusel' ) ) : the_row(); ?>
         <div class="container">
+            <?php if ( get_sub_field( 'nazvanie_bloka' ) ) : ?>
+                <div class="gallerySlider__header">
+                    <div class="gallerySlider__header--title"><h2><?php the_sub_field( 'nazvanie_bloka' ); ?></h2></div>
+                    <div class="gallerySlider__header--description">
+                        <div class="gallerySlider__header--promo"><?php the_sub_field( 'promo' ); ?></div>
+                    </div>
+                </div>
+            <?php endif; ?>
             <div class="swiper galleryCarousel-carousel">
                 <div class="swiper-wrapper">
                 <?php $galereya_karusel_images = get_sub_field( 'galereya_karusel' ); ?>
                 <?php if ( $galereya_karusel_images ) : ?>
                     <?php foreach ( $galereya_karusel_images as $galereya_karusel_image ): ?>
-                        <div class="swiper-slide">
-                            <img src="<?php echo esc_url( $galereya_karusel_image['sizes']['large'] ); ?>" alt="<?php echo esc_attr( $galereya_karusel_image['alt'] ); ?>" />
+                        <div class="swiper-slide"
+                                data-fancybox="spaGallery__<?php echo esc_attr( $id ); ?>"
+                                data-src="<?php echo esc_url( $galereya_karusel_image['url'] ); ?>"
+                            >
+                            <img
+                                src="<?php echo esc_url( $galereya_karusel_image['url'] ); ?>"
+                                alt="<?php echo esc_attr( $galereya_karusel_image['alt'] ); ?>" />
                         </div>
                     <?php endforeach; ?>
                 <?php endif; ?>

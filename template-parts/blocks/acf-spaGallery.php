@@ -20,10 +20,13 @@ if ( ! empty($block['anchor'] ) ) {
 <section id="<?php echo esc_attr( $id ); ?>" class="spaGrid">
     <?php while ( have_rows( 'block_spa_massazh_galereya' ) ) : the_row(); ?>
     <div class="container">
+        <?php if ( get_sub_field( 'nazvanie_bloka' ) ) : ?>
         <div class="titleBlock">
             <h2><?php the_sub_field( 'nazvanie_bloka' ); ?></h2>
         </div>
+        <?php endif; ?>
         <div class="spaGrid__wrapper">
+            <?php if ( get_sub_field( 'opisanie' ) ) :?>
             <div class="titleWrapper">
                 <?php the_sub_field( 'opisanie' ); ?>
                 <?php if ( have_rows( 'knopka' ) ) : ?>
@@ -39,9 +42,17 @@ if ( ! empty($block['anchor'] ) ) {
                     <?php endwhile; ?>
                 <?php endif; ?>
             </div>
+            <?php endif;?>  
             <?php $galereya_images = get_sub_field( 'galereya' ); ?>
             <?php if ( $galereya_images ) : ?>
-            <div class="spaGrid__grid">
+                <?php if ( get_sub_field( 'opisanie' ) ) :?>
+                    <div class="spaGrid__grid">
+                <?php elseif (get_sub_field( 'opisanie' ) || get_sub_field( 'nazvanie_bloka' )):?>
+                    <div class="spaGrid__grid" style="padding-top: 40px;">
+                <?php else:?>
+                    <div class="spaGrid__grid">
+                <?php endif;?>
+                
                 <?php foreach ( $galereya_images as $galereya_image ): ?>
                 <div class="spaGrid__photo">
                     <img src="<?php echo esc_url( $galereya_image['url'] ); ?>" alt="<?php echo esc_attr( $galereya_image['alt'] ); ?>" />

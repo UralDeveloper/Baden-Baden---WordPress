@@ -150,12 +150,14 @@ function baden_scripts()
         'fontawesome' => 'assets/css/fontawesome.css',
         'swiper' => 'assets/css/swiper-bundle.min.css',
         'bootstrap' => 'assets/css/bootstrap.min.css',
+        'fancybox' => 'assets/css/fancybox.css',
         'styles' => 'assets/css/styles.min.css',
     );
 
     $array_js = array(
         'bootstrap' => 'assets/js/bootstrap.min.js',
         'swiper' => 'assets/js/swiper-bundle.min.js',
+        'fancybox' => 'assets/js/fancybox.umd.js',
         'script' => 'assets/js/script.js',
     );
 
@@ -349,8 +351,7 @@ function register_acf_block_category($categories, $post)
 }
 add_filter('block_categories_all', 'register_acf_block_category', 10, 2);
 
-function register_acf_blocks_from_admin()
-{
+function register_acf_blocks_from_admin() {
     if (have_rows('acf_blocks', 'option')) {
         while (have_rows('acf_blocks', 'option')) {
             the_row();
@@ -451,3 +452,6 @@ class Custom_Walker_Nav_Menu extends Walker_Nav_Menu {
         $output .= apply_filters('walker_nav_menu_start_el', $item_output, $item, $depth, $args);
     }
 }
+
+
+include 'inc/framework.php';
