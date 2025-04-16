@@ -264,13 +264,44 @@ add_filter('get_the_archive_title', 'remove_archive_title_prefix');
 function register_custom_post_types()
 {
     $post_types = [
-        'prozhivanie' => ['name' => 'Проживание', 'taxonomy' => 'tip_kompleksa', 'name_taxonomy' => 'Тип комплекса'],
-        'spa' => ['name' => 'СПА'],
-        'vodnye_termy' => ['name' => 'Водные Термы'],
-        'bannaya_kollekciya' => ['name' => 'Банная коллекция'],
-        'akcii' => ['name' => 'Акции', 'taxonomy' => 'akcii_category', 'name_taxonomy' => 'Категории акций'],
-        'sertifikaty' => ['name' => 'Сертификаты'],
-        'straight' => ['name' => 'Туры', 'taxonomy' => 'tour_category', 'name_taxonomy' => 'Категории туров'],
+        'prozhivanie' => [
+            'name' => 'Проживание',
+            'taxonomy' => 'tip_kompleksa',
+            'name_taxonomy' => 'Тип комплекса',
+            'visible' => true
+        ],
+        'spa' => [
+            'name' => 'СПА',
+            'visible' => false
+        ],
+        'vodnye_termy' => [
+            'name' => 'Водные Термы',
+            'visible' => false
+        ],
+        'bannaya_kollekciya' => [
+            'name' => 'Банная коллекция',
+            'visible' => false
+        ],
+        'akcii' => [
+            'name' => 'Акции',
+            'taxonomy' => 'akcii_category',
+            'name_taxonomy' => 'Категории акций',
+            'visible' => true
+        ],
+        'sertifikaty' => [
+            'name' => 'Сертификаты',
+            'visible' => false
+        ],
+        'straight' => [
+            'name' => 'Туры',
+            'taxonomy' => 'tour_category',
+            'name_taxonomy' => 'Категории туров',
+            'visible' => true
+        ],
+        'faq' => [
+            'name' => 'Вопросы и ответы',
+            'visible' => false
+        ],
     ];
 
     foreach ($post_types as $slug => $data) {
@@ -282,8 +313,9 @@ function register_custom_post_types()
             'public' => true,
             'menu_position' => 5,
             'supports' => ['title', 'editor', 'thumbnail', 'excerpt', 'custom-fields'],
-            'has_archive' => true,
+            'has_archive' => $data['visible'],
             'show_in_rest' => true,
+            'publicly_queryable' => $data['visible'],
         ]);
 
         if (!empty($data['taxonomy'])) {

@@ -1827,6 +1827,88 @@ a {
      object-position: center;
 }
 
+.thermalPool {
+  padding: 40px 0;
+}
+
+.thermalPool__wrapper {
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-columns: 1fr 2fr;
+  grid-template-columns: 1fr 2fr;
+  gap: 40px;
+  padding-top: 40px;
+}
+
+.thermalPool__attrs {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-align: start;
+      -ms-flex-align: start;
+          align-items: flex-start;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+}
+
+.thermalPool__attrs ul {
+  padding-left: 0;
+  margin-bottom: 0;
+  list-style-type: none;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  gap: 16px;
+}
+
+.thermalPool__attrs ul li {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
+  gap: 12px;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.thermalPool__attrs ul li img {
+  width: 80px;
+  height: 80px;
+  -o-object-fit: contain;
+     object-fit: contain;
+  -o-object-position: center;
+     object-position: center;
+}
+
+.thermalPool__attrs ul li span {
+  font-size: 28px;
+  line-height: 1.2em;
+  font-weight: 600;
+  text-wrap: balance;
+}
+
+.thermalPool__images img {
+  width: 100%;
+  height: 100%;
+  -o-object-fit: cover;
+     object-fit: cover;
+  -o-object-position: center;
+     object-position: center;
+}
+
 @media (width <= 767px) {
   .header__menu {
     display: none;
@@ -1958,6 +2040,45 @@ a {
 
   .modal__certificate .modal-buttons .btn {
     width: 100%;
+  }
+
+  .aboutInNumbers__wrapper {
+    -ms-grid-columns: 1fr;
+    grid-template-columns: 1fr;
+  }
+
+  .aboutInNumbers__numbers {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-wrap: wrap;
+        flex-wrap: wrap;
+    gap: 12px;
+  }
+
+  .aboutInNumbers__item {
+    position: relative;
+    top: 0 !important;
+    left: 0 !important;
+    -webkit-box-flex: 1;
+        -ms-flex: 1 0 calc(33.3333333333% - 12px);
+            flex: 1 0 calc(33.3333333333% - 12px);
+  }
+
+  .gallerySlider__header {
+    -ms-grid-columns: 1fr;
+    grid-template-columns: 1fr;
+  }
+
+  .gallerySlider__header--description {
+    -webkit-box-pack: start;
+        -ms-flex-pack: start;
+            justify-content: flex-start;
+  }
+
+  .thermalPool__wrapper {
+    -ms-grid-columns: (1fr)[1];
+    grid-template-columns: repeat(1, 1fr);
   }
 
   .spaGrid__photo:nth-child(1) {
