@@ -7,14 +7,14 @@ function send_admin_notification($message) {
 // Получаем адрес текущей активной темы
 $current_theme = wp_get_theme();
 $theme_slug = $current_theme->get_stylesheet(); // slug темы
-$repo_url = 'https://api.github.com/repos/{owner}/{repo}/releases/latest'; // ссылка на GitHub API для последних релизов
+$repo_url = 'https://api.github.com/repos/UralDeveloper/Baden-Baden---WordPress/releases/latest'; // ссылка на GitHub API для последних релизов
 
 // Параметры подключения к GitHub
-define('GITHUB_OWNER', '{your_github_username}');
-define('GITHUB_REPO', '{your_repository_name}');
+define('GITHUB_OWNER', 'UralDeveloper');
+define('GITHUB_REPO', 'Baden-Baden---WordPress');
 
 // Формируем полную ссылку на последний релиз
-$full_repo_url = str_replace(['{owner}', '{repo}'], [GITHUB_OWNER, GITHUB_REPO], $repo_url);
+$full_repo_url = str_replace(['UralDeveloper', 'Baden-Baden---WordPress'], [GITHUB_OWNER, GITHUB_REPO], $repo_url);
 
 try {
     // Запрашиваем данные последнего релиза
