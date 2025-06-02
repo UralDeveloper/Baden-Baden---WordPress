@@ -503,7 +503,7 @@ class Custom_Walker_Nav_Menu extends Walker_Nav_Menu {
 
 
 include 'inc/framework.php';
-include 'inc/update-theme.php';
+// include 'inc/update-theme.php';
 
 function remove_page_class_from_body($classes) {
     if (($key = array_search('page', $classes)) !== false) {
