@@ -28,24 +28,28 @@ if (! empty($block['anchor'])) {
                 <div class="titleWrapper">
                     <?php the_sub_field('opisanie'); ?>
                 </div>
-                <div class="certificate__wrapper">
-                    <?php $sertifikaty = get_sub_field('sertifikaty');
+                <div class="catalog">
+                <div class="certificate__wrapper catalog-list">
+                    <?/*php $sertifikaty = get_sub_field('sertifikaty');
                     if ($sertifikaty) : ?>
                         <?php foreach ($sertifikaty as $post) : ?>
-                            <div class="certificate__item">
+                            <div class="catalog-item certificate__item">
                                 <div class="certificate__item--preview">
                                     <div class="certificate__item--image">
-                                        <img src="<?php echo get_the_post_thumbnail_url($post->ID); ?>" alt="">
+                                        <img src="<?php the_field( 'sert_url_izobrazheniya', $post->ID ); ?>" alt="Baden-Baden gift card" class="catalog-item__src cert__image">
                                     </div>
                                     <div class="certificate__item--meta">
                                         <div class="certificate__item--price"><?php echo get_the_title($post->ID); ?> ₽</div>
                                         <div class="certificate__item--cart">
-                                            <button 
+                                            <!-- <button 
                                                 data-bs-toggle="modal"
                                                 data-bs-target="#modal-<?php echo $post->ID; ?>"
                                                 class="btn btn--border-darkBlue border-radius-90"
                                                 data-id="<?php echo $post->ID; ?>"
                                             >
+                                                <img src="<?php the_badden_assets('img', 'cart.svg'); ?>" alt="Купить сертификат <?php echo get_the_title($post->ID)?>">
+                                            </button> -->
+                                            <button class="catalog-item__link cert__button" href="#">
                                                 <img src="<?php the_badden_assets('img', 'cart.svg'); ?>" alt="Купить сертификат <?php echo get_the_title($post->ID)?>">
                                             </button>
                                         </div>
@@ -56,7 +60,7 @@ if (! empty($block['anchor'])) {
                                     <div class="certificate__item--title">Baden-Baden gift card</div>
                                 </div>
                             </div>
-                            <div class="modal__certificate modal fade" id="modal-<?php echo $post->ID; ?>" class="btn btn--border-darkBlue border-radius-90" data-id="<?php echo $post->ID; ?>" data-bs-toggle="modal" data-bs-target="#modal- tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <!-- <div class="modal__certificate modal fade" id="modal-<?php echo $post->ID; ?>" class="btn btn--border-darkBlue border-radius-90" data-id="<?php echo $post->ID; ?>" data-bs-toggle="modal" data-bs-target="#modal- tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                 <div class="modal-dialog modal-dialog-centered">
                                     <div class="modal-content">
                                         <div class="modal-body">
@@ -92,11 +96,22 @@ if (! empty($block['anchor'])) {
                                         </div>
                                     </div>
                                 </div>
-                            </div>
+                            </div> -->
                         <?php endforeach; ?>
                         <?php wp_reset_postdata(); ?>
-                    <?php endif; ?>
+                    <?php endif;*/?>
                 </div>
+            <div id="certificate_widget"></div>
+            <script type="text/javascript">
+                (function(d, w, s) {
+                    var gcw = d.createElement(s);
+                    gcw.type = 'text/javascript';
+                    gcw.async = true;
+                    gcw.src = 'https://widget.metechcards.ru/widget/?client_id=00593bcf-917d-9c82-717c-55e36b929b1f';
+                    d.body.appendChild(gcw);
+                })(document, window, 'script');
+            </script>
+            </div>
             </div>
         <?php endwhile; ?>
     <?php endif; ?>

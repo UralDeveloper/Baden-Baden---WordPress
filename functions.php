@@ -145,13 +145,14 @@ function baden_scripts()
 {
 
     $array_css = array(
-        'Gilroy' => 'assets/webfonts/Gilroy/gilroy.css',
+        'Gilroy' => 'assets/webfonts/Gilroy/stylesheet.css',
         'Cormorantsc' => 'assets/webfonts/Cormorantsc/cormorantsc.css',
         'fontawesome' => 'assets/css/fontawesome.css',
         'swiper' => 'assets/css/swiper-bundle.min.css',
         'bootstrap' => 'assets/css/bootstrap.min.css',
         'fancybox' => 'assets/css/fancybox.css',
         'styles' => 'assets/css/styles.min.css',
+        'custom' => 'style.css',
     );
 
     $array_js = array(
@@ -270,12 +271,24 @@ function register_custom_post_types()
             'name_taxonomy' => 'Тип комплекса',
             'visible' => true
         ],
+        'nutrition' => [
+            'name' => 'Питание',
+            'visible' => true
+        ],
         'spa' => [
             'name' => 'СПА',
             'visible' => false
         ],
         'vodnye_termy' => [
             'name' => 'Водные Термы',
+            'visible' => false
+        ],
+        'atmosphere' => [
+            'name' => 'Атмосфера',
+            'visible' => false
+        ],
+        'infrastructure' => [
+            'name' => 'Инфраструктура',
             'visible' => false
         ],
         'bannaya_kollekciya' => [
@@ -300,6 +313,8 @@ function register_custom_post_types()
         ],
         'faq' => [
             'name' => 'Вопросы и ответы',
+            'taxonomy' => 'category-area',
+            'name_taxonomy' => 'Заведение',
             'visible' => false
         ],
     ];
@@ -470,6 +485,7 @@ class Custom_Walker_Nav_Menu extends Walker_Nav_Menu {
         $attributes .= !empty($item->target) ? ' target="' . esc_attr($item->target) . '"' : '';
         $attributes .= !empty($item->xfn) ? ' rel="' . esc_attr($item->xfn) . '"' : '';
         $attributes .= !empty($item->url) ? ' href="' . esc_attr($item->url) . '"' : '';
+        $attributes .= !empty($item->url) ? ' data-bs-dismiss="offcanvas" ' : '';
 
         $active_class = ($item->current || $item->current_item_ancestor || in_array("current_page_parent", $item->classes, true) || in_array("current_post_ancestor", $item->classes, true)) ? 'active' : '';
         $nav_link_class = ( $depth > 0 ) ? 'dropdown-item ' : 'nav-link ';
@@ -487,3 +503,42 @@ class Custom_Walker_Nav_Menu extends Walker_Nav_Menu {
 
 
 include 'inc/framework.php';
+include 'inc/update-theme.php';
+
+function remove_page_class_from_body($classes) {
+    if (($key = array_search('page', $classes)) !== false) {
+        unset($classes[$key]);
+    }
+    return $classes;
+}
+add_filter('body_class', 'remove_page_class_from_body');
+
+
+function add_fancybox_to_images($content) {
+    // Ищем изображения, обернутые в <a>
+    $content = preg_replace_callback('/<a[^>]+href=["\']([^"\']+\.(?:jpg|jpeg|png|gif))["\'][^>]*>\s*<img[^>]+>\s*<\/a>/i', function($matches) {
+        $a_tag = $matches[0];
+
+        // Если уже есть data-fancybox — пропускаем
+        if (strpos($a_tag, 'data-fancybox') !== false) {
+            return $a_tag;
+        }
+
+        // Добавим атрибут
+        return preg_replace('/<a /', '<a data-fancybox="gallery" ', $a_tag, 1);
+    }, $content);
+
+    return $content;
+}
+add_filter('the_content', 'add_fancybox_to_images');
+
+
+/**
+ * Загрузка страниц по типу SPA
+ * Необходимо правильно настроить перезапуск JS скриптов после загрузки страницы
+ */
+// function enqueue_swup_scripts() {
+	// wp_enqueue_script( 'swup', 'https://unpkg.com/swup@4', [], null, true );
+	// wp_enqueue_script( 'spa-init', get_template_directory_uri() . '/js/spa-init.js', [ 'swup' ], null, true );
+// }
+// add_action( 'wp_enqueue_scripts', 'enqueue_swup_scripts' );

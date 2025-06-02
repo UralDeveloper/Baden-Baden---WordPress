@@ -12,7 +12,7 @@ if (! is_active_sidebar('sidebar-1')) {
 	return;
 }
 ?>
-
+<?/*
 <div class="sidebar">
 	<h2>Категории</h2>
 	<?php
@@ -46,12 +46,55 @@ if (! is_active_sidebar('sidebar-1')) {
 		echo '<p>Типы записей не найдены.</p>';
 	}
 	?>
+</div>
+*/ ?>
 
+<div class="sidebar sidebar--pc">
+	<?php
+	$post_type = get_post_type();
+	$taxonomies = get_object_taxonomies($post_type, 'objects');
 
+	// Таксономии, которые нужно скрыть
+	$excluded_taxonomies = ['post_tag', 'nav_menu', 'post_format', 'post_tag', 'tip_kompleksa'];
+
+		// echo '<pre>';
+		// var_dump(array_keys($taxonomies));
+		// echo '</pre>';
+
+	if ($taxonomies) {
+		foreach ($taxonomies as $taxonomy) {
+			if (in_array($taxonomy->name, $excluded_taxonomies)) {
+				continue; // пропускаем эту таксономию
+			}
+			if ($taxonomy->labels->name == 'Рубрики') {
+				$taxonomy->labels->name = 'Категории';
+			}
+			echo '<h2>' . esc_html($taxonomy->labels->name) . '</h2>';
+
+			$terms = get_terms([
+				'taxonomy' => $taxonomy->name,
+				'hide_empty' => true,
+			]);
+
+			if (!empty($terms) && !is_wp_error($terms)) {
+				echo '<ul>';
+				foreach ($terms as $term) {
+					echo '<li><a href="' . esc_url(get_term_link($term)) . '">' . esc_html($term->name) . '</a></li>';
+				}
+				echo '</ul>';
+			} else {
+				echo '<p><em>Нет категорий.</em></p>';
+			}
+		}
+	}
+	?>
 
 </div>
-<div class="sidebar">
-	<h2>Случайные публикации</h2>
+
+
+
+<div class="sidebar sidebar--news sidebar--pc">
+	<h2>Новости и мероприятия</h2>
 	<?php
 	// Типы записей, которые НЕ нужно выводить
 	$exclude_post_types = ['attachment', 'revision', 'nav_menu_item', 'page', 'spa', 'sertifikaty', 'bannaya_kollekciya']; // Добавьте сюда ненужные типы
@@ -62,7 +105,7 @@ if (! is_active_sidebar('sidebar-1')) {
 
 	// Запрос на 3 случайные записи
 	$args = [
-		'post_type'      => $post_types_to_query,
+		'post_type'      => 'post',
 		'posts_per_page' => 3,
 		'orderby'        => 'rand',
 	];
@@ -75,11 +118,11 @@ if (! is_active_sidebar('sidebar-1')) {
 				<li>
 					<div class="article-meta article-meta_small">
 						<div class="article-date">
-							<img src="<?php the_badden_assets('img', 'calendar.svg')?>" alt="">
+							<img src="<?php the_badden_assets('img', 'calendar.svg') ?>" alt="">
 							<span><?php echo get_the_date('d F Y'); ?></span>
 						</div>
 						<div class="article-category">
-							<img src="<?php the_badden_assets('img', 'mark.svg')?>" alt="">
+							<img src="<?php the_badden_assets('img', 'mark.svg') ?>" alt="">
 							<span>
 								<?php
 								// Получаем первую категорию/таксономию записи

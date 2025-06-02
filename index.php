@@ -54,13 +54,25 @@ get_header();
 	</div>
 </section>
 
+
 <section id="travelline" class="container">
-	<div class="travel-script"></div>
+	<div class="grid">
+		<div class="travel-script">
+			<!-- start TL Search form script -->
+			<div id="block-search">
+				<div id="tl-search-form" class="tl-container">
+					<!-- <noindex><a href="https://www.travelline.ru/products/tl-hotel/" rel="nofollow" target="_blank">TravelLine</a></noindex> -->
+				</div>
+			</div>
+			<!-- end TL Search form script -->
+		</div>
+	</div>
 </section>
+
 
 <main class="singleArticle container">
 	<div>
-		<?php if (have_posts()) : the_post(); ?>
+		<?php if (have_posts()) : ?>
 			<?php while (have_posts()) : the_post(); ?>
 				<article>
 					<div class="article-meta">
@@ -110,6 +122,7 @@ get_header();
 		<?php endif; ?>
 	</div>
 	<aside>
+		<?php get_sidebar('mobile'); ?>
 		<?php get_sidebar(); ?>
 	</aside>
 </main>

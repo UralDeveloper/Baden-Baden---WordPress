@@ -44,6 +44,16 @@ if ( ! empty($block['anchor'] ) ) {
             <?php endforeach; ?>
         </div>
         <?php endif; ?>
+        <?php if ( get_sub_field( 'knopka_dalee' ) == 1 ) : ?>
+            <div class="faq-btn__wrapper">
+                <?php $ssylka_na_straniczu = get_sub_field( 'ssylka_na_straniczu' ); ?>
+                <?php if ( $ssylka_na_straniczu ) : ?>
+                    <a class="btn btn--blue" href="<?php echo esc_url( $ssylka_na_straniczu); ?>">
+                        Смотреть все
+                    </a>
+                <?php endif; ?>
+            </div>
+		<?php endif; ?>
     </div>
     <?php endwhile; ?>
 </section>
