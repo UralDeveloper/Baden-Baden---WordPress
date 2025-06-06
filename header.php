@@ -28,7 +28,11 @@
 		<div class="container header__container">
 			<div class="header__logo">
 				<a href="<?php echo home_url('/'); ?>">
-					<img src="<?php the_badden_assets('img', 'logo-main.svg'); ?>" alt="">
+					<?php if ( get_field( 'logotip_v_shapke', 'option' ) ) : ?>
+						<img style="width: 167px; height: 46px; object-fit: contain; object-position: left center;" src="<?php the_field( 'logotip_v_shapke', 'option' ); ?>" alt="Баден баден"/>
+					<?php else : ?>
+						<img src="<?php the_badden_assets('img', 'logo-main.svg'); ?>" alt="Баден баден">
+					<?php endif; ?>
 				</a>
 			</div>
 			<div class="header__menu navbar">
