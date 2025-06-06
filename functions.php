@@ -487,7 +487,7 @@ class Custom_Walker_Nav_Menu extends Walker_Nav_Menu {
         $attributes .= !empty($item->url) ? ' href="' . esc_attr($item->url) . '"' : '';
         $attributes .= !empty($item->url) ? ' data-bs-dismiss="offcanvas" ' : '';
 
-        $active_class = ($item->current || $item->current_item_ancestor || in_array("current_page_parent", $item->classes, true) || in_array("current_post_ancestor", $item->classes, true)) ? 'active' : '';
+        $active_class = ($item->current || $item->current_item_ancestor || in_array("current_page_parent", $item->classes, true) || in_array("current_post_ancestor", $item->classes, true)) ? '' : '';
         $nav_link_class = ( $depth > 0 ) ? 'dropdown-item ' : 'nav-link ';
         $attributes .= ( $args->walker->has_children ) ? ' class="'. $nav_link_class . $active_class . ' dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"' : ' class="'. $nav_link_class . $active_class . '"';
 
