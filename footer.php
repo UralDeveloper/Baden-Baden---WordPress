@@ -34,18 +34,22 @@
             </div>
             <div class="contacts__contacts__items">
                 <div class="contacts__contacts__item">
-                    <span class="location_name">Фабрика отдыха</span>
+                    <?php if (get_field('op_adres_1', 'option' ) && get_field('op_nazvanie_kompleksa_1', 'option')) { ?>
+                    <span class="location_name"><?php the_field( 'op_nazvanie_kompleksa_1', 'option' ); ?></span>
                     <div>
                         <img src="<?php the_badden_assets('img', 'flag.svg'); ?>" alt="">
                         <span class="location_address"><?php the_field( 'op_adres_1', 'option' ); ?></span>
                     </div>
+                    <?php } ?>
                 </div>
                 <div class="contacts__contacts__item">
-                    <span class="location_name">Эко деревня</span>
+                    <?php if (get_field('op_adres_2', 'option' ) && get_field('op_nazvanie_kompleksa_2', 'option')) { ?>
+                    <span class="location_name"><?php the_field( 'op_nazvanie_kompleksa_2', 'option' ); ?></span>
                     <div>
                         <img src="<?php the_badden_assets('img', 'flag.svg'); ?>" alt="">
                         <span class="location_address"><?php the_field( 'op_adres_2', 'option' ); ?></span>
                     </div>
+                    <?php } ?>
                 </div>
             </div>
             <div class="contacts__contacts__items">
@@ -60,28 +64,29 @@
         </div>
     </div>
 </section>
+</div>
 <section class="footer">
     <div class="container footer__container">
         <div class="footer__copyright">
             <a href="<?php home_url('/')?>"><img src="<?php the_badden_assets('img', 'logo-footer.svg'); ?>" alt=""></a>
             <ul>
                 <li><?php echo date('Y');?> &copy; Баден-Баден</li>
-                <li><a href="#">Реквизиты</a></li>
-                <li><a href="#">Правила посещения «Фабрика отдыха»</a></li>
-                <li><a href="#">Правила оплаты</a></li>
+                <li><a href="<?php echo home_url( '/rekvizity/' ) ?>">Реквизиты</a></li>
+                <li><a href="<?php echo home_url( '/pravila-poseshheniya-fabrika-otdyha/' ) ?>">Правила посещения «Фабрика отдыха»</a></li>
+                <li><a href="<?php echo home_url( '/pravila-oplaty/' ) ?>">Правила оплаты</a></li>
             </ul>
         </div>
         <div class="footer__nav">
             <ul>
-                <li><a href="#">Еткуль</a></li>
-                <li><a href="#">Уктус</a></li>
-                <li><a href="#">Тургояк</a></li>
-                <li><a href="#">Шарташ пляж</a></li>
+                <li><a href="https://baden74.ru">Еткуль</a></li>
+                <li><a href="https://baden-uktus.ru">Уктус</a></li>
+                <li><a href="https://baden-turgoyak.ru">Тургояк</a></li>
+                <li><a href="https://шарташ-пляж.рф">Шарташ пляж</a></li>
             </ul>
             <ul>
-                <li><a href="#">Реж</a></li>
-                <li><a href="#">Курган</a></li>
-                <li><a href="#">Cuba-Cuba</a></li>
+                <li><a href="https://уральский-источник.рф">Реж</a></li>
+                <li><a href="https://baden45.ru">Курган</a></li>
+                <li><a href="https://cubacuba.ru">Cuba-Cuba</a></li>
             </ul>
         </div>
         <div class="footer__booking">
@@ -89,8 +94,13 @@
         </div>
     </div>
 </section>
-
+<?php if ( have_rows( 'op_integraczii', 'option' ) ) : ?>
+	<?php while ( have_rows( 'op_integraczii', 'option' ) ) : the_row(); ?>
+		<?php echo get_sub_field( 'kod_integraczii' ); ?>
+	<?php endwhile; ?>
+<?php endif; ?>
 <?php wp_footer(); ?>
+<!-- <script src="<?//php echo get_template_directory(); ?>/assets/js/spa-init.js" type="module"></script> -->
 
 </body>
 </html>

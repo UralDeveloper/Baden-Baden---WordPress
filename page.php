@@ -26,10 +26,19 @@ get_header();
     </div>
 </section>
 
-<section id="travelline" class="container">
-	<div class="travel-script"></div>
-</section>
-
+    <section id="travelline" class="container">
+		<div class="grid">
+			<div class="travel-script">
+				<!-- start TL Search form script -->
+				<div id="block-search">
+					<div id="tl-search-form" class="tl-container">
+						<!-- <noindex><a href="https://www.travelline.ru/products/tl-hotel/" rel="nofollow" target="_blank">TravelLine</a></noindex> -->
+					</div>
+				</div>
+				<!-- end TL Search form script -->
+			</div>
+		</div>
+	</section>
 <main class="singleArticle container">
     <article>
         <div class="article-meta">

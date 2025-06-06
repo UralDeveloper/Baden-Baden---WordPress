@@ -33,6 +33,7 @@ if ( ! empty($block['anchor'] ) ) {
         <?php if ( $zapisi ) : ?>
         <div class="whoceTers__wrapper">
             <div class="titleWrapper">
+                <?php if (count($zapisi) > 1) : ?>
                 <ul class="nav nav-pills" id="pills-tab" role="tablist">
                     <?php foreach ( $zapisi as $key => $post_ids ) : ?>
                     <?php if ( $key == 0 ) : $status = "active"; else: $status = "" ; endif; ?>
@@ -46,7 +47,7 @@ if ( ! empty($block['anchor'] ) ) {
                     </li>
                     <?php endforeach; ?>
                 </ul>
-                
+                <?php endif; ?>
                 <div class="tab-content" id="pills-tabContent">
                 <?php foreach ( $zapisi as $key => $post_ids ) : ?>
                     <?php if ( $key == 0 ) : $status = "show active"; else: $status = "" ; endif; ?>

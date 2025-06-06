@@ -1,14 +1,37 @@
-window.onscroll = function () { scrollFunction() };
-function scrollFunction() {
-    if (document.body.scrollTop > 10 || document.documentElement.scrollTop > 10) {
-        document.querySelector('.header').classList.add('scrolled');
-    } else {
-        document.querySelector('.header').classList.remove('scrolled');
+// window.onscroll = function () { scrollFunction() };
+// function scrollFunction() {
+//     if (document.body.scrollTop > 10 || document.documentElement.scrollTop > 10) {
+//         document.querySelector('.header').classList.add('scrolled');
+//     } else {
+//         document.querySelector('.header').classList.remove('scrolled');
+//     }
+// }
+
+(function (w) {
+    var q = [
+        ["setContext", "TL-INT-baden-sysert-ru_2024-12-25", "ru"],
+        ["embed", "search-form", {
+            container: "tl-search-form"
+        }]
+    ];
+    var h = ["ru-ibe.tlintegration.ru", "ibe.tlintegration.ru", "ibe.tlintegration.com"];
+    var t = w.travelline = (w.travelline || {}),
+        ti = t.integration = (t.integration || {});
+    ti.__cq = ti.__cq ? ti.__cq.concat(q) : q;
+    if (!ti.__loader) {
+        ti.__loader = true;
+        var d = w.document, c = d.getElementsByTagName("head")[0] || d.getElementsByTagName("body")[0];
+        function e(s, f) { return function () { w.TL || (c.removeChild(s), f()) } }
+        (function l(h) {
+            if (0 === h.length) return; var s = d.createElement("script");
+            s.type = "text/javascript"; s.async = !0; s.src = "https://" + h[0] + "/integration/loader.js";
+            s.onerror = s.onload = e(s, function () { l(h.slice(1, h.length)) }); c.appendChild(s)
+        })(h);
     }
-}
+})(window);
 
 let accommodation_slider = new Swiper('.accommodation-slider', {
-    rewind: true,
+    loop: true,
     autoplay: {
         delay: 4000,
     },
@@ -22,7 +45,7 @@ document.querySelectorAll('.whoceTers-slider').forEach(slider => {
         perPage = 3;
     }
     new Swiper(slider, {
-        rewind: true,
+        loop: true,
         autoplay: {
             delay: 4000,
         },
@@ -40,7 +63,7 @@ document.querySelectorAll('.whoceTers-slider').forEach(slider => {
 });
 
 let galleryCarousel_swiper = new Swiper('.galleryCarousel-carousel', {
-    rewind: true,
+    loop: true,
     autoplay: {
         delay: 4000,
     },
@@ -125,7 +148,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 992: {
                     slidesPerView: 4,
                 }
-                
+
             },
             navigation: {
                 nextEl: ".swiper-button-next",
@@ -173,7 +196,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 function loadYandexMap() {
     let script = document.createElement("script");
-    script.src = "https://api-maps.yandex.ru/2.1/?apikey=36c289c4-0f45-44b4-984c-b9358615a099&lang=ru_RU";
+    script.src = "https://api-maps.yandex.ru/2.1/?apikey=b02b13e1-0fc9-4992-9a3c-fce37930b249&lang=ru_RU";
     script.onload = function () {
         ymaps.ready(initMap);
     };
@@ -181,7 +204,12 @@ function loadYandexMap() {
 }
 
 function initMap() {
-    var map = new ymaps.Map("map", { center: [55.751574, 37.573856], zoom: 5 });
+    var map = new ymaps.Map("map", {
+        center: [55.751574, 37.573856], // временный центр
+        zoom: 14
+    });
+
+    let isFirst = true;
 
     document.querySelectorAll(".location_address").forEach(element => {
         var address = element.textContent.trim();
@@ -195,6 +223,12 @@ function initMap() {
 
                 var placemark = new ymaps.Placemark(coords, { balloonContent: address });
                 map.geoObjects.add(placemark);
+
+                // Центрируем по первому успешному адресу
+                if (isFirst) {
+                    map.setCenter(coords);
+                    isFirst = false;
+                }
             } else {
                 console.warn("Не найдено:", address);
             }
@@ -202,4 +236,42 @@ function initMap() {
     });
 }
 
+
 document.addEventListener("DOMContentLoaded", loadYandexMap);
+
+document.addEventListener('DOMContentLoaded', function () {
+    const dropdowns = document.querySelectorAll('.dropdown-toggle');
+
+    dropdowns.forEach(dropdown => {
+        dropdown.addEventListener('click', function (e) {
+            // Отменяем открытие по клику
+            if (window.innerWidth >= 992) {
+                e.preventDefault();
+            }
+        });
+    });
+});
+document.addEventListener('DOMContentLoaded', function() {
+    let gallerySliders = document.querySelectorAll('.spaGrid__grid--mobile .swiper');
+
+    gallerySliders.forEach((slider, index) => {
+        new Swiper(slider, {
+            // Настройки Swiper для каждого слайдера
+            rewind: true,
+            spaceBetween: 12,
+            autoplay: {
+                delay: 1000,
+                disableOnInteraction: false
+            },
+            speed: 1500,
+            pagination: {
+                el: `.swiper-pagination-${index}`,
+                clickable: true,
+            },
+            navigation: {
+                nextEl: `.swiper-button-next-${index}`,
+                prevEl: `.swiper-button-prev-${index}`,
+            },
+        });
+    });
+});

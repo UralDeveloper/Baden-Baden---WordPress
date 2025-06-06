@@ -7,6 +7,7 @@ $mainBlockPadding: 40px 0
 
 body
     font-family: 'Gilroy', serif
+    color: #4e5d70
 a
     color: $darkBlue
     text-decoration: none
@@ -30,6 +31,11 @@ a
             display: flex
             flex-direction: column
             align-items: center
+            & ~ .dropdown-menu
+                .active,
+                &:active
+                    background-color: transparent
+                    color: #4e5d70
             &::after
                 content: ''
                 width: 0
@@ -78,7 +84,7 @@ a
             padding-bottom: 20px
             margin-bottom: 20px
             &-link
-                color: #000
+                color: #4e5d70
                 text-transform: uppercase
                 font-size: 20px
                 text-align: left
@@ -93,6 +99,30 @@ a
                     text-align: left
                     font-style: italic
                     color: #3d4d57
+        .offcanvas
+            &-body
+                .navbar
+                    &-nav
+                        width: 100%
+                        .menu-item
+                            &.dropdown
+                                display: flex
+                                flex-direction: column
+                                align-items: flex-start
+                        .dropdown
+                            &-item
+                                .active,
+                                &:active
+                                    background-color: transparent
+                                    color: #4e5d70
+                            &-toggle
+                                display: flex
+                                flex-direction: row
+                                align-items: center
+                            &-menu
+                                width: 100%
+                                border: none
+
 
 .footer
     padding: 36px 0
@@ -154,14 +184,17 @@ a
         flex-direction: column
         gap: 40px
         background-color: #fff
-        padding: 40px 40px
+        padding: 55px 45px
         user-select: text
         pointer-events: all
         @include mobile()
-            padding: 40px 20px
+            padding: 25px 25px
+            width: 100%
+            gap: 20px !important
         &__title
+            margin-bottom: 20px
             h2
-                font-size: 52px
+                font-size: clamp(28px, 4vw, 52px)
                 color: $mainColor
                 text-align: center
                 text-transform: uppercase
@@ -171,7 +204,7 @@ a
             grid-template-columns: repeat(2, 1fr)
             @include mobile()
                 grid-template-columns: repeat(1, 1fr)
-                gap: 20px
+                gap: 20px !important
         &__item
             display: flex
             flex-direction: column
@@ -185,7 +218,7 @@ a
                 gap: 4px
                 a
                     text-decoration: none
-                    color: #000
+                    color: #4e5d70
             img
                 width: 20px
 
@@ -201,7 +234,7 @@ a
         content: ''
         position: absolute
         inset: 0
-        background-color: #000
+        background-color: #4e5d70
         opacity: 0.3
         z-index: -1
     &__videoBackground
@@ -256,7 +289,7 @@ a
             content: ''
             position: absolute
             inset: 0
-            background-color: #000
+            background-color: #4e5d70
             opacity: 0.4
             z-index: 2
         img
@@ -271,7 +304,7 @@ a
         h1
             font-size: clamp(52px, 5vw, 80px)
             color: #fff
-            font-family: "Cormorant SC",sans-serif
+            font-family: "Playfair Display",serif
             text-transform: uppercase
             font-weight: 900
         p
@@ -287,9 +320,9 @@ a
     align-items: center
     justify-content: center
     h2
-        font-size: clamp(40px, 5vw, 52px)
+        font-size: clamp(24px,5vw,52px)
         color: $mainColor
-        font-family: "Cormorant SC",sans-serif
+        font-family: "Playfair Display",sans-serif
         text-transform: uppercase
         font-weight: 400
     &:after
@@ -312,18 +345,30 @@ a
         justify-content: center
         list-style-type: none
         padding-left: 0
+        @include mobile()
+            gap: 20px 40px
+            margin-bottom: 32px
+            justify-content: flex-start
+            width: 100%
+            overflow-x: auto
+            scroll-snap-type: x mandatory
+            padding: 8px 16px
+            flex-wrap: nowrap
         li
             font-size: 20px
             font-weight: 600
+            flex: 1 0 fit-content
+            text-align: center
             a
                 text-decoration: none
                 font-weight: 400
-                color: #000
+                color: #4e5d70
     p
         text-align: center
         text-wrap: balance
         font-size: 16px
         margin-bottom: 12px
+        color: #4e5d70
         &:not(:nth-last-child(1))
             margin-bottom: 0
         &:has(b)
@@ -353,7 +398,7 @@ a
             content: ''
             position: absolute
             inset: 0
-            background-color: #000
+            background-color: #4e5d70
             opacity: 0.3
         img
             width: 100%
@@ -385,7 +430,7 @@ a
         h3
             color: #fff
             font-size: clamp(32px, 5vw, 44px)
-            font-family: "Cormorant SC",sans-serif
+            font-family: "Playfair Display",sans-serif
             text-transform: uppercase
             font-weight: 900
             a
@@ -407,6 +452,8 @@ a
                 height: auto
                 aspect-ratio: 16/8
                 width: 100%
+                @include mobile()
+                    aspect-ratio: 16/13
                 &.photoSize-1x1
                     aspect-ratio: 1/1
                 img
@@ -423,26 +470,43 @@ a
         grid-gap: 20px
         grid-template-rows: 320px 320px
         grid-template-areas: "photo_1 photo_1 photo_4 photo_4" "photo_2 photo_3 photo_4 photo_4"
+        overflow: hidden
+        &--mobile
+            display: none
         @include mobile()
             grid-template-columns: repeat(1, 1fr)
             grid-template-areas: "photo_1" "photo_2" "photo_3" "photo_4"
             grid-template-rows: repeat(4, auto)
+            &--mobile
+                display: block
+            &--pc
+                display: none
+        
     &__photo
+        display: flex
+        align-items: center
+        justify-content: center
+        @include mobile()
+            height: auto
         img
             width: 100%
             height: 100%
             object-fit: cover
             object-position: center
         &:nth-child(1)
-            grid-area: photo_1
+            @media screen and (min-width: 1200px)
+                grid-area: photo_1
         &:nth-child(2)
-            grid-area: photo_2
-            aspect-ratio: 1/1
+            @media screen and (min-width: 1200px)
+                grid-area: photo_2
+                aspect-ratio: 1/1
         &:nth-child(3)
-            grid-area: photo_3
-            aspect-ratio: 1/1
+            @media screen and (min-width: 1200px)
+                grid-area: photo_3
+                aspect-ratio: 1/1
         &:nth-child(4)
-            grid-area: photo_4
+            @media screen and (min-width: 1200px)
+                grid-area: photo_4
 
 .specialOffers
     padding: $mainBlockPadding
@@ -461,8 +525,76 @@ a
         justify-content: flex-start
         position: relative
         height: auto
+        aspect-ratio: 4/5
         &--location
             color: #fff
+        &--theme_2
+            .specialOffers__content
+                opacity: 0
+                // @include mobile()
+                opacity: 0
+                bottom: -100%
+            &.swiper-slide-active
+                .specialOffers__content
+                    @include mobile()
+                        bottom: 0
+                        opacity: 1
+            &:hover
+                .specialOffers__content
+                    // @include mobile()
+                    bottom: 0
+                    opacity: 1
+            &:hover
+                .specialOffers__content
+                    opacity: 1
+            .specialOffers
+                &__content
+                    padding-top: 28px
+                    padding-bottom: 28px
+                    top: auto
+                    // bottom: 0
+                    height: fit-content
+                    justify-content: flex-end
+                    transition: opacity 0.3s ease, bottom 0.5s ease
+                    // background: linear-gradient(0deg, #57a1d4, rgb(87 161 212 / 20%))
+                    // backdrop-filter: blur(2px)
+                    // background: #0070ce
+                    background: rgba(0, 112, 206, 0.65)
+                    backdrop-filter: blur(3px)
+                    @include mobile()
+                        transition: opacity 1s ease, bottom 0.7s ease
+                    h3
+                        font-weight: 800
+                    a
+                        font-size: 16px
+                        font-weight: 600
+                        color: #0070ce
+                        background-color: #fff
+                        padding: 10px 40px
+                        &::before
+                            display: none
+                        &:hover
+                            color: #0070ce
+                            background-color: rgb(255, 255, 255, 0.8)
+        &--theme_3
+            .specialOffers
+                &__content
+                    padding-top: 28px
+                    padding-bottom: 28px
+                    top: auto
+                    bottom: 0
+                    height: fit-content
+                    justify-content: flex-end
+                    transition: opacity 0.3s ease, bottom 0.5s ease
+                    background: linear-gradient(0deg, #4e5d70, rgba(217, 217, 217, 0))
+                    // backdrop-filter: blur(3px)
+                    a
+                        background-color: #0070ce
+                        color: #fff
+                        padding: 4px 10px
+                        text-transform: lowercase
+                        &::before
+                            display: none
     &__photo
         height: 100%
         width: 100%
@@ -470,7 +602,7 @@ a
             content: ''
             position: absolute
             inset: 0
-            background-color: #000
+            background-color: #4e5d70
             opacity: 0.3
         img
             width: 100%
@@ -512,20 +644,71 @@ a
 
 .singleArticle
     display: grid
-    grid-template-columns: 1fr 320px
+    grid-template-columns: 1fr 280px
     grid-gap: 28px
     padding-top: 60px
     padding-bottom: 60px
     @include mobile()
-        grid-template-columns: repeat(1, 1fr)
+        display: flex
+        flex-direction: column-reverse
+        // grid-template-columns: repeat(1, 1fr)
     &__item
         border-bottom: 1px solid #ccc
         margin-bottom: 40px
         h2
             a
-                color: #000
+                color: #4e5d70
                 text-decoration: none
                 font-weight: 600
+        .article
+            &-title
+                h2
+                    margin-bottom: 0
+                    font-size: clamp(24px,5vw,52px)
+                    font-family: serif
+                    text-transform: uppercase
+                    a
+                        font-weight: 400
+                        color: #0066a4
+    &--archive
+        .singleArticle
+            &__wrapper
+                display: grid
+                grid-template-columns: repeat(2, 1fr)
+                gap: 40px 20px
+                align-items: start
+                @include mobile()
+                    grid-template-columns: repeat(1, 1fr)
+            &__item
+                display: flex
+                flex-direction: column
+                .article
+                    &-title
+                        h2
+                            margin-bottom: 0
+                            font-size: 28px
+                            font-weight: 400
+                            font-family: serif
+                            text-transform: uppercase
+                            a
+                                color: #0066a4
+                    &-meta
+                        // flex: 1 0 auto
+                        padding-bottom: 0
+                        margin-bottom: 10px
+                        margin-top: 20px
+                    &-content
+                        // flex: 1 0 auto
+                        p
+                            overflow: hidden
+                            text-overflow: ellipsis
+                            display: -moz-box
+                            -moz-box-orient: vertical
+                            display: -webkit-box
+                            -webkit-line-clamp: 2
+                            -webkit-box-orient: vertical
+                            line-clamp: 2
+                            box-orient: vertical
 
 .article
     &-meta
@@ -534,6 +717,7 @@ a
         flex-direction: row
         gap: 20px
         font-size: 14px
+        margin-top: 20px
         &_small
             font-size: 12px
             padding-bottom: 0
@@ -546,6 +730,11 @@ a
         flex-direction: row
         align-items: center
         gap: 4px
+        span
+            font-size: 14px
+            line-height: 14px
+            font-weight: 500
+            color: rgb(78, 93, 112)
     &-image
         width: 100%
         height: 400px
@@ -563,10 +752,23 @@ a
 .sidebar
     &:not(&:nth-last-child(1))
         margin-bottom: 40px
+    &--mobile
+        margin-bottom: 0 !important
+    &--pc
+        @include mobile()
+            display: none
     h2
         font-size: 36px
         font-weight: 400
-        padding-bottom: 8px
+        padding-bottom: 0
+        font-family: serif
+        color: #4e5d70
+        margin-bottom: 35px
+        text-transform: uppercase
+    h3
+        font-size: 26px
+        text-transform: uppercase
+        margin-top: 12px
     ul
         padding-left: 0
         margin-bottom: 0
@@ -576,8 +778,24 @@ a
             list-style-type: none
             a
                 font-size: 20px
-                color: #000
+                color: #4e5d70
                 text-decoration: none
+    &--news
+        ul
+            li
+                a
+                    font-size: 24px
+                    font-family: serif
+                    line-height: 1.2em
+                    font-weight: 400
+    &--mobile
+        display: none
+        @include mobile()
+            display: block
+        .collapse
+            padding: 0 20px 40px
+        .collapsing
+            padding: 0 20px 40px
 
 #map
     width: 100%
@@ -796,7 +1014,7 @@ a
         padding: 40px 20px
         &--title
             margin-bottom: 0
-            font-family: "Cormorant SC",sans-serif
+            font-family: "Playfair Display",sans-serif
             font-size: 36px
             color: $mainColor
         &--text
@@ -1023,9 +1241,9 @@ a
                 content: ']'
     &__text
         h2
-            font-size: clamp(40px, 5vw, 52px)
+            font-size: clamp(24px,5vw,52px)
             color: $mainColor
-            font-family: "Cormorant SC",sans-serif
+            font-family: "Playfair Display",sans-serif
             text-transform: uppercase
             font-weight: 400
         &--subtitle
@@ -1045,9 +1263,9 @@ a
             grid-template-columns: 1fr
         &--title
             h2
-                font-size: clamp(40px, 5vw, 52px)
+                font-size: clamp(24px,5vw,52px)
                 color: $mainColor
-                font-family: "Cormorant SC",sans-serif
+                font-family: "Playfair Display",sans-serif
                 text-transform: uppercase
                 font-weight: 400
         &--description
@@ -1139,8 +1357,8 @@ a
         padding-top: 40px
         padding-bottom: 40px
         &-button
-            font-size: 28px
-            color: #000 !important
+            font-size: 20px
+            color: #4e5d70 !important
         &-button:not(.collapsed),
         &-button:focus
             background-color: #fff
