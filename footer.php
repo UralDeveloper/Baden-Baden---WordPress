@@ -68,13 +68,27 @@
 <section class="footer">
     <div class="container footer__container">
         <div class="footer__copyright">
-            <a href="<?php home_url('/')?>"><img src="<?php the_badden_assets('img', 'logo-footer.svg'); ?>" alt=""></a>
-            <ul>
-                <li><?php echo date('Y');?> &copy; Баден-Баден</li>
-                <li><a href="<?php echo home_url( '/rekvizity/' ) ?>">Реквизиты</a></li>
-                <li><a href="<?php echo home_url( '/pravila-poseshheniya-fabrika-otdyha/' ) ?>">Правила посещения «Фабрика отдыха»</a></li>
-                <li><a href="<?php echo home_url( '/pravila-oplaty/' ) ?>">Правила оплаты</a></li>
-            </ul>
+            <style>
+                .footer__copyright ul li:has(a) {
+                    padding: 4px 0px;
+                }
+                .footer__copyright ul li a {
+                    font-size: 16px;
+                    line-height: 1.3em;
+                }
+            </style>
+            <a href="<?php home_url('/')?>" title="<?php echo get_bloginfo( 'name' )?>"><img src="<?php the_badden_assets('img', 'logo-footer.svg'); ?>" alt=""></a>
+            <?php 
+                $args = array(
+                    'theme_location'    => 'footer-1',
+                    'depth'	            => 1,
+                    'container'         => false,
+                    'fallback_cb'       => false,
+                    'items_wrap'        => '<ul id="%1$s" class="%2$s"><li>' . date('Y') .' &copy; Баден-Баден</li>%3$s</ul>',
+                );
+                
+                wp_nav_menu( $args );
+            ?>
         </div>
         <div class="footer__nav">
             <ul>

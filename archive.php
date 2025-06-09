@@ -42,16 +42,12 @@ get_header();
 	</div>
 </section>
 
-<section id="travelline" class="container">
+<section id="travelline" class="container" data-travelLine="<?php the_field( 'travelline_id', 'option' ); ?>">
 	<div class="grid">
 		<div class="travel-script">
-			<!-- start TL Search form script -->
 			<div id="block-search">
-				<div id="tl-search-form" class="tl-container">
-					<!-- <noindex><a href="https://www.travelline.ru/products/tl-hotel/" rel="nofollow" target="_blank">TravelLine</a></noindex> -->
-				</div>
+				<div id="tl-search-form" class="tl-container"></div>
 			</div>
-			<!-- end TL Search form script -->
 		</div>
 	</div>
 </section>

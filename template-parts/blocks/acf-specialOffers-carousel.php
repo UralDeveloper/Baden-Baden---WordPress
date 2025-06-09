@@ -34,7 +34,7 @@ if ( ! empty($block['anchor'] ) ) {
             <div class="titleWrapper">
                 <ul class="nav nav-pills" id="pills-bathCollection">
                     <li class="nav-item">
-                        <a class="nav-tab btn--link active" data-category="Все">Все</a>
+                        <span class="nav-tab btn--link active" style="cursor: pointer;" data-category="Все">Все</span>
                     </li>
                         <?php
                         $akczii = get_sub_field('akczii');
@@ -58,9 +58,9 @@ if ( ! empty($block['anchor'] ) ) {
                             foreach ($all_terms as $term) {
                                 $category = esc_html($term->name); ?>
                                 <li class="nav-item">
-                                    <a class="nav-tab btn--link" data-category="<?php echo $category; ?>">
+                                    <span class="nav-tab btn--link" style="cursor: pointer;" data-category="<?php echo $category; ?>">
                                         <?php echo $category; ?>
-                                    </a>
+                                    </span>
                                 </li>
                             <?php }
                         }
