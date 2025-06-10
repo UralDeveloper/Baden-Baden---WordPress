@@ -63,13 +63,19 @@ if ( ! empty($block['anchor'] ) ) {
                     </div>
                 <?php endforeach; ?>
                 </div>
+                <?php if (get_sub_field( 'yakor' )) : 
+                        $yakor = "#" . get_sub_field( 'yakor' ); 
+                    else:
+                        $yakor = ""; 
+                    endif;
+                ?>
                 <?php if ( have_rows( 'knopka' ) ) : ?>
                     <?php while ( have_rows( 'knopka' ) ) : the_row(); ?>
                         <?php $ssylka = get_sub_field( 'ssylka' ); ?>
                         <?php if ( $ssylka ) : ?>
                             <?php $post = $ssylka; ?>
                             <?php setup_postdata( $post ); ?> 
-                            <a class="btn btn--blue" href="<?php the_permalink( $post->ID ) ?>">
+                            <a class="btn btn--blue" href="<?php the_permalink( $post->ID ); echo $yakor; ?>">
                             <?php the_sub_field( 'tekst_knopki' ); ?></a>
                             <?php wp_reset_postdata(); ?>
                         <?php endif; ?>

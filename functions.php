@@ -51,7 +51,8 @@ function baden_setup()
     // This theme uses wp_nav_menu() in one location.
     register_nav_menus(
         array(
-            'menu-1' => esc_html__('Primary', 'baden'),
+            'menu-1' => esc_html__('Основное', 'baden'),
+            'footer-1' => esc_html__('Меню под логотипом', 'baden'),
         )
     );
 
@@ -487,7 +488,7 @@ class Custom_Walker_Nav_Menu extends Walker_Nav_Menu {
         $attributes .= !empty($item->url) ? ' href="' . esc_attr($item->url) . '"' : '';
         $attributes .= !empty($item->url) ? ' data-bs-dismiss="offcanvas" ' : '';
 
-        $active_class = ($item->current || $item->current_item_ancestor || in_array("current_page_parent", $item->classes, true) || in_array("current_post_ancestor", $item->classes, true)) ? 'active' : '';
+        $active_class = ($item->current || $item->current_item_ancestor || in_array("current_page_parent", $item->classes, true) || in_array("current_post_ancestor", $item->classes, true)) ? '' : '';
         $nav_link_class = ( $depth > 0 ) ? 'dropdown-item ' : 'nav-link ';
         $attributes .= ( $args->walker->has_children ) ? ' class="'. $nav_link_class . $active_class . ' dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"' : ' class="'. $nav_link_class . $active_class . '"';
 
@@ -542,3 +543,68 @@ add_filter('the_content', 'add_fancybox_to_images');
 	// wp_enqueue_script( 'spa-init', get_template_directory_uri() . '/js/spa-init.js', [ 'swup' ], null, true );
 // }
 // add_action( 'wp_enqueue_scripts', 'enqueue_swup_scripts' );
+
+
+
+// Массовый ресайз изображений в медиатеке
+function bulk_resize_images() {
+    global $wpdb;
+
+    // Максимально допустимые размеры сторон изображения
+    $max_width = 1920;
+    $max_height = 1920;
+
+    // Получаем список ID прикрепленных изображений
+    $attachments = $wpdb->get_col("SELECT ID FROM {$wpdb->posts} WHERE post_type='attachment'");
+
+    foreach ($attachments as $post_id) {
+        $meta = wp_get_attachment_metadata($post_id);
+        if (!$meta || !isset($meta['sizes'])) continue;
+
+        // Проверка основного размера файла
+        if ($meta['width'] > $max_width || $meta['height'] > $max_height) {
+            // Путь к файлу
+            $file_path = get_attached_file($post_id);
+
+            // Используем редактор изображений WP
+            $editor = wp_get_image_editor($file_path);
+
+            if (!is_wp_error($editor)) {
+                $editor->resize($max_width, $max_height, true); // Сохранение пропорций
+                $resized_file = $editor->save();
+                
+                if (!is_wp_error($resized_file)) {
+                    update_attached_file($post_id, $resized_file['path']);
+                    echo "<p>Обработано изображение №$post_id</p>";
+                }
+            }
+        }
+    }
+}
+
+// Регистрация страницы админа для запуска скрипта
+function register_bulk_resize_page() {
+    add_menu_page('Массовое изменение изображений', 'Изменить изображения', 'manage_options', 'bulk-resize-images', 'show_bulk_resize_page');
+}
+
+add_action('admin_menu', 'register_bulk_resize_page');
+
+// Отображение интерфейса
+function show_bulk_resize_page() { ?>
+<div class="wrap">
+    <h1>Массовое уменьшение изображений</h1>
+    <?php
+    if ($_GET['action'] === 'run') {
+        echo '<div id="message" class="updated"><p>Идет обработка...</p></div>';
+        bulk_resize_images(); // Запуск процесса изменения размеров
+        echo '<a href="' . admin_url('admin.php?page=bulk-resize-images') . '" class="button button-primary">Вернуться назад</a>';
+    } else {
+        echo '<form method="get">';
+        echo '<input type="hidden" name="page" value="bulk-resize-images"/>';
+        echo '<input type="hidden" name="action" value="run"/>';
+        submit_button('Запустить массовое изменение размеров изображений');
+        echo '</form>';
+    }
+?>
+</div><?php
+}
