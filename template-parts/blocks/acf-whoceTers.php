@@ -103,6 +103,7 @@ if (! empty($block['anchor'])) {
                                                                     </div>
                                                                 </div>
                                                             </div>
+                                                        <?php elseif ($dejstvie_knopki_selected_option['value'] === 'hide'): ?>
                                                         <?php else : ?>
                                                             <?php
                                                             if (get_field('block_whoceters_yakor')) :
