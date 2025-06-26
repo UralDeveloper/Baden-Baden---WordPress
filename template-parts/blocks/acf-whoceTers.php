@@ -73,83 +73,90 @@ if (! empty($block['anchor'])) {
                                                 <?php if (have_rows('post_knopka')) : ?>
                                                     <?php while (have_rows('post_knopka')) : the_row();
                                                         $dejstvie_knopki_selected_option = get_sub_field('dejstvie_knopki');
-                                                        if (get_sub_field('yakor')) :
-                                                            $yakor = "#" . get_sub_field('yakor');
-                                                        else:
-                                                            $yakor = "";
-                                                        endif;
-                                                        // var_dump($dejstvie_knopki_selected_option);
-                                                        if ($dejstvie_knopki_selected_option['value'] == 'post'):
-                                                            $zapis = get_sub_field('zapis');
-                                                            if ($zapis) : ?>
-                                                                <a style="display: block; margin: 20px auto 0; width: fit-content;" class="btn btn--blue"
-                                                                    href="<?php the_permalink($zapis); echo $yakor; ?>">
+                                                        if (isset($dejstvie_knopki_selected_option['value'])) {
+                                                            switch ($dejstvie_knopki_selected_option['value']) {
+                                                            case 'post':
+                                                                if (get_sub_field('yakor')) :
+                                                                    $yakor = "#" . get_sub_field('yakor');
+                                                                else:
+                                                                    $yakor = "";
+                                                                endif;
+                                                                $zapis = get_sub_field('zapis');
+                                                                if ($zapis) : ?>
+                                                                    <a style="display: block; margin: 20px auto 0; width: fit-content;" class="btn btn--blue"
+                                                                        href="<?php the_permalink($zapis); echo $yakor; ?>">
+                                                                        <?php the_sub_field('zagolovok_knopki'); ?>
+                                                                    </a>
+                                                                <?php endif;
+                                                                break;
+                                                            case 'form':
+                                                                ?>
+                                                                <button style="display: block; margin: 20px auto 0; width: fit-content;" 
+                                                                    class="btn btn--blue" data-bs-toggle="modal"
+                                                                    data-bs-target="#bitrix__<?php echo $post_ids ?>">
                                                                     <?php the_sub_field('zagolovok_knopki'); ?>
-                                                                </a>
-                                                            <?php endif;
-                                                        elseif ($dejstvie_knopki_selected_option['value'] === 'form'): ?>
-                                                            <button style="display: block; margin: 20px auto 0; width: fit-content;" 
-                                                                class="btn btn--blue" data-bs-toggle="modal"
-                                                                data-bs-target="#bitrix__<?php echo $post_ids ?>">
-                                                                <?php the_sub_field('zagolovok_knopki'); ?>
-                                                            </button>
-                                                            <div class="modal fade" id="bitrix__<?php echo $post_ids ?>" tabindex="-1" aria-labelledby="bitrix__<?php echo $post_ids; ?>" aria-hidden="true">
-                                                                <div class="modal-dialog modal-dialog-centered">
-                                                                    <div class="modal-content">
-                                                                        <div class="modal-body">
-                                                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                                                            <?php echo get_sub_field( 'kod_knopki' ); ?>
+                                                                </button>
+                                                                <div class="modal fade" id="bitrix__<?php echo $post_ids ?>" tabindex="-1" aria-labelledby="bitrix__<?php echo $post_ids; ?>" aria-hidden="true">
+                                                                    <div class="modal-dialog modal-dialog-centered">
+                                                                        <div class="modal-content">
+                                                                            <div class="modal-body">
+                                                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                                                <?php echo get_sub_field( 'kod_knopki' ); ?>
+                                                                            </div>
                                                                         </div>
                                                                     </div>
                                                                 </div>
-                                                            </div>
-                                                        <?php elseif ($dejstvie_knopki_selected_option['value'] === 'hide'): ?>
-                                                        <?php else : ?>
-                                                            <?php
-                                                            if (get_field('block_whoceters_yakor')) :
-                                                                $yakor = "#" . get_field('block_whoceters_yakor');
-                                                            else:
-                                                                $yakor = "";
-                                                            endif;
-                                                            if (get_field('block_whoceters_tip_knopki') == 1) :
-                                                                //echo 'Вкл.';
-                                                                if (have_rows('block_whoceters_knopka')) :
-                                                                    while (have_rows('block_whoceters_knopka')) : the_row();
-                                                                        $ssylka = get_sub_field('ssylka');
-                                                                        if ($ssylka) : ?>
-                                                                            <?php $post = $ssylka; ?>
-                                                                            <?php setup_postdata($post); ?>
-                                                                            <a style="display: block; margin: 20px auto 0; width: fit-content;" class="btn btn--blue"
-                                                                                href="<?php the_permalink($post->ID); echo $yakor; ?>">
-                                                                                <?php the_sub_field('tekst_knopki'); ?>
-                                                                            </a>
-                                                                <?php wp_reset_postdata();
-                                                                        endif;
-                                                                    endwhile;
-                                                                endif; ?>
-                                                            <?php else :?>
-                                                                <div id="<?php echo esc_attr($id); ?>" class="btn__bitrixForm">
-                                                                    <?php if (have_rows('block_whoceters_bitrix')) : ?>
-                                                                        <?php while (have_rows('block_whoceters_bitrix')) : the_row(); ?>
-                                                                            <button class="btn btn--blue" data-bs-toggle="modal" data-bs-target="#bitrix__<?php echo $id; ?>">
-                                                                                <?php the_sub_field('tekst_knopki'); ?>
-                                                                            </button>
+                                                                <?php
+                                                                break;
+                                                            case 'hide':
+                                                                break;
+                                                            default:
+                                                                if (get_field('block_whoceters_yakor')) :
+                                                                    $yakor = "#" . get_field('block_whoceters_yakor');
+                                                                else:
+                                                                    $yakor = "";
+                                                                endif;
+                                                                if (get_field('block_whoceters_tip_knopki') == 1) :
+                                                                    //echo 'Вкл.';
+                                                                    if (have_rows('block_whoceters_knopka')) :
+                                                                        while (have_rows('block_whoceters_knopka')) : the_row();
+                                                                            $ssylka = get_sub_field('ssylka');
+                                                                            if ($ssylka) : ?>
+                                                                                <?php $post = $ssylka; ?>
+                                                                                <?php setup_postdata($post); ?>
+                                                                                <a style="display: block; margin: 20px auto 0; width: fit-content;" class="btn btn--blue"
+                                                                                    href="<?php the_permalink($post->ID); echo $yakor; ?>">
+                                                                                    <?php the_sub_field('tekst_knopki'); ?>
+                                                                                </a>
+                                                                    <?php wp_reset_postdata();
+                                                                            endif;
+                                                                        endwhile;
+                                                                    endif; ?>
+                                                                <?php else :?>
+                                                                    <div id="<?php echo esc_attr($id); ?>" class="btn__bitrixForm">
+                                                                        <?php if (have_rows('block_whoceters_bitrix')) : ?>
+                                                                            <?php while (have_rows('block_whoceters_bitrix')) : the_row(); ?>
+                                                                                <button class="btn btn--blue" data-bs-toggle="modal" data-bs-target="#bitrix__<?php echo $id; ?>">
+                                                                                    <?php the_sub_field('tekst_knopki'); ?>
+                                                                                </button>
 
-                                                                            <div class="modal fade" id="bitrix__<?php echo $id; ?>" tabindex="-1" aria-labelledby="bitrix__<?php echo $id; ?>" aria-hidden="true">
-                                                                                <div class="modal-dialog modal-dialog-centered">
-                                                                                    <div class="modal-content">
-                                                                                        <div class="modal-body">
-                                                                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                                                                            <?php echo get_sub_field('kod_knopki'); ?>
+                                                                                <div class="modal fade" id="bitrix__<?php echo $id; ?>" tabindex="-1" aria-labelledby="bitrix__<?php echo $id; ?>" aria-hidden="true">
+                                                                                    <div class="modal-dialog modal-dialog-centered">
+                                                                                        <div class="modal-content">
+                                                                                            <div class="modal-body">
+                                                                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                                                                <?php echo get_sub_field('kod_knopki'); ?>
+                                                                                            </div>
                                                                                         </div>
                                                                                     </div>
                                                                                 </div>
-                                                                            </div>
-                                                                        <?php endwhile; ?>
-                                                                    <?php endif; ?>
-                                                                </div>
-                                                            <?php endif;
-                                                        endif;
+                                                                            <?php endwhile; ?>
+                                                                        <?php endif; ?>
+                                                                    </div>
+                                                                <?php endif;
+                                                                break;
+                                                            }
+                                                        }
                                                     endwhile; ?>
                                                 <?php endif; ?>
                                             <?php endwhile; ?>
