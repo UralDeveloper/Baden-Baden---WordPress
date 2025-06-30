@@ -21,38 +21,42 @@
             <div class="contacts__contacts__items">
                 <div class="contacts__contacts__item">
                     <div>
-                        <img src="<?php the_badden_assets('img', 'phone.svg'); ?>" alt="">
+                        <img src="<?php the_badden_assets('img', 'phone.svg'); ?>" title="Телефон" alt="Телефон">
                         <span><a href="tel:<?php the_field( 'op_telefon', 'option' ); ?>"><?php the_field( 'op_telefon', 'option' ); ?></a></span>
                     </div>
                 </div>
                 <div class="contacts__contacts__item">
                     <div>
-                        <img src="<?php the_badden_assets('img', 'mail.svg'); ?>" alt="">
+                        <img src="<?php the_badden_assets('img', 'mail.svg'); ?>" title="Email" alt="Email">
                         <span><a href="mailto:<?php the_field( 'op_email', 'option' ); ?>"><?php the_field( 'op_email', 'option' ); ?></a></span>
                     </div>
                 </div>
             </div>
             <div class="contacts__contacts__items">
                 <div class="contacts__contacts__item">
-                    <span class="location_name">Фабрика отдыха</span>
+                    <?php if (get_field('op_adres_1', 'option' ) && get_field('op_nazvanie_kompleksa_1', 'option')) { ?>
+                    <span class="location_name"><?php the_field( 'op_nazvanie_kompleksa_1', 'option' ); ?></span>
                     <div>
-                        <img src="<?php the_badden_assets('img', 'flag.svg'); ?>" alt="">
+                        <img src="<?php the_badden_assets('img', 'flag.svg'); ?>" title="<?php the_field( 'op_adres_1', 'option' ); ?>" alt="<?php the_field( 'op_adres_1', 'option' ); ?>">
                         <span class="location_address"><?php the_field( 'op_adres_1', 'option' ); ?></span>
                     </div>
+                    <?php } ?>
                 </div>
                 <div class="contacts__contacts__item">
-                    <span class="location_name">Эко деревня</span>
+                    <?php if (get_field('op_adres_2', 'option' ) && get_field('op_nazvanie_kompleksa_2', 'option')) { ?>
+                    <span class="location_name"><?php the_field( 'op_nazvanie_kompleksa_2', 'option' ); ?></span>
                     <div>
-                        <img src="<?php the_badden_assets('img', 'flag.svg'); ?>" alt="">
+                        <img src="<?php the_badden_assets('img', 'flag.svg'); ?>" title="<?php the_field( 'op_adres_2', 'option' ); ?>" alt="<?php the_field( 'op_adres_2', 'option' ); ?>">
                         <span class="location_address"><?php the_field( 'op_adres_2', 'option' ); ?></span>
                     </div>
+                    <?php } ?>
                 </div>
             </div>
             <div class="contacts__contacts__items">
                 <div class="contacts__contacts__item">
                     <span class="location_name">Режим работы</span>
                     <div>
-                        <img src="<?php the_badden_assets('img', 'time.svg'); ?>" alt="">
+                        <img src="<?php the_badden_assets('img', 'time.svg'); ?>" title="Режим работы: <?php the_field( 'op_rezhim_raboty', 'option' ); ?>" alt="Режим работы">
                         <span><?php the_field( 'op_rezhim_raboty', 'option' ); ?></span>
                     </div>
                 </div>
@@ -60,28 +64,45 @@
         </div>
     </div>
 </section>
+</div>
 <section class="footer">
     <div class="container footer__container">
         <div class="footer__copyright">
-            <a href="<?php home_url('/')?>"><img src="<?php the_badden_assets('img', 'logo-footer.svg'); ?>" alt=""></a>
-            <ul>
-                <li><?php echo date('Y');?> &copy; Баден-Баден</li>
-                <li><a href="#">Реквизиты</a></li>
-                <li><a href="#">Правила посещения «Фабрика отдыха»</a></li>
-                <li><a href="#">Правила оплаты</a></li>
-            </ul>
+            <style>
+                .footer__copyright ul li:has(a) {
+                    padding: 4px 0px;
+                }
+                .footer__copyright ul li a {
+                    font-size: 16px;
+                    line-height: 1.3em;
+                }
+            </style>
+            <a href="<?php home_url('/')?>" title="<?php echo get_bloginfo( 'name' )?>">
+                <img src="<?php the_badden_assets('img', 'logo-footer.svg'); ?>" title="Баден баден" alt="Баден баден">
+            </a>
+            <?php 
+                $args = array(
+                    'theme_location'    => 'footer-1',
+                    'depth'	            => 1,
+                    'container'         => false,
+                    'fallback_cb'       => false,
+                    'items_wrap'        => '<ul id="%1$s" class="%2$s"><li>' . date('Y') .' &copy; Баден-Баден</li>%3$s</ul>',
+                );
+                
+                wp_nav_menu( $args );
+            ?>
         </div>
         <div class="footer__nav">
             <ul>
-                <li><a href="#">Еткуль</a></li>
-                <li><a href="#">Уктус</a></li>
-                <li><a href="#">Тургояк</a></li>
-                <li><a href="#">Шарташ пляж</a></li>
+                <li><a href="https://baden74.ru">Еткуль</a></li>
+                <li><a href="https://baden-uktus.ru">Уктус</a></li>
+                <li><a href="https://baden-turgoyak.ru">Тургояк</a></li>
+                <li><a href="https://шарташ-пляж.рф">Шарташ пляж</a></li>
             </ul>
             <ul>
-                <li><a href="#">Реж</a></li>
-                <li><a href="#">Курган</a></li>
-                <li><a href="#">Cuba-Cuba</a></li>
+                <li><a href="https://уральский-источник.рф">Реж</a></li>
+                <li><a href="https://baden45.ru">Курган</a></li>
+                <li><a href="https://cubacuba.ru">Cuba-Cuba</a></li>
             </ul>
         </div>
         <div class="footer__booking">
@@ -89,8 +110,22 @@
         </div>
     </div>
 </section>
+<?php if ( have_rows( 'op_integraczii', 'option' ) ) : ?>
+	<?php while ( have_rows( 'op_integraczii', 'option' ) ) : the_row(); ?>
+		<?php echo get_sub_field( 'kod_integraczii' ); ?>
+	<?php endwhile; ?>
+<?php endif; ?>
+<?php if ( get_field( 'cookies_vkl_vykl', 'option' ) == 1 ) : ?>
+    <div class="cookies">
+        <div class="cookies__wrapper">
+            <div class="cookies__text">Оставаясь на сайте я выражаю согласие на обработку моих персональных данных, с использованием <a href="<?php the_field( 'cookies_ssylka_na_obrabotku_personalnyh_dannyh', 'option' ); ?>">файлов cookie</a></div>
+            <button class="cookies__btn">Хорошо</button>
+        </div>
+    </div>
+<?php endif; ?>
 
 <?php wp_footer(); ?>
+<!-- <script src="<?//php echo get_template_directory(); ?>/assets/js/spa-init.js" type="module"></script> -->
 
 </body>
 </html>

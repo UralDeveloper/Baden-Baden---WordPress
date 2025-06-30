@@ -21,15 +21,15 @@ get_header();
 		while (have_rows('spisok_stranicz', 'option')) : the_row();
 			$acf_url = rtrim(get_sub_field('stranicza'), '/');
 			if ($acf_url === $current_page_url) :
-				?>
+	?>
 				<div class="firstScreen_singlePage__bg">
 					<?php
 					$izobrazhenie_v_shapku = get_sub_field('izobrazhenie_v_shapku');
 					if (!empty($izobrazhenie_v_shapku)) : ?>
-						<img src="<?php echo esc_url($izobrazhenie_v_shapku['url']); ?>" alt="<?php echo esc_attr($izobrazhenie_v_shapku['alt']); ?>" />
+						<img src="<?php echo esc_url($izobrazhenie_v_shapku['url']); ?>" title="<?php echo esc_attr($izobrazhenie_v_shapku['alt']); ?>" alt="<?php echo esc_attr($izobrazhenie_v_shapku['alt']); ?>" />
 					<?php endif; ?>
 				</div>
-				<?php
+	<?php
 				break;
 			endif;
 		endwhile;
@@ -42,22 +42,32 @@ get_header();
 	</div>
 </section>
 
-<section id="travelline" class="container">
-	<div class="travel-script"></div>
+<section id="travelline" class="container" data-travelLine="<?php the_field( 'travelline_id', 'option' ); ?>">
+	<div class="grid">
+		<div class="travel-script">
+			<div id="block-search">
+				<div id="tl-search-form" class="tl-container"></div>
+			</div>
+		</div>
+	</div>
 </section>
+
 
 <main class="singleArticle container">
 	<div>
 		<?php if (have_posts()) : ?>
 			<?php while (have_posts()) : the_post(); ?>
 				<article class="singleArticle__item">
+					<div class="article-title">
+						<h2><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h2>
+					</div>
 					<div class="article-meta">
 						<div class="article-date">
-							<img src="<?php the_badden_assets('img', 'calendar.svg') ?>" alt="Дата публикации">
+							<img src="<?php the_badden_assets('img', 'calendar.svg') ?>" alt="Дата публикации"  title="Дата публикации">
 							<span><?php echo get_the_date(); ?></span>
 						</div>
 						<div class="article-category">
-							<img src="<?php the_badden_assets('img', 'mark.svg') ?>" alt="Категория публикации">
+							<img src="<?php the_badden_assets('img', 'mark.svg') ?>" alt="Категория публикации"  title="Категория публикации">
 							<?php
 							$custom_taxonomies = [];
 							if (empty($custom_taxonomies)) {
@@ -80,13 +90,17 @@ get_header();
 						</div>
 					</div>
 					<div class="article-image">
-						<?php if (has_post_thumbnail()) {
-							echo '<img src="' . esc_url(get_the_post_thumbnail_url()) . '" alt="' . esc_attr(get_the_title()) . '">';
-						}
+						
+						<?php $miniatyura_zapisi = get_field( 'dopolnitelnye_foto_miniatyura_zapisi', get_the_ID() ); ?>
+						<?php if ( $miniatyura_zapisi ) : ?>
+							<img src="<?php echo esc_url( $miniatyura_zapisi['url'] ); ?>" title="<?php echo esc_attr( $miniatyura_zapisi['alt'] ); ?>" alt="<?php echo esc_attr( $miniatyura_zapisi['alt'] ); ?>" />
+						<?php elseif (has_post_thumbnail()) :
+							echo '<img src="' . esc_url(get_the_post_thumbnail_url()) . '" title="' . esc_attr(get_the_title()) . '" alt="' . esc_attr(get_the_title()) . '">';
+						endif
 						?>
 					</div>
 					<div class="article-content">
-						<h2><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h2>
+						
 						<?php the_excerpt(); ?>
 					</div>
 					<div class="article-footer">
@@ -97,6 +111,7 @@ get_header();
 		<?php endif; ?>
 	</div>
 	<aside>
+		<?php get_sidebar('mobile'); ?>
 		<?php get_sidebar(); ?>
 	</aside>
 </main>

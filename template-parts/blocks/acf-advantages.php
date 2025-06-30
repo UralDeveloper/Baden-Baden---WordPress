@@ -27,7 +27,7 @@ if (! empty($block['anchor'])) {
                         <?php $izobrazhenie = get_sub_field('izobrazhenie'); ?>
                         <?php if ($izobrazhenie) : ?>
                             <div class="advantages__item-icon">
-                                <img src="<?php echo esc_url($izobrazhenie['url']); ?>" alt="<?php echo esc_attr($izobrazhenie['alt']); ?>" />
+                                <img src="<?php echo esc_url($izobrazhenie['url']); ?>" title="<?php echo esc_attr($izobrazhenie['alt']); ?>" alt="<?php echo esc_attr($izobrazhenie['alt']); ?>" />
                             </div>
                         <?php endif; ?>
                         <div class="advantages__item-text">

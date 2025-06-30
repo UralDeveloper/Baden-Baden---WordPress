@@ -46,18 +46,43 @@ if ( ! empty($block['anchor'] ) ) {
             <?php $galereya_images = get_sub_field( 'galereya' ); ?>
             <?php if ( $galereya_images ) : ?>
                 <?php if ( get_sub_field( 'opisanie' ) ) :?>
-                    <div class="spaGrid__grid">
+                    <div class="spaGrid__grid spaGrid__grid--pc">
                 <?php elseif (get_sub_field( 'opisanie' ) || get_sub_field( 'nazvanie_bloka' )):?>
-                    <div class="spaGrid__grid" style="padding-top: 40px;">
+                    <div class="spaGrid__grid spaGrid__grid--pc" style="padding-top: 40px;">
                 <?php else:?>
-                    <div class="spaGrid__grid">
+                    <div class="spaGrid__grid spaGrid__grid--pc">
                 <?php endif;?>
                 
                 <?php foreach ( $galereya_images as $galereya_image ): ?>
                 <div class="spaGrid__photo">
-                    <img src="<?php echo esc_url( $galereya_image['url'] ); ?>" alt="<?php echo esc_attr( $galereya_image['alt'] ); ?>" />
+                    <img src="<?php echo esc_url( $galereya_image['url'] ); ?>"
+                        title="<?php echo esc_attr( $galereya_image['alt'] ); ?>"
+                        alt="<?php echo esc_attr( $galereya_image['alt'] ); ?>"
+                        />
                 </div>
                 <?php endforeach; ?>
+
+                
+            </div>
+                <?php if ( get_sub_field( 'opisanie' ) ) :?>
+                    <div class="spaGrid__grid--mobile">
+                <?php elseif (get_sub_field( 'opisanie' ) || get_sub_field( 'nazvanie_bloka' )):?>
+                    <div class="spaGrid__grid--mobile" style="padding-top: 40px;">
+                <?php else:?>
+                    <div class="spaGrid__grid--mobile">
+                <?php endif;?>
+                <div class="swiper spaGrid__slider">
+                    <div class="swiper-wrapper">
+                        <?php foreach ( $galereya_images as $galereya_image ): ?>
+                        <div class="swiper-slide spaGrid__photo">
+                            <img src="<?php echo esc_url( $galereya_image['url'] ); ?>"
+                                title="<?php echo esc_attr( $galereya_image['alt'] ); ?>"
+                                alt="<?php echo esc_attr( $galereya_image['alt'] ); ?>"
+                                />
+                        </div>
+                        <?php endforeach; ?>
+                    </div>
+                </div>
             </div>
             <?php endif; ?>
         </div>

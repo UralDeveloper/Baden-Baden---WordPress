@@ -51,7 +51,8 @@ function baden_setup()
     // This theme uses wp_nav_menu() in one location.
     register_nav_menus(
         array(
-            'menu-1' => esc_html__('Primary', 'baden'),
+            'menu-1' => esc_html__('Основное', 'baden'),
+            'footer-1' => esc_html__('Меню под логотипом', 'baden'),
         )
     );
 
@@ -145,13 +146,14 @@ function baden_scripts()
 {
 
     $array_css = array(
-        'Gilroy' => 'assets/webfonts/Gilroy/gilroy.css',
+        'Gilroy' => 'assets/webfonts/Gilroy/stylesheet.css',
         'Cormorantsc' => 'assets/webfonts/Cormorantsc/cormorantsc.css',
         'fontawesome' => 'assets/css/fontawesome.css',
         'swiper' => 'assets/css/swiper-bundle.min.css',
         'bootstrap' => 'assets/css/bootstrap.min.css',
         'fancybox' => 'assets/css/fancybox.css',
         'styles' => 'assets/css/styles.min.css',
+        'custom' => 'style.css',
     );
 
     $array_js = array(
@@ -270,12 +272,24 @@ function register_custom_post_types()
             'name_taxonomy' => 'Тип комплекса',
             'visible' => true
         ],
+        'nutrition' => [
+            'name' => 'Питание',
+            'visible' => true
+        ],
         'spa' => [
             'name' => 'СПА',
             'visible' => false
         ],
         'vodnye_termy' => [
             'name' => 'Водные Термы',
+            'visible' => false
+        ],
+        'atmosphere' => [
+            'name' => 'Атмосфера',
+            'visible' => false
+        ],
+        'infrastructure' => [
+            'name' => 'Инфраструктура',
             'visible' => false
         ],
         'bannaya_kollekciya' => [
@@ -300,6 +314,8 @@ function register_custom_post_types()
         ],
         'faq' => [
             'name' => 'Вопросы и ответы',
+            'taxonomy' => 'category-area',
+            'name_taxonomy' => 'Заведение',
             'visible' => false
         ],
     ];
@@ -326,6 +342,7 @@ function register_custom_post_types()
                 ],
                 'public' => true,
                 'hierarchical' => true,
+                'show_admin_column' => true,
                 'show_in_rest' => true,
             ]);
         }
@@ -470,8 +487,9 @@ class Custom_Walker_Nav_Menu extends Walker_Nav_Menu {
         $attributes .= !empty($item->target) ? ' target="' . esc_attr($item->target) . '"' : '';
         $attributes .= !empty($item->xfn) ? ' rel="' . esc_attr($item->xfn) . '"' : '';
         $attributes .= !empty($item->url) ? ' href="' . esc_attr($item->url) . '"' : '';
+        $attributes .= !empty($item->url) ? ' data-bs-dismiss="offcanvas" ' : '';
 
-        $active_class = ($item->current || $item->current_item_ancestor || in_array("current_page_parent", $item->classes, true) || in_array("current_post_ancestor", $item->classes, true)) ? 'active' : '';
+        $active_class = ($item->current || $item->current_item_ancestor || in_array("current_page_parent", $item->classes, true) || in_array("current_post_ancestor", $item->classes, true)) ? '' : '';
         $nav_link_class = ( $depth > 0 ) ? 'dropdown-item ' : 'nav-link ';
         $attributes .= ( $args->walker->has_children ) ? ' class="'. $nav_link_class . $active_class . ' dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"' : ' class="'. $nav_link_class . $active_class . '"';
 
@@ -487,3 +505,114 @@ class Custom_Walker_Nav_Menu extends Walker_Nav_Menu {
 
 
 include 'inc/framework.php';
+// include 'inc/update-theme.php';
+
+function remove_page_class_from_body($classes) {
+    if (($key = array_search('page', $classes)) !== false) {
+        unset($classes[$key]);
+    }
+    return $classes;
+}
+add_filter('body_class', 'remove_page_class_from_body');
+
+
+function add_fancybox_to_images($content) {
+    // Ищем изображения, обернутые в <a>
+    $content = preg_replace_callback('/<a[^>]+href=["\']([^"\']+\.(?:jpg|jpeg|png|gif))["\'][^>]*>\s*<img[^>]+>\s*<\/a>/i', function($matches) {
+        $a_tag = $matches[0];
+
+        // Если уже есть data-fancybox — пропускаем
+        if (strpos($a_tag, 'data-fancybox') !== false) {
+            return $a_tag;
+        }
+
+        // Добавим атрибут
+        return preg_replace('/<a /', '<a data-fancybox="gallery" ', $a_tag, 1);
+    }, $content);
+
+    return $content;
+}
+add_filter('the_content', 'add_fancybox_to_images');
+
+
+/**
+ * Загрузка страниц по типу SPA
+ * Необходимо правильно настроить перезапуск JS скриптов после загрузки страницы
+ */
+// function enqueue_swup_scripts() {
+	// wp_enqueue_script( 'swup', 'https://unpkg.com/swup@4', [], null, true );
+	// wp_enqueue_script( 'spa-init', get_template_directory_uri() . '/js/spa-init.js', [ 'swup' ], null, true );
+// }
+// add_action( 'wp_enqueue_scripts', 'enqueue_swup_scripts' );
+
+
+
+// Массовый ресайз изображений в медиатеке
+function bulk_resize_images() {
+    global $wpdb;
+
+    // Максимально допустимые размеры сторон изображения
+    $max_width = 1920;
+    $max_height = 1920;
+
+    // Получаем список ID прикрепленных изображений
+    $attachments = $wpdb->get_col("SELECT ID FROM {$wpdb->posts} WHERE post_type='attachment'");
+
+    foreach ($attachments as $post_id) {
+        $meta = wp_get_attachment_metadata($post_id);
+        if (!$meta || !isset($meta['sizes'])) continue;
+
+        // Проверка основного размера файла
+        if ($meta['width'] > $max_width || $meta['height'] > $max_height) {
+            // Путь к файлу
+            $file_path = get_attached_file($post_id);
+
+            // Используем редактор изображений WP
+            $editor = wp_get_image_editor($file_path);
+
+            if (!is_wp_error($editor)) {
+                $editor->resize($max_width, $max_height, true); // Сохранение пропорций
+                $resized_file = $editor->save();
+                
+                if (!is_wp_error($resized_file)) {
+                    update_attached_file($post_id, $resized_file['path']);
+                    echo "<p>Обработано изображение №$post_id</p>";
+                }
+            }
+        }
+    }
+}
+
+// Регистрация страницы админа для запуска скрипта
+function register_bulk_resize_page() {
+    add_menu_page('Массовое изменение изображений', 'Изменить изображения', 'manage_options', 'bulk-resize-images', 'show_bulk_resize_page');
+}
+
+add_action('admin_menu', 'register_bulk_resize_page');
+
+// Отображение интерфейса
+function show_bulk_resize_page() { ?>
+<div class="wrap">
+    <h1>Массовое уменьшение изображений</h1>
+    <?php
+    if ($_GET['action'] === 'run') {
+        echo '<div id="message" class="updated"><p>Идет обработка...</p></div>';
+        bulk_resize_images(); // Запуск процесса изменения размеров
+        echo '<a href="' . admin_url('admin.php?page=bulk-resize-images') . '" class="button button-primary">Вернуться назад</a>';
+    } else {
+        echo '<form method="get">';
+        echo '<input type="hidden" name="page" value="bulk-resize-images"/>';
+        echo '<input type="hidden" name="action" value="run"/>';
+        submit_button('Запустить массовое изменение размеров изображений');
+        echo '</form>';
+    }
+?>
+</div><?php
+}
+
+
+
+
+
+
+
