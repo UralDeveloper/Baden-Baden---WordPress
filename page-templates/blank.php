@@ -21,7 +21,7 @@ get_header(); ?>
 					<?php endif; ?>
 				<?php endwhile; ?>
 			<?php endif; ?>
-			<img src="<?php the_post_thumbnail_url(); ?>" alt="">
+			<img src="<?php the_post_thumbnail_url(); ?>" title="<?php the_title(); ?>" alt="<?php the_title(); ?>">
 		</picture>
     </div>
     <div class="firstScreen_singlePage__content container">
@@ -31,7 +31,7 @@ get_header(); ?>
     </div>
 </section>
 
-<section id="travelline" class="container">
+<section id="travelline" class="container" data-travelLine="<?php the_field( 'travelline_id', 'option' ); ?>">
     <div class="grid">
         <div class="travel-script">
             <!-- start TL Search form script -->

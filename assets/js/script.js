@@ -8,24 +8,46 @@
 // }
 
 (function (w) {
+    // Получаем элемент по идентификатору и берем значение атрибута data-travelLine-id
+    const travelSection = document.querySelector('#travelline');
+    const contextId = travelSection.dataset.travelline;
+
+    // console.log(travelSection.dataset.travelline);
+
+
     var q = [
-        ["setContext", "TL-INT-baden-sysert-ru_2024-12-25", "ru"],
+        ["setContext", contextId, "ru"],   // Используем динамический контекст
         ["embed", "search-form", {
             container: "tl-search-form"
         }]
     ];
+
+
     var h = ["ru-ibe.tlintegration.ru", "ibe.tlintegration.ru", "ibe.tlintegration.com"];
     var t = w.travelline = (w.travelline || {}),
         ti = t.integration = (t.integration || {});
     ti.__cq = ti.__cq ? ti.__cq.concat(q) : q;
     if (!ti.__loader) {
         ti.__loader = true;
-        var d = w.document, c = d.getElementsByTagName("head")[0] || d.getElementsByTagName("body")[0];
-        function e(s, f) { return function () { w.TL || (c.removeChild(s), f()) } }
+        var d = w.document,
+            c = d.getElementsByTagName("head")[0] || d.getElementsByTagName("body")[0];
+
+        function e(s, f) {
+            return function () {
+                w.TL || (c.removeChild(s), f())
+            };
+        }
+
         (function l(h) {
-            if (0 === h.length) return; var s = d.createElement("script");
-            s.type = "text/javascript"; s.async = !0; s.src = "https://" + h[0] + "/integration/loader.js";
-            s.onerror = s.onload = e(s, function () { l(h.slice(1, h.length)) }); c.appendChild(s)
+            if (0 === h.length) return;
+            var s = d.createElement("script");
+            s.type = "text/javascript";
+            s.async = !0;
+            s.src = "https://" + h[0] + "/integration/loader.js";
+            s.onerror = s.onload = e(s, function () {
+                l(h.slice(1, h.length))
+            });
+            c.appendChild(s);
         })(h);
     }
 })(window);
@@ -213,13 +235,13 @@ function initMap() {
 
     document.querySelectorAll(".location_address").forEach(element => {
         var address = element.textContent.trim();
-        console.log("Геокодируем:", address);
+        // console.log("Геокодируем:", address);
 
         ymaps.geocode(address).then(res => {
             var firstGeoObject = res.geoObjects.get(0);
             if (firstGeoObject) {
                 var coords = firstGeoObject.geometry.getCoordinates();
-                console.log("Добавляем маркер на", coords);
+                // console.log("Добавляем маркер на", coords);
 
                 var placemark = new ymaps.Placemark(coords, { balloonContent: address });
                 map.geoObjects.add(placemark);
@@ -251,7 +273,7 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     });
 });
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     let gallerySliders = document.querySelectorAll('.spaGrid__grid--mobile .swiper');
 
     gallerySliders.forEach((slider, index) => {
@@ -273,5 +295,55 @@ document.addEventListener('DOMContentLoaded', function() {
                 prevEl: `.swiper-button-prev-${index}`,
             },
         });
+    });
+});
+
+
+
+
+const offcanvasEnd = document.querySelector("#offcanvasRight");
+const bsOffcanvas = new bootstrap.Offcanvas(offcanvasEnd);
+document.querySelector(".btn-offcanvas-open").addEventListener("click", (e) => {
+    bsOffcanvas.toggle();
+});
+
+document.addEventListener('click', (e) => {
+    const navLinkEl = e.target.closest('.nav-link');
+    if (!navLinkEl) {
+        return;
+    }
+    const href = navLinkEl.getAttribute('href');
+    document.querySelector(href).scrollIntoView();
+});
+
+document.addEventListener('DOMContentLoaded', function() {
+    const cookiesBlock = document.querySelector('.cookies');
+    const acceptButton = document.querySelector('.cookies__btn');
+    
+    // Функция для установки куков
+    function setCookie(name, value, hours) {
+        let expires = "";
+        if (hours) {
+            const date = new Date();
+            date.setTime(date.getTime() + (hours * 60 * 60 * 1000));
+            expires = "; expires=" + date.toUTCString();
+        }
+        document.cookie = name + "=" + (value || "") + expires + "; path=/";
+    }
+
+    // Проверка наличия куков
+    function checkCookies() {
+        return !!document.cookie.split(';').find(row => row.trim().startsWith('accepted_cookies='));
+    }
+
+    // Если куки установлены — блок скрывается
+    if (checkCookies()) {
+        cookiesBlock.style.display = 'none';
+    }
+
+    // Обработчик события клика по кнопке согласия
+    acceptButton.addEventListener('click', () => {
+        setCookie('accepted_cookies', true, 1); // Устанавливаем куки на 1 час
+        cookiesBlock.style.display = 'none';   // Скрываем уведомление
     });
 });

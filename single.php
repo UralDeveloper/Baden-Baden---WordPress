@@ -25,7 +25,7 @@ get_header();
 					<?php endif; ?>
 				<?php endwhile; ?>
 			<?php endif; ?>
-			<img src="<?php the_post_thumbnail_url(); ?>" alt="">
+			<img src="<?php the_post_thumbnail_url(); ?>" title="<?php the_title(); ?>" alt="<?php the_title(); ?>">
 		</picture>
     </div>
     <div class="firstScreen_singlePage__content container">
@@ -35,7 +35,7 @@ get_header();
     </div>
 </section>
 
-    <section id="travelline" class="container">
+    <section id="travelline" class="container" data-travelLine="<?php the_field( 'travelline_id', 'option' ); ?>">
 		<div class="grid">
 			<div class="travel-script">
 				<!-- start TL Search form script -->
@@ -54,11 +54,11 @@ get_header();
     <article>
         <div class="article-meta">
             <div class="article-date">
-                <img src="<?php the_badden_assets('img', 'calendar.svg')?>" alt="Дата публикации">
+                <img src="<?php the_badden_assets('img', 'calendar.svg')?>" alt="Дата публикации" title="Дата публикации">
                 <span><?php echo get_the_date(); ?></span>
             </div>
             <div class="article-category">
-                <img src="<?php the_badden_assets('img', 'mark.svg')?>" alt="Категория публикации">
+                <img src="<?php the_badden_assets('img', 'mark.svg')?>" alt="Категория публикации"  title="Категория публикации">
 				<?php
 					// Указываем нужные таксономии вручную (если пусто, будут выведены все таксономии)
 					$custom_taxonomies = [];

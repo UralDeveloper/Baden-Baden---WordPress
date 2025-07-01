@@ -24,9 +24,9 @@ get_header(); ?>
             <?php if ( get_sub_field( 'logotip_na_pervom_ekrane' ) == 1 ) : ?>
                 <div class="firstScreen__logo">
 					<?php if (get_sub_field('logotip_na_pervom_ekrane_logo')) { ?>
-						<img src="<?php the_sub_field('logotip_na_pervom_ekrane_logo'); ?>">
+						<img src="<?php the_sub_field('logotip_na_pervom_ekrane_logo'); ?>" alt="<?php the_title(); ?>"  title="<?php the_title(); ?>">
 					<?php } else { ?>
-                    	<img src="<?php the_badden_assets('img', 'logotip-main.svg') ?>" alt="">
+                    	<img src="<?php the_badden_assets('img', 'logotip-main.svg') ?>"  title="<?php the_title(); ?>" alt="<?php the_title(); ?>">
 					<?php } ?>
                 </div>
             <?php endif; ?>
@@ -38,7 +38,7 @@ get_header(); ?>
     <?php endwhile; ?>
 <?php endif; ?>
 
-<section id="travelline" class="container">
+<section id="travelline" class="container" data-travelLine="<?php the_field( 'travelline_id', 'option' ); ?>">
     <div class="grid">
         <div class="travel-script">
             <!-- start TL Search form script -->

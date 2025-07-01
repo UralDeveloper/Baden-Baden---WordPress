@@ -4,7 +4,7 @@ Theme URI: http://underscores.me/
 Author: Alexandr Vlasov
 Author URI: http://alexandr.pw
 Description: Description
-Version: 1.0.4
+Version: 1.6.16
 Tested up to: 5.4
 Requires PHP: 5.6
 License: GNU General Public License v2 or later
@@ -12,6 +12,9 @@ License URI: LICENSE
 Text Domain: baden
 Tags: custom-background, custom-logo, custom-menu, featured-images, threaded-comments, translation-ready
 */
+.btn {
+    font-size: 16px;
+}
 .firstScreen_singlePage__content h1 {
 	font-size: clamp(36px,5vw,80px);
 }
@@ -106,7 +109,6 @@ body {
 }
 .titleWrapper ul li {
 	font-size: 16px;
-    font-weight: 700;
     text-transform: uppercase;
 }
 .titleBlock:after {
@@ -175,4 +177,51 @@ body {
     -webkit-box-pack: center;
     -ms-flex-pack: center;
     justify-content: center;
+}
+.offcanvas-header .offcanvas-title .img {
+	width: 100%;
+	height: auto;
+	object-fit: contain;
+	object-position: center;
+}
+
+    .btn__bitrixForm .b24-form-sign {
+        display: none;
+    }
+
+    .btn__bitrixForm .b24-form-wrapper.b24-form-border-bottom {
+        border-bottom: none;
+    }
+
+    .btn__bitrixForm .btn-close {
+        right: 12px;
+        left: auto;
+        position: absolute;
+        z-index: 20;
+    }
+
+    .btn__bitrixForm {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-top: 20px;
+    }
+
+    .btn__bitrixForm button {
+        margin: 0 auto;
+    }
+.header__social img {
+    width: 20px;
+    height: 20px;
+}
+@media screen and (max-width: 767px) {
+    .firstScreen__description {
+        font-size: 14px;
+    }
+    .firstScreen__logo img {
+        width: 60%;
+    }
+    .header__logo img {
+        max-width: 120px;
+    }
 }

@@ -21,7 +21,7 @@ get_header();
 
 	if ($taxonomy_preview) : ?>
 		<div class="firstScreen_singlePage__bg">
-			<img src="<?php echo esc_url($taxonomy_preview); ?>" alt="<?php echo isset($term->name) ? esc_attr($term->name) : ''; ?>" />
+			<img src="<?php echo esc_url($taxonomy_preview); ?>" title="<?php echo isset($term->name) ? esc_attr($term->name) : ''; ?>" alt="<?php echo isset($term->name) ? esc_attr($term->name) : ''; ?>" />
 		</div>
 		<?php
 	elseif (have_rows('spisok_stranicz', 'option')) :
@@ -34,16 +34,16 @@ get_header();
 					<?php
 					$izobrazhenie_v_shapku = get_sub_field('izobrazhenie_v_shapku');
 					if (!empty($izobrazhenie_v_shapku)) : ?>
-						<img src="<?php echo esc_url($izobrazhenie_v_shapku['url']); ?>" alt="<?php echo esc_attr($izobrazhenie_v_shapku['alt']); ?>" />
+						<img src="<?php echo esc_url($izobrazhenie_v_shapku['url']); ?>" title="<?php echo esc_attr($izobrazhenie_v_shapku['alt']); ?>" alt="<?php echo esc_attr($izobrazhenie_v_shapku['alt']); ?>" />
 					<?php else : ?>
-						<img src="<?php echo the_badden_assets('img', 'main-img.jpg'); ?>" />
+						<img src="<?php echo the_badden_assets('img', 'main-img.jpg'); ?>" title="<?php echo single_cat_title(); ?>" alt="<?php echo single_cat_title(); ?>" />
 					<?php endif; ?>
 				</div>
 			<?php
 				break;
 			else : ?>
 				<div class="firstScreen_singlePage__bg">
-					<img src="<?php echo the_badden_assets('img', 'main-img.jpg'); ?>" />
+					<img src="<?php echo the_badden_assets('img', 'main-img.jpg'); ?>"  alt="<?php echo single_cat_title(); ?>" title="<?php echo single_cat_title(); ?>"/>
 				</div>
 	<?php endif;
 		endwhile;
@@ -82,7 +82,7 @@ get_header();
 	</div>
 </section>
 
-<section id="travelline" class="container">
+<section id="travelline" class="container" data-travelLine="<?php the_field( 'travelline_id', 'option' ); ?>">
 	<div class="grid">
 		<div class="travel-script">
 			<!-- start TL Search form script -->

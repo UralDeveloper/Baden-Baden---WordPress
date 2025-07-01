@@ -21,13 +21,13 @@
             <div class="contacts__contacts__items">
                 <div class="contacts__contacts__item">
                     <div>
-                        <img src="<?php the_badden_assets('img', 'phone.svg'); ?>" alt="">
+                        <img src="<?php the_badden_assets('img', 'phone.svg'); ?>" title="Телефон" alt="Телефон">
                         <span><a href="tel:<?php the_field( 'op_telefon', 'option' ); ?>"><?php the_field( 'op_telefon', 'option' ); ?></a></span>
                     </div>
                 </div>
                 <div class="contacts__contacts__item">
                     <div>
-                        <img src="<?php the_badden_assets('img', 'mail.svg'); ?>" alt="">
+                        <img src="<?php the_badden_assets('img', 'mail.svg'); ?>" title="Email" alt="Email">
                         <span><a href="mailto:<?php the_field( 'op_email', 'option' ); ?>"><?php the_field( 'op_email', 'option' ); ?></a></span>
                     </div>
                 </div>
@@ -37,26 +37,26 @@
                     <?php if (get_field('op_adres_1', 'option' ) && get_field('op_nazvanie_kompleksa_1', 'option')) { ?>
                     <span class="location_name"><?php the_field( 'op_nazvanie_kompleksa_1', 'option' ); ?></span>
                     <div>
-                        <img src="<?php the_badden_assets('img', 'flag.svg'); ?>" alt="">
+                        <img src="<?php the_badden_assets('img', 'flag.svg'); ?>" title="Адрес комплекса" alt="Адрес комплекса">
                         <span class="location_address"><?php the_field( 'op_adres_1', 'option' ); ?></span>
                     </div>
                     <?php } ?>
                 </div>
+                <?php if (get_field('op_adres_2', 'option' ) && get_field('op_nazvanie_kompleksa_2', 'option')) { ?>
                 <div class="contacts__contacts__item">
-                    <?php if (get_field('op_adres_2', 'option' ) && get_field('op_nazvanie_kompleksa_2', 'option')) { ?>
                     <span class="location_name"><?php the_field( 'op_nazvanie_kompleksa_2', 'option' ); ?></span>
                     <div>
-                        <img src="<?php the_badden_assets('img', 'flag.svg'); ?>" alt="">
+                        <img src="<?php the_badden_assets('img', 'flag.svg'); ?>" title="Адрес комплекса" alt="Адрес комплекса">
                         <span class="location_address"><?php the_field( 'op_adres_2', 'option' ); ?></span>
                     </div>
-                    <?php } ?>
                 </div>
+                <?php } ?>
             </div>
             <div class="contacts__contacts__items">
                 <div class="contacts__contacts__item">
                     <span class="location_name">Режим работы</span>
                     <div>
-                        <img src="<?php the_badden_assets('img', 'time.svg'); ?>" alt="">
+                        <img src="<?php the_badden_assets('img', 'time.svg'); ?>" title="Режим работы" alt="Режим работы">
                         <span><?php the_field( 'op_rezhim_raboty', 'option' ); ?></span>
                     </div>
                 </div>
@@ -68,13 +68,29 @@
 <section class="footer">
     <div class="container footer__container">
         <div class="footer__copyright">
-            <a href="<?php home_url('/')?>"><img src="<?php the_badden_assets('img', 'logo-footer.svg'); ?>" alt=""></a>
-            <ul>
-                <li><?php echo date('Y');?> &copy; Баден-Баден</li>
-                <li><a href="<?php echo home_url( '/rekvizity/' ) ?>">Реквизиты</a></li>
-                <li><a href="<?php echo home_url( '/pravila-poseshheniya-fabrika-otdyha/' ) ?>">Правила посещения «Фабрика отдыха»</a></li>
-                <li><a href="<?php echo home_url( '/pravila-oplaty/' ) ?>">Правила оплаты</a></li>
-            </ul>
+            <style>
+                .footer__copyright ul li:has(a) {
+                    padding: 4px 0px;
+                }
+                .footer__copyright ul li a {
+                    font-size: 16px;
+                    line-height: 1.3em;
+                }
+            </style>
+            <a href="<?php home_url('/')?>" title="<?php echo get_bloginfo( 'name' )?>">
+                <img src="<?php the_badden_assets('img', 'logo-footer.svg'); ?>" title="Баден баден" alt="Баден баден">
+            </a>
+            <?php 
+                $args = array(
+                    'theme_location'    => 'footer-1',
+                    'depth'	            => 1,
+                    'container'         => false,
+                    'fallback_cb'       => false,
+                    'items_wrap'        => '<ul id="%1$s" class="%2$s"><li>' . date('Y') .' &copy; Баден-Баден</li>%3$s</ul>',
+                );
+                
+                wp_nav_menu( $args );
+            ?>
         </div>
         <div class="footer__nav">
             <ul>
@@ -99,6 +115,15 @@
 		<?php echo get_sub_field( 'kod_integraczii' ); ?>
 	<?php endwhile; ?>
 <?php endif; ?>
+<?php if ( get_field( 'cookies_vkl_vykl', 'option' ) == 1 ) : ?>
+    <div class="cookies">
+        <div class="cookies__wrapper">
+            <div class="cookies__text">Оставаясь на сайте я выражаю согласие на обработку моих персональных данных, с использованием <a href="<?php the_field( 'cookies_ssylka_na_obrabotku_personalnyh_dannyh', 'option' ); ?>">файлов cookie</a></div>
+            <button class="cookies__btn">Хорошо</button>
+        </div>
+    </div>
+<?php endif; ?>
+
 <?php wp_footer(); ?>
 <!-- <script src="<?//php echo get_template_directory(); ?>/assets/js/spa-init.js" type="module"></script> -->
 

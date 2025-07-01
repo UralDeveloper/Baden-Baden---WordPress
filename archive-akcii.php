@@ -32,18 +32,16 @@ get_header();
 					<picture>
 						<source srcset="<?php echo esc_url($izobrazhenie_v_phone['url']); ?>" media="(max-width: 767px)" />
 						<source srcset="<?php echo esc_url($izobrazhenie_v_pad['url']); ?>" media="(min-width: 768px) and (max-width: 1024px)" />
-						<img src="<?php echo esc_url($izobrazhenie_v_shapku['url']); ?>" alt="<?php echo esc_attr($izobrazhenie_v_shapku['alt']); ?>" />
+						<img src="<?php echo esc_url($izobrazhenie_v_shapku['url']); ?>" title="<?php echo $izobrazhenie_v_shapku['title']; ?>" alt="<?php echo esc_attr($izobrazhenie_v_shapku['alt']); ?>" />
 					</picture>
 					<?php endif; ?>
 				</div>
 				<?php
 				break;
-			endif;
+			else :
 			?>
-				<div class="firstScreen_singlePage__bg">
-					<img src="<?php echo the_badden_assets('img', 'main-img.jpg'); ?>" />
-				</div>
 			<?php
+			endif;
 		endwhile;
 	endif;
 	?>
@@ -54,7 +52,7 @@ get_header();
 	</div>
 </section>
 
-<section id="travelline" class="container">
+<section id="travelline" class="container" data-travelLine="<?php the_field( 'travelline_id', 'option' ); ?>">
 	<div class="grid">
 		<div class="travel-script">
 			<!-- start TL Search form script -->
@@ -78,11 +76,11 @@ get_header();
 					</div>
 					<div class="article-meta">
 						<div class="article-date">
-							<img src="<?php the_badden_assets('img', 'calendar.svg') ?>" alt="Дата публикации">
+							<img src="<?php the_badden_assets('img', 'calendar.svg') ?>" title="Дата публикации" alt="Дата публикации">
 							<span><?php echo get_the_date(); ?></span>
 						</div>
 						<div class="article-category">
-							<img src="<?php the_badden_assets('img', 'mark.svg') ?>" alt="Категория публикации">
+							<img src="<?php the_badden_assets('img', 'mark.svg') ?>" title="Категория публикации" alt="Категория публикации">
 							<?php
 							$custom_taxonomies = [];
 							if (empty($custom_taxonomies)) {
@@ -107,9 +105,9 @@ get_header();
 					<div class="article-image">
 						<?php $miniatyura_zapisi = get_field( 'dopolnitelnye_foto_miniatyura_zapisi', get_the_ID() ); ?>
 						<?php if ( $miniatyura_zapisi ) : ?>
-							<img src="<?php echo esc_url( $miniatyura_zapisi['url'] ); ?>" alt="<?php echo esc_attr( $miniatyura_zapisi['alt'] ); ?>" />
+							<img src="<?php echo esc_url( $miniatyura_zapisi['url'] ); ?>" title="<?php echo esc_attr( $miniatyura_zapisi['alt'] ); ?>" alt="<?php echo esc_attr( $miniatyura_zapisi['alt'] ); ?>" />
 						<?php elseif (has_post_thumbnail()) :
-							echo '<img src="' . esc_url(get_the_post_thumbnail_url()) . '" alt="' . esc_attr(get_the_title()) . '">';
+							echo '<img src="' . esc_url(get_the_post_thumbnail_url()) . '" title="' . esc_attr(get_the_title()) . '"alt="' . esc_attr(get_the_title()) . '">';
 						endif
 						?>
 					</div>

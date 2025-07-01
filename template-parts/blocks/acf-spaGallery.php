@@ -55,7 +55,10 @@ if ( ! empty($block['anchor'] ) ) {
                 
                 <?php foreach ( $galereya_images as $galereya_image ): ?>
                 <div class="spaGrid__photo">
-                    <img src="<?php echo esc_url( $galereya_image['url'] ); ?>" alt="<?php echo esc_attr( $galereya_image['alt'] ); ?>" />
+                    <img src="<?php echo esc_url( $galereya_image['url'] ); ?>"
+                        title="<?php echo esc_attr( $galereya_image['alt'] ); ?>"
+                        alt="<?php echo esc_attr( $galereya_image['alt'] ); ?>"
+                        />
                 </div>
                 <?php endforeach; ?>
 
@@ -72,7 +75,10 @@ if ( ! empty($block['anchor'] ) ) {
                     <div class="swiper-wrapper">
                         <?php foreach ( $galereya_images as $galereya_image ): ?>
                         <div class="swiper-slide spaGrid__photo">
-                            <img src="<?php echo esc_url( $galereya_image['url'] ); ?>" alt="<?php echo esc_attr( $galereya_image['alt'] ); ?>" />
+                            <img src="<?php echo esc_url( $galereya_image['url'] ); ?>"
+                                title="<?php echo esc_attr( $galereya_image['alt'] ); ?>"
+                                alt="<?php echo esc_attr( $galereya_image['alt'] ); ?>"
+                                />
                         </div>
                         <?php endforeach; ?>
                     </div>

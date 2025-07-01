@@ -34,7 +34,7 @@ if ( ! empty($block['anchor'] ) ) {
             <div class="titleWrapper">
                 <ul class="nav nav-pills" id="pills-bathCollection">
                     <li class="nav-item">
-                        <a class="nav-tab btn--link active" data-category="Все">Все</a>
+                        <span class="nav-tab btn--link active" style="cursor: pointer;" data-category="Все">Все</span>
                     </li>
                         <?php
                         $akczii = get_sub_field('akczii');
@@ -58,9 +58,9 @@ if ( ! empty($block['anchor'] ) ) {
                             foreach ($all_terms as $term) {
                                 $category = esc_html($term->name); ?>
                                 <li class="nav-item">
-                                    <a class="nav-tab btn--link" data-category="<?php echo $category; ?>">
+                                    <span class="nav-tab btn--link" style="cursor: pointer;" data-category="<?php echo $category; ?>">
                                         <?php echo $category; ?>
-                                    </a>
+                                    </span>
                                 </li>
                             <?php }
                         }
@@ -97,7 +97,10 @@ if ( ! empty($block['anchor'] ) ) {
                                         ?>
                                         <div data-category="<?php echo $category; ?>" class="swiper-slide specialOffers__item swiper-slide-original specialOffers__item--theme_3">
                                             <div class="specialOffers__photo">
-                                                <img src="<?php echo get_the_post_thumbnail_url($post_id); ?>" alt="<?php echo esc_attr(get_the_title($post_id)); ?>">
+                                                <img src="<?php echo get_the_post_thumbnail_url($post_id); ?>"
+                                                title="<?php echo esc_attr(get_the_title($post_id)); ?>"
+                                                alt="<?php echo esc_attr(get_the_title($post_id)); ?>"
+                                                >
                                             </div>
                                             <div class="specialOffers__content">
                                                 <h3><?php echo get_the_title($post_id); ?></h3>

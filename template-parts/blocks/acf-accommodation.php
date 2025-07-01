@@ -31,7 +31,7 @@ if (! empty($block['anchor'])) {
                     <ul>
                         <?php while ( have_rows( 'napolnenie' ) ) : the_row(); ?>
                             <?php if ( get_row_layout() == 'carousel' ) : ?>
-                                <li><?php the_sub_field( 'nazvanie' ); ?></li>
+                                <li><h1 style="font-size: inherit;"><?php the_sub_field( 'nazvanie' ); ?></h1></li>
                             <?php elseif ( get_row_layout() == 'link' ) : ?>
                                 <?php $ssylka_na_straniczu = get_sub_field( 'ssylka_na_straniczu' ); ?>
                                 <?php if ( $ssylka_na_straniczu ) : ?>
@@ -66,7 +66,10 @@ if (! empty($block['anchor'])) {
                                         setup_postdata( $post_object ); ?>
                                         <div class="swiper-slide accommodation__item">
                                             <div class="accommodation__image">
-                                                <img src="<?php echo get_the_post_thumbnail_url( $post_ids, 'full' ); ?>" alt="<?php echo get_the_title( $post_ids ); ?>">
+                                                <img src="<?php echo get_the_post_thumbnail_url( $post_ids, 'full' ); ?>" 
+                                                title="<?php echo get_the_title( $post_ids ); ?>"
+                                                alt="<?php echo get_the_title( $post_ids ); ?>"
+                                                >
                                             </div>
                                             <div class="accommodation__text">
                                                 <?php if ( get_field('accommodation-price', $post_ids) ) : ?>

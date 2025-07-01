@@ -118,11 +118,11 @@ if (! is_active_sidebar('sidebar-1')) {
 				<li>
 					<div class="article-meta article-meta_small">
 						<div class="article-date">
-							<img src="<?php the_badden_assets('img', 'calendar.svg') ?>" alt="">
+							<img src="<?php the_badden_assets('img', 'calendar.svg') ?>" alt="Дата публикации" title="Дата публикации">
 							<span><?php echo get_the_date('d F Y'); ?></span>
 						</div>
 						<div class="article-category">
-							<img src="<?php the_badden_assets('img', 'mark.svg') ?>" alt="">
+							<img src="<?php the_badden_assets('img', 'mark.svg') ?>" alt="Категория" title="Категория">
 							<span>
 								<?php
 								// Получаем первую категорию/таксономию записи

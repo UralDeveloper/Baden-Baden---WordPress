@@ -34,7 +34,9 @@ get_header();
 						<?php
 						$izobrazhenie_v_shapku = get_sub_field('izobrazhenie_v_shapku');
 						if (!empty($izobrazhenie_v_shapku)) : ?>
-							<img src="<?php echo esc_url($izobrazhenie_v_shapku['url']); ?>" alt="<?php echo esc_attr($izobrazhenie_v_shapku['alt']); ?>" />
+							<img src="<?php echo esc_url($izobrazhenie_v_shapku['url']); ?>"
+								title="<?php echo esc_attr($izobrazhenie_v_shapku['alt']); ?>"
+								alt="<?php echo esc_attr($izobrazhenie_v_shapku['alt']); ?>" />
 						<?php endif; ?>
 					</div>
 		<?php
@@ -55,7 +57,7 @@ get_header();
 </section>
 
 
-<section id="travelline" class="container">
+<section id="travelline" class="container" data-travelLine="<?php the_field( 'travelline_id', 'option' ); ?>">
 	<div class="grid">
 		<div class="travel-script">
 			<!-- start TL Search form script -->
@@ -77,11 +79,11 @@ get_header();
 				<article>
 					<div class="article-meta">
 						<div class="article-date">
-							<img src="<?php the_badden_assets('img', 'calendar.svg') ?>" alt="Дата публикации">
+							<img src="<?php the_badden_assets('img', 'calendar.svg') ?>" title="Дата публикации" alt="Дата публикации">
 							<span><?php echo get_the_date(); ?></span>
 						</div>
 						<div class="article-category">
-							<img src="<?php the_badden_assets('img', 'mark.svg') ?>" alt="Категория публикации">
+							<img src="<?php the_badden_assets('img', 'mark.svg') ?>" title="Категория публикации" alt="Категория публикации">
 							<?php
 							// Указываем нужные таксономии вручную (если пусто, будут выведены все таксономии)
 							$custom_taxonomies = [];
@@ -107,7 +109,7 @@ get_header();
 					</div>
 					<div class="article-image">
 						<?php if (has_post_thumbnail()) {
-							echo '<img src="' . esc_url(get_the_post_thumbnail_url()) . '" alt="' . esc_attr(get_the_title()) . '">';
+							echo '<img src="' . esc_url(get_the_post_thumbnail_url()) . '" title="' . esc_attr(get_the_title()) . '" alt="' . esc_attr(get_the_title()) . '">';
 						}
 						?>
 					</div>
