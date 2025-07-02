@@ -33,7 +33,10 @@ if ( ! empty($block['anchor'] ) ) {
                             <?php $ikonka = get_sub_field( 'ikonka' ); ?>
                             <?php if ( $ikonka ) : ?>
                                 <picture>
-                                    <img src="<?php echo esc_url( $ikonka['url'] ); ?>" alt="<?php echo esc_attr( $ikonka['alt'] ); ?>" />
+                                    <img src="<?php echo esc_url( $ikonka['url'] ); ?>"
+                                        title="<?php echo esc_attr( $ikonka['alt'] ); ?>"
+                                        alt="<?php echo esc_attr( $ikonka['alt'] ); ?>"
+                                        />
                                 </picture>
                             <?php endif; ?>
                             <span><?php the_sub_field( 'tekst' ); ?></span>
@@ -45,7 +48,10 @@ if ( ! empty($block['anchor'] ) ) {
                 <div class="thermalPool__images">
                     <?php $izobrazhenie = get_sub_field( 'izobrazhenie' ); ?>
                     <?php if ( $izobrazhenie ) : ?>
-                        <img src="<?php echo esc_url( $izobrazhenie['url'] ); ?>" alt="<?php echo esc_attr( $izobrazhenie['alt'] ); ?>" />
+                        <img src="<?php echo esc_url( $izobrazhenie['url'] ); ?>"
+                            title="<?php echo esc_attr( $izobrazhenie['alt'] ); ?>"
+                            alt="<?php echo esc_attr( $izobrazhenie['alt'] ); ?>"
+                            />
                     <?php endif; ?>
                 </div>
             </div>

@@ -12,7 +12,7 @@ if (! is_active_sidebar('sidebar-1')) {
 	return;
 }
 ?>
-
+<?/*
 <div class="sidebar">
 	<h2>Категории</h2>
 	<?php
@@ -46,26 +46,73 @@ if (! is_active_sidebar('sidebar-1')) {
 		echo '<p>Типы записей не найдены.</p>';
 	}
 	?>
+</div>
+*/ ?>
 
+<div class="sidebar sidebar--pc">
+	<?php
+	$post_type = get_post_type();
+	$taxonomies = get_object_taxonomies($post_type, 'objects');
 
+	// Таксономии, которые нужно скрыть
+	$excluded_taxonomies = ['post_tag', 'nav_menu', 'post_format', 'post_tag', 'tip_kompleksa'];
+
+		// echo '<pre>';
+		// var_dump(array_keys($taxonomies));
+		// echo '</pre>';
+
+	if ($taxonomies) {
+		foreach ($taxonomies as $taxonomy) {
+			if (in_array($taxonomy->name, $excluded_taxonomies)) {
+				continue; // пропускаем эту таксономию
+			}
+			if ($taxonomy->labels->name == 'Рубрики') {
+				$taxonomy->labels->name = 'Категории';
+			}
+			echo '<h2>' . esc_html($taxonomy->labels->name) . '</h2>';
+
+			$terms = get_terms([
+				'taxonomy' => $taxonomy->name,
+				'hide_empty' => true,
+			]);
+
+			if (!empty($terms) && !is_wp_error($terms)) {
+				echo '<ul>';
+				foreach ($terms as $term) {
+					echo '<li><a href="' . esc_url(get_term_link($term)) . '">' . esc_html($term->name) . '</a></li>';
+				}
+				echo '</ul>';
+			} else {
+				echo '<p><em>Нет категорий.</em></p>';
+			}
+		}
+	}
+	?>
 
 </div>
-<div class="sidebar">
-	<h2>Случайные публикации</h2>
+
+
+<?php if (is_single() && get_post_type() === 'akcii') : ?>
+<div class="sidebar sidebar--news sidebar--pc">
+	<h2>Другие акции</h2>
 	<?php
-	// Типы записей, которые НЕ нужно выводить
-	$exclude_post_types = ['attachment', 'revision', 'nav_menu_item', 'page', 'spa', 'sertifikaty', 'bannaya_kollekciya']; // Добавьте сюда ненужные типы
-
-	// Получаем все публичные типы записей, кроме исключённых
-	$all_post_types = get_post_types(['public' => true], 'names');
-	$post_types_to_query = array_diff($all_post_types, $exclude_post_types);
-
-	// Запрос на 3 случайные записи
-	$args = [
-		'post_type'      => $post_types_to_query,
-		'posts_per_page' => 3,
-		'orderby'        => 'rand',
-	];
+    $current_term_ids = wp_get_object_terms(get_the_ID(), 'akcii_category', ['fields' => 'ids']);
+    // $current_category_ids = wp_get_post_categories(get_the_ID());
+    
+    // Формируем аргументы для выборки случайных акций из той же категории
+    $args = array(
+        'post_type'      => 'akcii',               // Тип записей — акции
+        'posts_per_page' => 3,                     // Количество записей
+        'orderby'        => 'rand',                // Случайная сортировка
+        'tax_query'      => array(                 // Фильтрация по категории
+            array(
+                'taxonomy' => 'akcii_category',   // Таксономия акций
+                'field'    => 'term_id',          // Поле фильтра
+                'terms'    => $current_term_ids,   // Текущие категории
+            )
+        ),
+        'post__not_in'   => array(get_the_ID()),   // Исключение текущей акции
+    );
 
 	$query = new WP_Query($args);
 
@@ -75,11 +122,11 @@ if (! is_active_sidebar('sidebar-1')) {
 				<li>
 					<div class="article-meta article-meta_small">
 						<div class="article-date">
-							<img src="<?php the_badden_assets('img', 'calendar.svg')?>" alt="">
+							<img src="<?php the_badden_assets('img', 'calendar.svg') ?>" alt="Дата публикации" title="Дата публикации">
 							<span><?php echo get_the_date('d F Y'); ?></span>
 						</div>
 						<div class="article-category">
-							<img src="<?php the_badden_assets('img', 'mark.svg')?>" alt="">
+							<img src="<?php the_badden_assets('img', 'mark.svg') ?>" alt="Категория" title="Категория">
 							<span>
 								<?php
 								// Получаем первую категорию/таксономию записи
@@ -100,3 +147,56 @@ if (! is_active_sidebar('sidebar-1')) {
 	<?php endif; ?>
 
 </div>
+<?php endif; ?>
+
+<div class="sidebar sidebar--news sidebar--pc">
+	<h2>Новости и мероприятия</h2>
+	<?php
+	// Типы записей, которые НЕ нужно выводить
+	$exclude_post_types = ['attachment', 'revision', 'nav_menu_item', 'akcii', 'page', 'spa', 'sertifikaty', 'bannaya_kollekciya']; // Добавьте сюда ненужные типы
+
+	// Получаем все публичные типы записей, кроме исключённых
+	$all_post_types = get_post_types(['public' => true], 'names');
+	$post_types_to_query = array_diff($all_post_types, $exclude_post_types);
+
+	// Запрос на 3 случайные записи
+	$args = [
+		'post_type'      => 'post',
+		'posts_per_page' => 3,
+		'orderby'        => 'rand',
+	];
+
+	$query = new WP_Query($args);
+
+	if ($query->have_posts()) : ?>
+		<ul>
+			<?php while ($query->have_posts()) : $query->the_post(); ?>
+				<li>
+					<div class="article-meta article-meta_small">
+						<div class="article-date">
+							<img src="<?php the_badden_assets('img', 'calendar.svg') ?>" alt="Дата публикации" title="Дата публикации">
+							<span><?php echo get_the_date('d F Y'); ?></span>
+						</div>
+						<div class="article-category">
+							<img src="<?php the_badden_assets('img', 'mark.svg') ?>" alt="Категория" title="Категория">
+							<span>
+								<?php
+								// Получаем первую категорию/таксономию записи
+								$terms = get_the_terms(get_the_ID(), get_post_taxonomies(get_the_ID())[0] ?? '');
+								echo (!empty($terms) && !is_wp_error($terms)) ? esc_html($terms[0]->name) : 'Без категории';
+								?>
+							</span>
+						</div>
+					</div>
+					<h3><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h3>
+					<p><?php echo wp_trim_words(get_the_excerpt(), 15, '...'); ?></p>
+				</li>
+			<?php endwhile; ?>
+		</ul>
+		<?php wp_reset_postdata(); ?>
+	<?php else : ?>
+		<p>Записей не найдено.</p>
+	<?php endif; ?>
+
+</div>
+

@@ -34,57 +34,94 @@ if ( ! empty($block['anchor'] ) ) {
             <div class="titleWrapper">
                 <ul class="nav nav-pills" id="pills-bathCollection">
                     <li class="nav-item">
-                        <a class="nav-tab btn--link active" data-category="Все">Все</a>
+                        <span class="nav-tab btn--link active" style="cursor: pointer;" data-category="Все">Все</span>
                     </li>
-                    <?php $akczii = get_sub_field( 'akczii' ); ?>
-                    <?php if ( $akczii ) : ?>
-                        <?php foreach ( $akczii as $post_ids ) : ?>
-                            <?php
-                            $terms = get_the_terms( $post_ids, 'akcii_category' );
+                        <?php
+                        $akczii = get_sub_field('akczii');
+                        $taxonomies = ['akcii_category', 'tour_category']; // здесь можно добавить свои таксономии
+                        $all_terms = [];
 
-                            if ( !empty( $terms ) && !is_wp_error( $terms ) ) {
-                                foreach ( $terms as $term ) {
-                                    $category = $term->name; ?>
-                                    <li class="nav-item">
-                                        <a class="nav-tab btn--link" data-category="<?php echo $category; ?>">
-                                            <?php echo $category; ?>
-                                        </a>
-                                    </li>
-                                <?php }
+                        if ($akczii) {
+                            foreach ($akczii as $post_id) {
+                                foreach ($taxonomies as $taxonomy) {
+                                    $terms = get_the_terms($post_id, $taxonomy);
+
+                                    if (!empty($terms) && !is_wp_error($terms)) {
+                                        foreach ($terms as $term) {
+                                            $all_terms[$term->term_id] = $term; // уникальность по term_id
+                                        }
+                                    }
+                                }
                             }
-                            ?>
-                        <?php endforeach; ?>
-                    <?php endif; ?>
+
+                            // Выводим уникальные категории
+                            foreach ($all_terms as $term) {
+                                $category = esc_html($term->name); ?>
+                                <li class="nav-item">
+                                    <span class="nav-tab btn--link" style="cursor: pointer;" data-category="<?php echo $category; ?>">
+                                        <?php echo $category; ?>
+                                    </span>
+                                </li>
+                            <?php }
+                        }
+                        ?>
+
+
                 </ul>
             </div>
             <?php $akczii = get_sub_field( 'akczii' ); ?>
             <?php if ( $akczii ) : ?>
             <div class="swiper specialOffers__wrapper">
                 <div class="swiper-wrapper">
-                        <?php foreach ( $akczii as $post_ids ) : ?>
-                        <?php
-                            $terms = get_the_terms( $post_ids, 'akcii_category' );
+                    <?php
+                    $akczii = get_sub_field('akczii');
+                    $taxonomies = ['akcii_category', 'tour_category']; // Добавляйте сюда свои таксономии
 
-                            if ( !empty( $terms ) && !is_wp_error( $terms ) ) {
-                                foreach ( $terms as $term ) {
-                                    $category = $term->name; ?>
-                                    <div data-category="<?php echo $category; ?>" class="swiper-slide specialOffers__item swiper-slide-original">
-                                        <div class="specialOffers__photo">
-                                            <img src="<?php echo get_the_post_thumbnail_url( $post_ids ); ?>" alt="<?php echo get_the_title( $post_ids ); ?>">
+                    if ($akczii) :
+                        foreach ($akczii as $post_id) :
+                            $added_terms = []; // Для предотвращения дублирования терминов для одного поста
+
+                            foreach ($taxonomies as $taxonomy) {
+                                $terms = get_the_terms($post_id, $taxonomy);
+
+                                if (!empty($terms) && !is_wp_error($terms)) {
+                                    foreach ($terms as $term) {
+                                        // Уникальный ключ по tax+term_id, чтобы исключить дубликаты в случае совпадений
+                                        $unique_key = $taxonomy . '_' . $term->term_id;
+                                        if (isset($added_terms[$unique_key])) {
+                                            continue;
+                                        }
+                                        $added_terms[$unique_key] = true;
+
+                                        $category = esc_html($term->name);
+                                        ?>
+                                        <div data-category="<?php echo $category; ?>" class="swiper-slide specialOffers__item swiper-slide-original specialOffers__item--theme_3">
+                                            <div class="specialOffers__photo">
+                                                <img src="<?php echo get_the_post_thumbnail_url($post_id); ?>"
+                                                title="<?php echo esc_attr(get_the_title($post_id)); ?>"
+                                                alt="<?php echo esc_attr(get_the_title($post_id)); ?>"
+                                                >
+                                            </div>
+                                            <div class="specialOffers__content">
+                                                <h3><?php echo get_the_title($post_id); ?></h3>
+                                                <span class="category">Категория: <?php echo $category; ?></span>
+                                                <?php /* пример опционального поля
+                                                if (get_field('akcii_lokacziya', $post_id)) : ?>
+                                                    <span class="specialOffers__item--location">
+                                                        <i class="fa-thin fa-location-dot"></i> <?php the_field('akcii_lokacziya', $post_id); ?>
+                                                    </span>
+                                                <?php endif;
+                                                */ ?>
+                                                <a href="<?php echo get_permalink($post_id); ?>">Подробнее</a>
+                                            </div>
                                         </div>
-                                        <div class="specialOffers__content">
-                                            <h3><?php echo get_the_title( $post_ids ); ?></h3>
-                                            <span class="category"><?php echo $category; ?></span>
-                                            <?php if (get_field('akcii_lokacziya', $post_ids)) : ?>
-                                                <span class="specialOffers__item--location"><i class="fa-thin fa-location-dot"></i> <?php the_field( 'akcii_lokacziya', $post_ids ); ?></span>
-                                            <?php endif; ?>
-                                            <a href="<?php echo get_permalink( $post_ids ); ?>">Подробнее</a>
-                                        </div>
-                                    </div>
-                                <?php }
+                                        <?php
+                                    }
+                                }
                             }
-                        ?>
-                    <?php endforeach; ?>
+                        endforeach;
+                    endif;
+                    ?>
                 </div>
             </div>
             <?php endif; ?>

@@ -25,7 +25,10 @@ if ( ! empty($block['anchor'] ) ) {
             <div class="gridContent__content--image">
                 <?php $izobrazhenie = get_sub_field( 'izobrazhenie' ); ?>
                 <?php if ( $izobrazhenie ) : ?>
-                    <img src="<?php echo esc_url( $izobrazhenie['url'] ); ?>" alt="<?php echo esc_attr( $izobrazhenie['alt'] ); ?>" />
+                    <img src="<?php echo esc_url( $izobrazhenie['url'] ); ?>"
+                        title="<?php echo esc_attr( $izobrazhenie['alt'] ); ?>"
+                        alt="<?php echo esc_attr( $izobrazhenie['alt'] ); ?>"
+                        />
                 <?php endif; ?>
             </div>
             <div class="gridContent__content--text">

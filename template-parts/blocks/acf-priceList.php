@@ -30,7 +30,12 @@ if ( ! empty($block['anchor'] ) ) {
                 <div class="pricing__wrapper">
                     <?php if ( have_rows( 'prajs-row' ) ) : ?>
                         <?php while ( have_rows( 'prajs-row' ) ) : the_row(); ?>
-                        <div class="pricing__row">
+                        <?php if ( get_sub_field( 'yakor' )) : 
+                            $yakor_id = 'id="price_' . get_sub_field( 'yakor' ) . '"';
+                            else :
+                                $yakor_id = '';
+                        endif; ?>
+                        <div <?php echo $yakor_id ?> class="pricing__row">
                             <div class="pricing__title">
                                 <h3><?php the_sub_field( 'kategoriya' ); ?></h3>
                                 <p><?php the_sub_field( 'opisanie' ); ?></p>
