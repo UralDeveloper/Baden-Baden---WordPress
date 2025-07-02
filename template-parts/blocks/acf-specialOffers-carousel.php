@@ -103,7 +103,7 @@ if ( ! empty($block['anchor'] ) ) {
                                                 >
                                             </div>
                                             <div class="specialOffers__content">
-                                                <h3><?php echo get_the_title($post_id); ?></h3>
+                                                <p class="specialOffers__content--title"><?php echo get_the_title($post_id); ?></p>
                                                 <span class="category">Категория: <?php echo $category; ?></span>
                                                 <?php /* пример опционального поля
                                                 if (get_field('akcii_lokacziya', $post_id)) : ?>

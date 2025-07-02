@@ -125,7 +125,7 @@ a
 
 
 .footer
-    padding: 36px 0
+    padding: 36px 0 20px
     background-color: #f2f9ff
     &__container
         display: flex
@@ -133,6 +133,17 @@ a
         flex-wrap: wrap
         gap: 40px
         justify-content: space-between
+    &__bottom
+        margin-top: 40px
+        font-size: 12px
+        .container
+            display: flex
+            flex-direction: row
+            justify-content: flex-end
+        svg
+            width: 120px
+            path
+                fill: #8794a5
     &__copyright
         ul
             padding-left: 0
@@ -660,11 +671,13 @@ a
         flex-direction: column
         align-items: flex-start
         gap: 20px
-        h3
+        &--title
             color: #fff
             font-size: 24px
             font-weight: 400
             text-transform: uppercase
+            margin-bottom: 0
+            line-height: 1.2em
         span
             &.category
                 color: #fff
