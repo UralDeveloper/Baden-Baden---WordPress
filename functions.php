@@ -51,7 +51,9 @@ function baden_setup()
     // This theme uses wp_nav_menu() in one location.
     register_nav_menus(
         array(
-            'menu-1' => esc_html__('Primary', 'baden'),
+            'menu-1' => esc_html__('Основное', 'baden'),
+            'footer-1' => esc_html__('Меню под логотипом', 'baden'),
+            'footer-2' => esc_html__('Навигация в подвале', 'baden'),
         )
     );
 
@@ -145,13 +147,14 @@ function baden_scripts()
 {
 
     $array_css = array(
-        'Gilroy' => 'assets/webfonts/Gilroy/gilroy.css',
+        'Gilroy' => 'assets/webfonts/Gilroy/stylesheet.css',
         'Cormorantsc' => 'assets/webfonts/Cormorantsc/cormorantsc.css',
         'fontawesome' => 'assets/css/fontawesome.css',
         'swiper' => 'assets/css/swiper-bundle.min.css',
         'bootstrap' => 'assets/css/bootstrap.min.css',
         'fancybox' => 'assets/css/fancybox.css',
         'styles' => 'assets/css/styles.min.css',
+        'custom' => 'style.css',
     );
 
     $array_js = array(
@@ -270,12 +273,24 @@ function register_custom_post_types()
             'name_taxonomy' => 'Тип комплекса',
             'visible' => true
         ],
+        'nutrition' => [
+            'name' => 'Питание',
+            'visible' => true
+        ],
         'spa' => [
             'name' => 'СПА',
             'visible' => false
         ],
         'vodnye_termy' => [
             'name' => 'Водные Термы',
+            'visible' => false
+        ],
+        'atmosphere' => [
+            'name' => 'Атмосфера',
+            'visible' => false
+        ],
+        'infrastructure' => [
+            'name' => 'Инфраструктура',
             'visible' => false
         ],
         'bannaya_kollekciya' => [
@@ -300,6 +315,8 @@ function register_custom_post_types()
         ],
         'faq' => [
             'name' => 'Вопросы и ответы',
+            'taxonomy' => 'category-area',
+            'name_taxonomy' => 'Заведение',
             'visible' => false
         ],
     ];
@@ -326,6 +343,7 @@ function register_custom_post_types()
                 ],
                 'public' => true,
                 'hierarchical' => true,
+                'show_admin_column' => true,
                 'show_in_rest' => true,
             ]);
         }
@@ -412,78 +430,125 @@ function register_acf_blocks_from_admin() {
 add_action('acf/init', 'register_acf_blocks_from_admin');
 
 
-class Custom_Walker_Nav_Menu extends Walker_Nav_Menu {
-    private $current_item;
-    private $dropdown_menu_alignment_values = [
-        'dropdown-menu-start',
-        'dropdown-menu-end',
-        'dropdown-menu-sm-start',
-        'dropdown-menu-sm-end',
-        'dropdown-menu-md-start',
-        'dropdown-menu-md-end',
-        'dropdown-menu-lg-start',
-        'dropdown-menu-lg-end',
-        'dropdown-menu-xl-start',
-        'dropdown-menu-xl-end',
-        'dropdown-menu-xxl-start',
-        'dropdown-menu-xxl-end'
-    ];
+include 'inc/Custom_Walker_Nav_Menu_mobile.php';
+include 'inc/Custom_Walker_Nav_Menu_desktop.php';
+include 'inc/framework.php';
 
-    function start_lvl(&$output, $depth = 0, $args = null) {
-        $dropdown_menu_class = [];
-        foreach ($this->current_item->classes as $class) {
-            if (in_array($class, $this->dropdown_menu_alignment_values)) {
-                $dropdown_menu_class[] = $class;
-            }
-        }
-        $indent = str_repeat("\t", $depth);
-        $submenu = ($depth > 0) ? ' sub-menu' : '';
-        $output .= "\n$indent<ul class=\"dropdown-menu$submenu " . esc_attr(implode(" ", $dropdown_menu_class)) . " depth_$depth\">\n";
-    }
-
-    function start_el(&$output, $item, $depth = 0, $args = null, $id = 0) {
-        $this->current_item = $item;
-
-        $indent = ($depth) ? str_repeat("\t", $depth) : '';
-
-        $li_attributes = '';
-        $class_names = $value = '';
-
-        $classes = empty($item->classes) ? array() : (array) $item->classes;
-
-        $classes[] = ($args->walker->has_children) ? 'dropdown' : '';
-        $classes[] = 'nav-item';
-        $classes[] = 'nav-item-' . $item->ID;
-        if ($depth && $args->walker->has_children) {
-            $classes[] = 'dropdown-menu dropdown-menu-end';
-        }
-
-        $class_names =  join(' ', apply_filters('nav_menu_css_class', array_filter($classes), $item, $args));
-        $class_names = ' class="' . esc_attr($class_names) . '"';
-
-        $id = apply_filters('nav_menu_item_id', 'menu-item-' . $item->ID, $item, $args);
-        $id = strlen($id) ? ' id="' . esc_attr($id) . '"' : '';
-
-        $output .= $indent . '<li ' . $id . $value . $class_names . $li_attributes . '>';
-
-        $attributes = !empty($item->attr_title) ? ' title="' . esc_attr($item->attr_title) . '"' : '';
-        $attributes .= !empty($item->target) ? ' target="' . esc_attr($item->target) . '"' : '';
-        $attributes .= !empty($item->xfn) ? ' rel="' . esc_attr($item->xfn) . '"' : '';
-        $attributes .= !empty($item->url) ? ' href="' . esc_attr($item->url) . '"' : '';
-
-        $active_class = ($item->current || $item->current_item_ancestor || in_array("current_page_parent", $item->classes, true) || in_array("current_post_ancestor", $item->classes, true)) ? 'active' : '';
-        $nav_link_class = ( $depth > 0 ) ? 'dropdown-item ' : 'nav-link ';
-        $attributes .= ( $args->walker->has_children ) ? ' class="'. $nav_link_class . $active_class . ' dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"' : ' class="'. $nav_link_class . $active_class . '"';
-
-        $item_output = $args->before;
-        $item_output .= '<a' . $attributes . '>';
-        $item_output .= $args->link_before . apply_filters('the_title', $item->title, $item->ID) . $args->link_after;
-        $item_output .= '</a>';
-        $item_output .= $args->after;
-
-        $output .= apply_filters('walker_nav_menu_start_el', $item_output, $item, $depth, $args);
-    }
-}
 
 
 include 'inc/framework.php';
+// include 'inc/update-theme.php';
+
+function remove_page_class_from_body($classes) {
+    if (($key = array_search('page', $classes)) !== false) {
+        unset($classes[$key]);
+    }
+    return $classes;
+}
+add_filter('body_class', 'remove_page_class_from_body');
+
+
+/**
+ * Загрузка страниц по типу SPA
+ * Необходимо правильно настроить перезапуск JS скриптов после загрузки страницы
+ */
+// function enqueue_swup_scripts() {
+	// wp_enqueue_script( 'swup', 'https://unpkg.com/swup@4', [], null, true );
+	// wp_enqueue_script( 'spa-init', get_template_directory_uri() . '/js/spa-init.js', [ 'swup' ], null, true );
+// }
+// add_action( 'wp_enqueue_scripts', 'enqueue_swup_scripts' );
+
+
+
+// Массовый ресайз изображений в медиатеке
+function bulk_resize_images() {
+    global $wpdb;
+
+    // Максимально допустимые размеры сторон изображения
+    $max_width = 1920;
+    $max_height = 1920;
+
+    // Получаем список ID прикрепленных изображений
+    $attachments = $wpdb->get_col("SELECT ID FROM {$wpdb->posts} WHERE post_type='attachment'");
+
+    foreach ($attachments as $post_id) {
+        $meta = wp_get_attachment_metadata($post_id);
+        if (!$meta || !isset($meta['sizes'])) continue;
+
+        // Проверка основного размера файла
+        if ($meta['width'] > $max_width || $meta['height'] > $max_height) {
+            // Путь к файлу
+            $file_path = get_attached_file($post_id);
+
+            // Используем редактор изображений WP
+            $editor = wp_get_image_editor($file_path);
+
+            if (!is_wp_error($editor)) {
+                $editor->resize($max_width, $max_height, true); // Сохранение пропорций
+                $resized_file = $editor->save();
+                
+                if (!is_wp_error($resized_file)) {
+                    update_attached_file($post_id, $resized_file['path']);
+                    echo "<p>Обработано изображение №$post_id</p>";
+                }
+            }
+        }
+    }
+}
+
+// Регистрация страницы админа для запуска скрипта
+function register_bulk_resize_page() {
+    add_menu_page('Массовое изменение изображений', 'Изменить изображения', 'manage_options', 'bulk-resize-images', 'show_bulk_resize_page');
+}
+
+add_action('admin_menu', 'register_bulk_resize_page');
+
+// Отображение интерфейса
+function show_bulk_resize_page() { ?>
+<div class="wrap">
+    <h1>Массовое уменьшение изображений</h1>
+    <?php
+    if ($_GET['action'] === 'run') {
+        echo '<div id="message" class="updated"><p>Идет обработка...</p></div>';
+        bulk_resize_images(); // Запуск процесса изменения размеров
+        echo '<a href="' . admin_url('admin.php?page=bulk-resize-images') . '" class="button button-primary">Вернуться назад</a>';
+    } else {
+        echo '<form method="get">';
+        echo '<input type="hidden" name="page" value="bulk-resize-images"/>';
+        echo '<input type="hidden" name="action" value="run"/>';
+        submit_button('Запустить массовое изменение размеров изображений');
+        echo '</form>';
+    }
+?>
+</div><?php
+}
+
+// Добавляем обработку изображений через FancyBox
+add_filter('the_content', 'fancybox_gutenberg_images');
+
+/**
+ * Обрабатываем контент, добавляем атрибут data-fancybox="gallery"
+ */
+function fancybox_gutenberg_images($content) {
+    // Регулярка для нахождения тегов img внутри блока Gutenberg
+    preg_match_all('/(<img[^>]+src="([^"]+)"[^>]*>)(\s*<\/?p>\s*)?/', $content, $matches);
+    
+    if (!empty($matches)) {
+        foreach ($matches[0] as $key => $match) {
+            // Проверяем наличие атрибута data-fancybox
+            if (!preg_match('/data-fancybox\s*=/', $match)) {
+                // Дописываем атрибут data-fancybox и класс для галереи
+                $new_img = str_replace('<img ', '<img class="fancybox-image" data-fancybox="gallery"', $match);
+                $content = str_replace($match, $new_img, $content);
+            }
+        }
+    }
+
+    return $content;
+}
+/**
+ * Функция для очистки номера телефона кроме +
+ */
+function clean_phone_number($phone) {
+    return preg_replace('/[^0-9+]/', '', $phone);
+}

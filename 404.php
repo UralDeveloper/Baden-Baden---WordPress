@@ -9,52 +9,48 @@
 
 get_header();
 ?>
-
-	<main id="primary" class="site-main">
-
-		<section class="error-404 not-found">
-			<header class="page-header">
-				<h1 class="page-title"><?php esc_html_e( 'Oops! That page can&rsquo;t be found.', 'baden' ); ?></h1>
-			</header><!-- .page-header -->
-
-			<div class="page-content">
-				<p><?php esc_html_e( 'It looks like nothing was found at this location. Maybe try one of the links below or a search?', 'baden' ); ?></p>
-
-					<?php
-					get_search_form();
-
-					the_widget( 'WP_Widget_Recent_Posts' );
-					?>
-
-					<div class="widget widget_categories">
-						<h2 class="widget-title"><?php esc_html_e( 'Most Used Categories', 'baden' ); ?></h2>
-						<ul>
-							<?php
-							wp_list_categories(
-								array(
-									'orderby'    => 'count',
-									'order'      => 'DESC',
-									'show_count' => 1,
-									'title_li'   => '',
-									'number'     => 10,
-								)
-							);
-							?>
-						</ul>
-					</div><!-- .widget -->
-
-					<?php
-					/* translators: %1$s: smiley */
-					$baden_archive_content = '<p>' . sprintf( esc_html__( 'Try looking in the monthly archives. %1$s', 'baden' ), convert_smilies( ':)' ) ) . '</p>';
-					the_widget( 'WP_Widget_Archives', 'dropdown=1', "after_title=</h2>$baden_archive_content" );
-
-					the_widget( 'WP_Widget_Tag_Cloud' );
-					?>
-
-			</div><!-- .page-content -->
-		</section><!-- .error-404 -->
-
-	</main><!-- #main -->
-
+<div class="page404__wrapper">
+    <div class="palm-tree one">
+        <div class="palm-frond"></div>
+        <div class="divet first"></div>
+        <div class="divet second"></div>
+    </div>
+    <div class="palm-tree two">
+        <div class="palm-frond"></div>
+        <div class="divet first"></div>
+        <div class="divet second"></div>
+    </div>
+    <div class="palm-tree three">
+        <div class="palm-frond"></div>
+        <div class="divet first"></div>
+        <div class="divet second"></div>
+    </div>
+    <div class="palm-tree four">
+        <div class="palm-frond"></div>
+        <div class="divet first"></div>
+        <div class="divet second"></div>
+    </div>
+    <div class="parasol"></div>
+    <div class="parasol_shadow"></div>
+    <div class="pool"></div>
+    <div class="flip-flop"></div>
+    <div class="flip-flop" id="second-flip-flop"></div>
+    <div class="chair"></div>
+    <div class="pool"></div>
+    <div class="inner-tube"></div>
+    <div class="sign">
+        <h1>Ошибка 404</h1>
+        <h2>А это значит</h2>
+        <ol>
+            <li>Страница не найдена</li>
+            <li>Ранее она была, но потерялась</li>
+            <li>Ее смыло волной</li>
+            <li>Дети взяли поиграть</li>
+        </ol>
+        <div class="sign-footer">
+            <a href="/">Вернуться на главную</a>
+        </div>
+    </div>
+</div>
 <?php
 get_footer();

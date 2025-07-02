@@ -1,0 +1,291 @@
+// @import url("https://fonts.googleapis.com/css2?family=Alata&family=Bungee&family=Bungee+Shade&display=swap")
+
+$font-h1: "Gilroy", cursive
+$font-body: "Gilroy", sans-serif
+$font-h2-h3: "Gilroy", cursive
+$hot-pink: rgb(244, 94, 145)
+$pink: rgb(252, 155, 194)
+$purple: rgb(147, 128, 181)
+$blue: rgb(57, 162, 217)
+$turquoise: rgb(48, 178, 160)
+$dark-turquoise: #399fa9
+$light-blue: rgb(67, 205, 216)
+$light-yellow: rgb(252, 243, 215)
+$yellow: rgb(255, 223, 130)
+$tile: linear-gradient($light-yellow 0.15rem, transparent 0.15rem), linear-gradient(90deg, $light-yellow 0.15rem, transparent 0.15rem)
+
+@mixin shadow()
+    box-shadow: 4rem 4rem 0 0.5rem rgba($purple, 0.75)
+
+@mixin short-shadow()
+    box-shadow: 0.5rem 0 0 0.2rem rgba($purple, 0.75)
+
+.error404 .header
+    z-index: 1010
+    background-color: rgb(0 170 255 / 53%)
+.page404
+    position: relative
+    z-index: 2
+    &__wrapper
+        display: flex
+        align-items: center
+        justify-content: center
+        height: 100vh
+        font-family: "Alata", sans-serif
+        font-size: 2.5rem
+        color: #39a2d9
+        background-color: #9bcdfc
+        background-image: linear-gradient(#fcf3d7 0.15rem, transparent 0.15rem), linear-gradient(90deg, #fcf3d7 0.15rem, transparent 0.15rem)
+        background-size: 0.75em 0.75em
+        overflow: hidden
+        min-height: 100vh
+        width: 100%
+        position: relative
+
+        .sign
+            z-index: 2
+            background-color: $light-yellow
+            width: 40%
+            height: auto
+            min-width: 40rem
+            margin: 0 auto
+            border-radius: 2rem
+            transform: scale(0.65, 0.65)
+
+            :after
+                content: ""
+                position: absolute
+                z-index: -1
+                top: 0
+                left: 0
+                right: 0
+                bottom: 0
+                border-radius: 2rem
+                box-shadow: 0 0 0 1rem $blue, 0 0 0 2rem $light-yellow, 1rem -0.5rem 0 2rem rgba($purple, 0.15)
+
+            h1,
+            h2,
+            h3
+                text-align: center
+                color: $blue
+                padding-top: 3rem
+
+            h1
+                font-family: $font-h1
+                font-size: 4.5rem
+                line-height: 5rem
+
+            h2
+                font-family: $font-h2-h3
+                font-size: 2.75rem
+                line-height: rem
+                padding: 1rem
+                background-color: $hot-pink
+                color: $light-yellow
+                margin-top: 20px
+
+            h3
+                font-family: $font-h2-h3
+                font-size: 2.5rem
+                line-height: 2.75rem
+                color: $hot-pink
+                padding: 1rem 0 2rem 0
+
+            ol
+                margin: 0 auto
+                padding: 3rem 5rem 20px
+                list-style: none
+                font-size: 28px
+                line-height: 1.2em
+                li
+                    &:not(&:nth-last-child(1))
+                        margin-bottom: 12px
+
+        .palm-tree
+            position: absolute
+            top: 0
+            left: 0
+
+        .sign-footer
+            padding: 20px
+
+            & a
+                text-align: center
+                background-color: #f45e91
+                color: #fff
+                text-decoration: none
+                border-radius: 20px
+                padding: 12px 24px
+                margin: 20px auto 20px
+                bottom: 20px
+                display: flex
+                align-items: center
+                justify-content: center
+                text-transform: uppercase
+
+        .palm-frond
+            position: absolute
+            width: 150px
+            height: 350px
+            top: 0rem
+            left: 0rem
+            background: conic-gradient(from -22deg, $dark-turquoise 0deg 180deg, $turquoise 180deg 360deg)
+            border-radius: 0 100%
+            @include shadow
+
+        .divet
+            position: absolute
+            width: 0
+            height: 0
+            border-left: 0.5rem solid transparent
+            border-right: 0.5rem solid transparent
+
+        .first
+            top: 15rem
+            left: 4rem
+            transform: rotate(40deg)
+            border-bottom: 2.75rem solid $pink
+
+        .second
+            top: 5rem
+            left: 5rem
+            transform: rotate(280deg)
+            border-bottom: 2.75rem solid $purple
+
+        .one
+            z-index: 1
+
+        .two
+            transform: rotate(30deg)
+            z-index: 0
+
+        .three
+            transform: rotate(-50deg)
+            z-index: 2
+
+        .four
+            transform: rotate(-70deg)
+            z-index: 2
+            top: -1rem
+            left: 5rem
+
+        .parasol
+            position: absolute
+            z-index: 100
+            height: 400px
+            width: 400px
+            top: -14rem
+            right: -10rem
+            border-radius: 100%
+            background: repeating-conic-gradient($light-yellow 0deg 45deg, $blue 46deg 90deg, $light-yellow 91deg 100deg)
+            animation: parasol_rotate 20s linear infinite
+            &_shadow
+                position: absolute
+                z-index: 100
+                height: 400px
+                width: 400px
+                top: -14rem
+                right: -10rem
+                border-radius: 100%
+                // background: repeating-conic-gradient($light-yellow 0deg 45deg, $blue 46deg 90deg, $light-yellow 91deg 100deg)
+                @include shadow
+            @keyframes parasol_rotate
+                0%
+                    transform: rotateZ(0deg)
+                100%
+                    transform: rotateZ(360deg)
+                    
+
+        .flip-flop
+            position: absolute
+            height: 80px
+            width: 40px
+            top: 12rem
+            right: 5rem
+            border-radius: 1rem
+            background-color: $light-yellow
+            @include short-shadow
+
+        .flip-flop:before
+            content: ""
+            position: absolute
+            bottom: 1rem
+            right: 0
+            border: 5px solid $blue
+            border-right: 0
+            border-bottom: 0
+            border-top-left-radius: 100px
+            width: 17px
+            height: 15px
+
+        .flip-flop:after
+            content: ""
+            position: absolute
+            bottom: 1rem
+            left: 0
+            border: 5px solid $blue
+            border-left: 0
+            border-bottom: 0
+            border-top-right-radius: 100px
+            width: 17px
+            height: 15px
+
+        #second-flip-flop
+            transform: translateX(3.5rem)
+
+        .chair
+            position: absolute
+            width: 250px
+            height: 600px
+            top: -15rem
+            left: 3rem
+            background: repeating-linear-gradient(90deg, $light-yellow, $light-yellow 50px, $blue 50px, $blue 100px)
+            border-left: 8px solid $yellow
+            border-right: 8px solid $yellow
+
+        .pool
+            position: absolute
+            width: 100vw
+            height: 100%
+            top: 55%
+            left: 0%
+            background-color: $light-blue
+            border: 20px solid $light-yellow
+            @include short-shadow
+
+        .pool:after
+            content: ""
+            position: absolute
+            width: 100%
+            height: 100%
+            background-image: linear-gradient(45deg, transparent 0 5rem, rgba($light-yellow, 0.5) 5rem 5.15rem, transparent 5.15rem 6.25rem), linear-gradient(132deg, transparent 0 5rem, rgba($light-yellow, 0.5) 5rem 5.15rem, transparent 5.15rem 6.25rem), linear-gradient(225deg, transparent 0 5rem, rgba($light-yellow, 0.5) 5rem 5.15rem, transparent 5.15rem 6.25rem), linear-gradient(315deg, transparent 0 5rem, rgba($light-yellow, 0.5) 5rem 5.15rem, transparent 5.15rem 6.25rem)
+            background-size: 4.75rem 4.75rem
+            box-shadow: inset 5rem 5rem 0 2rem rgba($blue, 0.65)
+
+        .inner-tube
+            position: absolute
+            bottom: 1rem
+            left: 45%
+            height: 100px
+            width: 100px
+            border-radius: 100%
+            background: repeating-conic-gradient($light-yellow 0deg 45deg, $hot-pink 46deg 90deg)
+            @include short-shadow
+
+        .inner-tube:after
+            content: ""
+            position: absolute
+            bottom: 25%
+            right: 25%
+            height: 50px
+            width: 50px
+            border-radius: 100%
+            background: $light-blue
+            box-shadow: inset -0.25rem -0.25rem 0 0.15rem $purple
+
+        @media (max-height: 700px)
+            .sign
+                transform: scale(0.45, 0.45)
+
+            .inner-tube
+                left: 70%

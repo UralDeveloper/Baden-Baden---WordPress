@@ -29,12 +29,12 @@ if ( ! empty($block['anchor'] ) ) {
         <div class="accordion accordion-flush" id="accordionFlushExample">
             <?php foreach ( $zapisi as $post_ids ) : ?>
             <div class="accordion-item">
-                <h2 class="accordion-header">
+                <p class="accordion-header">
                     <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
                         data-bs-target="#flush-collapse_<?php echo $post_ids; ?>" aria-expanded="false" aria-controls="flush-collapseOne">
                         <?php echo get_the_title( $post_ids ); ?>
                     </button>
-                </h2>
+                </p>
                 <div id="flush-collapse_<?php echo $post_ids; ?>" class="accordion-collapse collapse" data-bs-parent="#accordionFlushExample">
                     <div class="accordion-body">
                         <?php echo get_the_content('', false, $post_ids); ?>
@@ -44,6 +44,16 @@ if ( ! empty($block['anchor'] ) ) {
             <?php endforeach; ?>
         </div>
         <?php endif; ?>
+        <?php if ( get_sub_field( 'knopka_dalee' ) == 1 ) : ?>
+            <div class="faq-btn__wrapper">
+                <?php $ssylka_na_straniczu = get_sub_field( 'ssylka_na_straniczu' ); ?>
+                <?php if ( $ssylka_na_straniczu ) : ?>
+                    <a class="btn btn--blue" href="<?php echo esc_url( $ssylka_na_straniczu); ?>">
+                        Смотреть все
+                    </a>
+                <?php endif; ?>
+            </div>
+		<?php endif; ?>
     </div>
     <?php endwhile; ?>
 </section>
