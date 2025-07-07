@@ -93,7 +93,18 @@
             ?>
         </div>
         <div class="footer__nav">
-            <ul>
+            <?php 
+                $args = array(
+                    'theme_location'    => 'complexes',
+                    'depth'	            => 1,
+                    'container'         => false,
+                    'fallback_cb'       => false,
+                    'items_wrap'        => '<ul id="%1$s">%3$s</ul>',
+                );
+                
+                wp_nav_menu( $args );
+            ?>
+            <!-- <ul>
                 <li><a rel="nofollow" href="https://baden74.ru">Еткуль</a></li>
                 <li><a rel="nofollow" href="https://baden-uktus.ru">Уктус</a></li>
                 <li><a rel="nofollow" href="https://baden-turgoyak.ru">Тургояк</a></li>
@@ -101,7 +112,7 @@
                 <li><a rel="nofollow" href="https://уральский-источник.рф">Реж</a></li>
                 <li><a rel="nofollow" href="https://baden45.ru">Курган</a></li>
                 <li><a rel="nofollow" href="https://cubacuba.ru">Cuba-Cuba</a></li>
-            </ul>
+            </ul> -->
             <?php 
                 $args = array(
                     'theme_location'    => 'footer-2',

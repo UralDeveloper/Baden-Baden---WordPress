@@ -54,6 +54,7 @@ function baden_setup()
             'menu-1' => esc_html__('Основное', 'baden'),
             'footer-1' => esc_html__('Меню под логотипом', 'baden'),
             'footer-2' => esc_html__('Навигация в подвале', 'baden'),
+            'complexes' => esc_html__('Комплексы', 'baden'),
         )
     );
 
