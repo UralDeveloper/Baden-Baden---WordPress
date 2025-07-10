@@ -22,7 +22,7 @@
                 <div class="contacts__contacts__item">
                     <div>
                         <img src="<?php the_badden_assets('img', 'phone.svg'); ?>" title="Телефон" alt="Телефон">
-                        <span><a href="tel:<?php echo clean_phone_number(get_field( 'op_telefon', 'option' )) ?>"><?php the_field( 'op_telefon', 'option' ); ?></a></span>
+                        <span><a class="mgo-number" href="tel:<?php echo clean_phone_number(get_field( 'op_telefon', 'option' )) ?>"><?php the_field( 'op_telefon', 'option' ); ?></a></span>
                     </div>
                 </div>
                 <div class="contacts__contacts__item">

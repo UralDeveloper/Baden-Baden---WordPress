@@ -54,8 +54,9 @@
 				<a id="header_icon_vk" href="<?php the_field( 'op_ssylka_na_vk', 'option' ); ?>">
 					<img src="<?php the_badden_assets('img', 'vk.svg'); ?>" alt="Мы в ВКонтакте" title="Мы в ВКонтакте">
 				</a>
-				<a id="header_icon_phone" href="tel:<?php echo clean_phone_number(get_field( 'op_telefon', 'option' )); ?>">
+				<a id="header_icon_phone" class="mgo-number" href="tel:<?php echo clean_phone_number(get_field( 'op_telefon', 'option' )); ?>" style="color: #fff; text-decoration: none">
 					<img src="<?php the_badden_assets('img', 'phone_white.svg'); ?>" alt="Позвонить" title="Позвонить">
+					<span style="display: none;"><?php echo get_field( 'op_telefon', 'option' ); ?></span>
 				</a>
 			</div>
 			<div class="header__mobile">
