@@ -4,7 +4,7 @@ Theme URI: http://underscores.me/
 Author: Alexandr Vlasov
 Author URI: http://alexandr.pw
 Description: Description
-Version: 1.6.21
+Version: 1.6.22
 Tested up to: 5.4
 Requires PHP: 5.6
 License: GNU General Public License v2 or later
@@ -285,4 +285,7 @@ body {
     .swiper-button-next:after {
         display: none;
     }
+}
+.swiper-slide {
+    height: 100% !important;
 }

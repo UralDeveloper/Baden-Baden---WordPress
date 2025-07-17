@@ -165,6 +165,74 @@
     </div>
 <?php endif; ?>
 
+<?php 
+/**
+ * Эта хрен нужна для сохранения UTM меток
+ * Маркетологу это ппц важно было
+ */
+
+if (get_field('utm_metki_tekushhij_url_sajta', 'option') && get_field('utm_metki', 'option')) {
+    $utm_site = get_field('utm_metki_tekushhij_url_sajta', 'option'); 
+    $utm_metki_raw = get_field('utm_metki', 'option');
+
+    // Разбиваем UTM-метки по строкам
+    $utm_metki_array = [];
+    if ($utm_metki_raw) {
+        $lines = preg_split('/\r\n|\r|\n/', $utm_metki_raw);
+        $utm_metki_array = array_filter(array_map('trim', $lines));
+    }
+?>
+
+    <script>
+    document.addEventListener("DOMContentLoaded", function () {
+    (function () {
+        var domainsToDecorate = ['<?php echo esc_js($utm_site); ?>'];
+
+        
+        var queryParams = <?php echo json_encode($utm_metki_array); ?>;
+
+        var links = document.querySelectorAll('a');
+
+        for (var linkIndex = 0; linkIndex < links.length; linkIndex++) {
+        for (var domainIndex = 0; domainIndex < domainsToDecorate.length; domainIndex++) {
+            var href = links[linkIndex].href;
+            if (href.indexOf(domainsToDecorate[domainIndex]) > -1) {
+            links[linkIndex].href = decorateUrl(href);
+            }
+        }
+        }
+
+        function decorateUrl(url) {
+        var anchorIndex = url.indexOf('#');
+        var anchor = '';
+        if (anchorIndex !== -1) {
+            anchor = url.substring(anchorIndex);
+            url = url.substring(0, anchorIndex);
+        }
+
+        url += (url.indexOf('?') === -1) ? '?' : '&';
+
+        var collectedQueryParams = [];
+        for (var i = 0; i < queryParams.length; i++) {
+            var paramValue = getQueryParam(queryParams[i]);
+            if (paramValue) {
+            collectedQueryParams.push(queryParams[i] + '=' + encodeURIComponent(paramValue));
+            }
+        }
+
+        return url + collectedQueryParams.join('&') + anchor;
+        }
+
+        function getQueryParam(name) {
+        var match = (new RegExp('[?&]' + encodeURIComponent(name) + '=([^&]*)')).exec(window.location.search);
+        return match ? decodeURIComponent(match[1]) : null;
+        }
+    })();
+    });
+    </script>
+
+<?php } ?>
+
 <?php wp_footer(); ?>
 <!-- <script src="<?//php echo get_template_directory(); ?>/assets/js/spa-init.js" type="module"></script> -->
 

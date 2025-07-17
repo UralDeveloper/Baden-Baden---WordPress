@@ -35,6 +35,95 @@ get_header();
     </div>
 </section>
 
+<?php if (get_post_status( get_the_ID() ) == 'draft') : ?>
+	<div class="post_draft">
+		<div class="container">
+			<div class="post_draft--wrapper">
+				<div class="post_draft--text">
+					<?php $post_deadline_zapis_s_fotootchetom = get_field( 'post_deadline_zapis_s_fotootchetom' ); ?>
+					<?php if ( $post_deadline_zapis_s_fotootchetom ) : ?>
+						<p>Данная акция завершилась, вы можете ознакомиться с другими акциями или посмотреть фотоотчет</p>
+					<?php else : ?>
+						<p>Данная акция завершилась, вы можете ознакомиться с другими акциями</p>
+					<?php endif; ?>
+				</div>
+				<div class="post_draft--btn">
+					<a href="<?php echo home_url( '/akcii/' )?>" class="cookies__btn">Другие акции</a>
+					<?php $post_deadline_zapis_s_fotootchetom = get_field( 'post_deadline_zapis_s_fotootchetom' ); ?>
+					<?php if ( $post_deadline_zapis_s_fotootchetom ) : ?>
+						<?php foreach ( $post_deadline_zapis_s_fotootchetom as $post_ids ) : ?>
+							<a href="<?php echo get_permalink( $post_ids ); ?>" class="cookies__btn">Фотоотчет</a>
+						<?php endforeach; ?>
+					<?php endif; ?>
+				</div>
+			</div>
+		</div>
+	</div>
+	<style>
+		.firstScreen_singlePage:has(~ .post_draft) {
+			filter: grayscale(1);
+		}
+		.post_draft--wrapper {
+			padding: 32px;
+			-webkit-box-shadow: 0 8px 32px 0 #27294014;
+			box-shadow: 0 8px 32px 0 #27294014;
+			background-color: #fff;
+			border-radius: 32px;
+			display: -webkit-box;
+			display: -ms-flexbox;
+			display: flex;
+			-webkit-box-orient: horizontal;
+			-webkit-box-direction: normal;
+			-ms-flex-direction: row;
+			flex-direction: row;
+			-webkit-box-align: center;
+			-ms-flex-align: center;
+			align-items: center;
+			-webkit-box-pack: justify;
+			-ms-flex-pack: justify;
+			justify-content: space-between;
+			max-width: 720px;
+			margin: 0 auto;
+			@media screen and (max-width: 767px) {
+				flex-direction: column;
+			}
+		}
+		.post_draft--text {
+			font-size: 18px;
+			line-height: 22px;
+			max-width: 540px;
+			font-weight: 500;
+			max-width: 460px;
+			p {
+				margin-bottom: 0;
+			}
+		}
+		.post_draft--btn {
+			display: -webkit-box;
+			display: -ms-flexbox;
+			display: flex;
+			-webkit-box-orient: horizontal;
+			-webkit-box-direction: normal;
+			-ms-flex-direction: column;
+			flex-direction: column;
+			-webkit-box-align: center;
+			-ms-flex-align: center;
+			align-items: center;
+			-webkit-box-pack: justify;
+			-ms-flex-pack: justify;
+			justify-content: space-between;
+			gap: 12px;
+			.cookies__btn {
+				width: 100%;
+				text-align: center;
+			}
+			.cookies__btn:hover {
+				color: #fff;
+			}
+		}
+	</style>
+<?php endif; ?>
+
 <section id="travelline" class="container" data-travelLine="<?php the_field( 'travelline_id', 'option' ); ?>">
 	<div class="grid">
 		<div class="travel-script">
@@ -175,6 +264,5 @@ get_header();
 		?>
     </aside>
 </main>
-
 <?php
 get_footer();

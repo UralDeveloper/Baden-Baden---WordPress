@@ -17,34 +17,34 @@ get_header();
 ?>
 <section class="firstScreen_singlePage">
 	<div class="firstScreen_singlePage__bg">
-		<?php
-		// Определяем текущий URL
-		$current_page_url = rtrim($_SERVER['REQUEST_URI'], '/'); // Убираем последний слэш
+<?php
+// Определяем текущий URL без UTM и других параметров
+$uri_path = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
+$current_page_url = rtrim($uri_path, '/'); // Убираем последний слэш
 
-		// Проверяем список страниц в ACF
-		if (have_rows('spisok_stranicz', 'option')) :
-			while (have_rows('spisok_stranicz', 'option')) : the_row();
-				$acf_url = rtrim(get_sub_field('stranicza'), '/'); // Убираем последний слэш из ACF
+// Проверяем список страниц в ACF
+if (have_rows('spisok_stranicz', 'option')) :
+	while (have_rows('spisok_stranicz', 'option')) : the_row();
+		$acf_url = rtrim(get_sub_field('stranicza'), '/'); // Убираем последний слэш из ACF
 
-				echo "<p>Проверка: ACF URL - " . esc_html($acf_url) . ", Текущий URL - " . esc_html($current_page_url) . "</p>"; // Отладка
-
-				if ($acf_url === $current_page_url) :
-		?>
-					<div class="firstScreen_singlePage__bg">
-						<?php
-						$izobrazhenie_v_shapku = get_sub_field('izobrazhenie_v_shapku');
-						if (!empty($izobrazhenie_v_shapku)) : ?>
-							<img src="<?php echo esc_url($izobrazhenie_v_shapku['url']); ?>"
-								title="<?php echo esc_attr($izobrazhenie_v_shapku['alt']); ?>"
-								alt="<?php echo esc_attr($izobrazhenie_v_shapku['alt']); ?>" />
-						<?php endif; ?>
-					</div>
-		<?php
-					break;
-				endif;
-			endwhile;
+		if ($acf_url === $current_page_url) :
+?>
+			<div class="firstScreen_singlePage__bg">
+				<?php
+				$izobrazhenie_v_shapku = get_sub_field('izobrazhenie_v_shapku');
+				if (!empty($izobrazhenie_v_shapku)) : ?>
+					<img src="<?php echo esc_url($izobrazhenie_v_shapku['url']); ?>"
+						title="<?php echo esc_attr($izobrazhenie_v_shapku['alt']); ?>"
+						alt="<?php echo esc_attr($izobrazhenie_v_shapku['alt']); ?>" />
+				<?php endif; ?>
+			</div>
+<?php
+			break;
 		endif;
-		?>
+	endwhile;
+endif;
+?>
+
 
 
 

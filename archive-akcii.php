@@ -10,41 +10,40 @@
 
 get_header();
 ?>
-<section class="firstScreen_singlePage">
+	<section class="firstScreen_singlePage">
 	<?php
-	$current_page_url = rtrim($_SERVER['REQUEST_URI'], '/'); // Например: /category/news/page/2
+	// Получаем текущий путь без GET-параметров
+	$uri_path = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 
+	// Удалим /page/X из URL (например, /page/2, /page/10 и т.п.)
+	$uri_path = preg_replace('#/page/\d+/?#', '', $uri_path);
+
+	// Удалим финальный слэш (если он есть)
+	$current_page_url = rtrim($uri_path, '/');
+
+	// Проверяем список страниц из ACF
 	if (have_rows('spisok_stranicz', 'option')) :
 		while (have_rows('spisok_stranicz', 'option')) : the_row();
 			$acf_url = rtrim(get_sub_field('stranicza'), '/');
 
-			// Чтобы совпадение работало на всех страницах пагинации,
-			// нужно учитывать, что URL может иметь /page/2 и т.п.
-			// Поэтому для сравнения лучше проверять, что $current_page_url начинается с $acf_url
-
-			if (strpos($current_page_url, $acf_url) === 0) :
-				?>
+			if ($acf_url === $current_page_url) :
+	?>
 				<div class="firstScreen_singlePage__bg">
 					<?php
 					$izobrazhenie_v_shapku = get_sub_field('izobrazhenie_v_shapku');
-					$izobrazhenie_v_phone = get_sub_field('izobrazhenie_dlya_telefon');
-					$izobrazhenie_v_pad = get_sub_field('izobrazhenie_dlya_plansheta');
 					if (!empty($izobrazhenie_v_shapku)) : ?>
-						<picture>
-							<source srcset="<?php echo esc_url($izobrazhenie_v_phone['url']); ?>" media="(max-width: 767px)" />
-							<source srcset="<?php echo esc_url($izobrazhenie_v_pad['url']); ?>" media="(min-width: 768px) and (max-width: 1024px)" />
-							<img src="<?php echo esc_url($izobrazhenie_v_shapku['url']); ?>"
-								title="<?php echo esc_attr($izobrazhenie_v_shapku['title']); ?>"
-								alt="<?php echo esc_attr($izobrazhenie_v_shapku['alt']); ?>" />
-						</picture>
+						<img src="<?php echo esc_url($izobrazhenie_v_shapku['url']); ?>"
+							title="<?php echo esc_attr($izobrazhenie_v_shapku['alt']); ?>"
+							alt="<?php echo esc_attr($izobrazhenie_v_shapku['alt']); ?>" />
 					<?php endif; ?>
 				</div>
-				<?php
+	<?php
 				break;
 			endif;
 		endwhile;
 	endif;
 	?>
+
 	<div class="firstScreen_singlePage__content container">
 		<div class="firstScreen_singlePage__title">
 			<h1><?php the_archive_title(); ?></h1>
