@@ -17,33 +17,6 @@ if (! empty($block['anchor'])) {
     $id = $block['anchor'];
 }
 ?>
-<style>
-    .btn__bitrixForm .b24-form-sign {
-        display: none;
-    }
-
-    .btn__bitrixForm .b24-form-wrapper.b24-form-border-bottom {
-        border-bottom: none;
-    }
-
-    .btn__bitrixForm .btn-close {
-        right: 12px;
-        left: auto;
-        position: absolute;
-        z-index: 20;
-    }
-
-    .btn__bitrixForm {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        margin-top: 20px;
-    }
-
-    .btn__bitrixForm button {
-        margin: 0 auto;
-    }
-</style>
 <div id="<?php echo esc_attr($id); ?>" class="btn__bitrixForm">
     <?php if (have_rows('knopka_bitrix')) : ?>
         <?php while (have_rows('knopka_bitrix')) : the_row(); ?>

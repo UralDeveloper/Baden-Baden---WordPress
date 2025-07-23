@@ -186,27 +186,6 @@ get_header();
 			$query = new WP_Query($args);
 
 			if ($query->have_posts()) : ?>
-				<style>
-					.article-content {
-						container-type: inline-size;
-						container-name: specialOffers;
-					}
-					.specialOffers {
-						overflow: hidden;
-						width: 100%;
-						max-width: 100cqw;
-						display: flex;
-						align-items: center;
-						justify-content: center;
-						flex-direction: column;
-						.swiper {
-							width: 100%;
-						}
-						.titleBlock {
-							margin-bottom: 40px;
-						}
-					}
-				</style>
 				<section class="specialOffers">
 					<div class="titleBlock">
 						<h2>Другие акции</h2>

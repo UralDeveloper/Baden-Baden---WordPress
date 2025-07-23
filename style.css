@@ -4,7 +4,7 @@ Theme URI: http://underscores.me/
 Author: Alexandr Vlasov
 Author URI: http://alexandr.pw
 Description: Description
-Version: 1.6.23
+Version: 1.6.24
 Tested up to: 5.4
 Requires PHP: 5.6
 License: GNU General Public License v2 or later
@@ -15,18 +15,21 @@ Tags: custom-background, custom-logo, custom-menu, featured-images, threaded-com
 .btn {
     font-size: 16px;
 }
+
 .firstScreen_singlePage__content h1 {
-	font-size: clamp(36px,5vw,80px);
+    font-size: clamp(36px, 5vw, 80px);
 }
+
 .titleBlock h2 {
-	font-family: serif;
-	color: #0066a4;
-	font-size: clamp(36px , 5vw, 52px);
-	line-height: 1em;
-	margin-bottom: 40px;
+    font-family: serif;
+    color: #0066a4;
+    font-size: clamp(36px, 5vw, 52px);
+    line-height: 1em;
+    margin-bottom: 40px;
 }
+
 .contacts__contacts__title {
-	display: flex;
+    display: flex;
     -webkit-box-orient: vertical;
     -webkit-box-direction: normal;
     -ms-flex-direction: column;
@@ -38,110 +41,132 @@ Tags: custom-background, custom-logo, custom-menu, featured-images, threaded-com
     -ms-flex-pack: center;
     justify-content: center;
 }
+
 .contacts__contacts__title h2 {
-	font-family: serif;
-	color: #0066a4;
-	font-size: 52px;
-	line-height: 1em;
-	margin-bottom: 40px;
-	position: relative;
+    font-family: serif;
+    color: #0066a4;
+    font-size: 52px;
+    line-height: 1em;
+    margin-bottom: 40px;
+    position: relative;
 }
+
 .contacts__contacts__title:after {
     content: "";
     display: block;
-	background-color: #4e5d70;
+    background-color: #4e5d70;
     width: 50px;
     height: 1px;
 }
 
 .contacts__contacts {
-	/* padding: 55px 25px; */
-	/* width: 100%; */
+    /* padding: 55px 25px; */
+    /* width: 100%; */
 }
+
 /* @media screen and (max-width: 767px) {
 	.contacts__contacts {
 		padding: 55px 45px;
 	}
 } */
 .contacts__contacts__items {
-	gap: 50px
+    gap: 50px
 }
+
 .contacts__contacts__item div a,
 .contacts__contacts__item div span {
-	font-size: 16px;
-	font-weight: 500;
+    font-size: 16px;
+    font-weight: 500;
 }
+
 .contacts__contacts__item .location_name {
-	text-transform: uppercase;
+    text-transform: uppercase;
 }
+
 .header {
-	position: relative;
-	margin-bottom: -100px;
+    position: relative;
+    margin-bottom: -100px;
 }
+
 body {
-	color: #4e5d70;
+    color: #4e5d70;
 }
+
 .titleWrapper ul li a {
-	color: #4e5d70;
-	cursor: pointer;
+    color: #4e5d70;
+    cursor: pointer;
 }
+
 .titleWrapper p {
-	font-size: 20px;
-	color: #4e5d70;
-	text-wrap: auto;
+    font-size: 20px;
+    color: #4e5d70;
+    text-wrap: auto;
 }
+
 .firstScreen_singlePage__bg img {
     object-fit: cover;
     -o-object-position: top;
     object-position: center top;
 }
+
 .specialOffers__item {
-	aspect-ratio: 4/5;
+    aspect-ratio: 4/5;
 }
+
 .accommodation__item {
-	height: auto;
+    height: auto;
 }
+
 .swiper.accommodation-slider .swiper-wrapper {
-	justify-content: stretch;
+    justify-content: stretch;
 }
+
 .header.scrolled {
-	background-color: rgb(89 162 212 / 90%);
+    background-color: rgb(89 162 212 / 90%);
 }
+
 .titleWrapper ul li {
-	font-size: 16px;
+    font-size: 16px;
     text-transform: uppercase;
 }
+
 .titleBlock:after {
-	background-color: #4e5d70;
-	width: 50px;
+    background-color: #4e5d70;
+    width: 50px;
 }
+
 #travelline {
-	border: 1px solid rgba(0, 0, 0, .1);
+    border: 1px solid rgba(0, 0, 0, .1);
     border-radius: .8rem;
     padding: 10px 30px;
-	margin-top: 30px;
+    margin-top: 30px;
 }
-.page-template-home  #travelline {
-	margin-bottom: 60px;
+
+.page-template-home #travelline {
+    margin-bottom: 60px;
 }
+
 @media screen and (min-width: 1700px) {
-	.container {
-		max-width: 1600px;
-	}
+    .container {
+        max-width: 1600px;
+    }
 }
+
 .accommodation__item {
-	padding: 0;
+    padding: 0;
 }
+
 /* .btn {
 	padding: 20px 50px !important;
 	font-size: 14px !important;
 	font-weight: 500 !important;
 } */
 .btn--blue {
-	background-color: #57a1d4;
+    background-color: #57a1d4;
 }
+
 .dropdown-toggle::before {
-	display: block;
+    display: block;
     content: "\f107";
     font-family: "Font Awesome 5 Pro";
     font-weight: 900;
@@ -149,24 +174,30 @@ body {
     right: 2px;
     font-size: 12px;
     bottom: 12px;
-	transition: transform .3s ease-in-out;
+    transition: transform .3s ease-in-out;
 }
+
 .dropdown-toggle:hover::before {
-	transform: rotateX(-180deg);
+    transform: rotateX(-180deg);
 }
+
 .dropdown-toggle::after {
-	display: none;
+    display: none;
 }
+
 /* Для обычных экранов — наводим мышью и показываем меню */
 @media (min-width: 992px) {
-  .dropdown:hover > .dropdown-menu {
-    display: block;
-    margin-top: 0; /* убираем возможное смещение */
-  }
+    .dropdown:hover>.dropdown-menu {
+        display: block;
+        margin-top: 0;
+        /* убираем возможное смещение */
+    }
 }
+
 #certificate_widget .page__inner {
-	padding-top: 20px;
+    padding-top: 20px;
 }
+
 .faq-btn__wrapper {
     display: -webkit-box;
     display: -ms-flexbox;
@@ -178,53 +209,59 @@ body {
     -ms-flex-pack: center;
     justify-content: center;
 }
+
 .offcanvas-header .offcanvas-title .img {
-	width: 100%;
-	height: auto;
-	object-fit: contain;
-	object-position: center;
+    width: 100%;
+    height: auto;
+    object-fit: contain;
+    object-position: center;
 }
 
-    .btn__bitrixForm .b24-form-sign {
-        display: none;
-    }
+.btn__bitrixForm .b24-form-sign {
+    display: none;
+}
 
-    .btn__bitrixForm .b24-form-wrapper.b24-form-border-bottom {
-        border-bottom: none;
-    }
+.btn__bitrixForm .b24-form-wrapper.b24-form-border-bottom {
+    border-bottom: none;
+}
 
-    .btn__bitrixForm .btn-close {
-        right: 12px;
-        left: auto;
-        position: absolute;
-        z-index: 20;
-    }
+.btn__bitrixForm .btn-close {
+    right: 12px;
+    left: auto;
+    position: absolute;
+    z-index: 20;
+}
 
-    .btn__bitrixForm {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        margin-top: 20px;
-    }
+.btn__bitrixForm {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 20px;
+}
 
-    .btn__bitrixForm button {
-        margin: 0 auto;
-    }
+.btn__bitrixForm button {
+    margin: 0 auto;
+}
+
 .header__social img {
     width: 20px;
     height: 20px;
 }
+
 @media screen and (max-width: 767px) {
     .firstScreen__description {
         font-size: 14px;
     }
+
     .firstScreen__logo img {
         width: 60%;
     }
+
     .header__logo img {
         max-width: 120px;
     }
 }
+
 .page-link {
     font-size: 20px;
     width: 40px;
@@ -234,6 +271,7 @@ body {
     justify-content: center;
     color: #5ba6db;
 }
+
 .page-item.active .page-link {
     color: #fff;
     background-color: #5ba6db;
@@ -244,15 +282,19 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
+
     &:not(:hover) {
+
         .swiper-button-prev,
         .swiper-button-next {
             opacity: 0;
             top: 20px;
         }
     }
+
     @media screen and (max-width: 1024px) {
         &:not(:hover) {
+
             .swiper-button-prev,
             .swiper-button-next {
                 opacity: 1;
@@ -260,10 +302,12 @@ body {
             }
         }
     }
+
     .swiper-nav {
         position: absolute;
         width: 100%;
     }
+
     .swiper-button-prev,
     .swiper-button-next {
         opacity: 1;
@@ -276,16 +320,19 @@ body {
         align-items: center;
         justify-content: center;
         transition: all .3s ease-in-out;
+
         svg {
             width: 20px;
             height: 20px;
         }
     }
+
     .swiper-button-prev:after,
     .swiper-button-next:after {
         display: none;
     }
 }
+
 .swiper-slide {
     height: 100% !important;
 }
@@ -293,7 +340,57 @@ body {
 .footer__copyright ul li:has(a) {
     padding: 4px 0px;
 }
+
 .footer__copyright ul li a {
     font-size: 16px;
     line-height: 1.3em;
+}
+
+.btn__bitrixForm .b24-form-sign {
+    display: none;
+}
+
+.btn__bitrixForm .b24-form-wrapper.b24-form-border-bottom {
+    border-bottom: none;
+}
+
+.btn__bitrixForm .btn-close {
+    right: 12px;
+    left: auto;
+    position: absolute;
+    z-index: 20;
+}
+
+.btn__bitrixForm {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.btn__bitrixForm button {
+    margin: 0 auto;
+}
+
+.article-content {
+    container-type: inline-size;
+    container-name: specialOffers;
+}
+
+.specialOffers {
+    overflow: hidden;
+    width: 100%;
+    max-width: 100cqw;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+
+    .swiper {
+        width: 100%;
+    }
+
+    .titleBlock {
+        margin-bottom: 40px;
+    }
 }
