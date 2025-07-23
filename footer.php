@@ -68,15 +68,6 @@
 <section class="footer">
     <div class="container footer__container">
         <div class="footer__copyright">
-            <style>
-                .footer__copyright ul li:has(a) {
-                    padding: 4px 0px;
-                }
-                .footer__copyright ul li a {
-                    font-size: 16px;
-                    line-height: 1.3em;
-                }
-            </style>
             <a href="<?php home_url('/')?>" title="<?php echo get_bloginfo( 'name' )?>">
                 <img src="<?php the_badden_assets('img', 'logo-footer.svg'); ?>" title="Баден баден" alt="Баден баден">
             </a>

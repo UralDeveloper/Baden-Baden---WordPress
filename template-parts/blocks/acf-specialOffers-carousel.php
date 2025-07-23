@@ -17,12 +17,6 @@ if ( ! empty($block['anchor'] ) ) {
 }
 ?>
 
-<style type="text/css">
-	<?php echo '#' . $id; ?> {
-		/* Add styles that use ACF values here */
-	}
-</style>
-
 
 <section id="<?php echo esc_attr( $id ); ?>" class="specialOffers">
     <?php if ( have_rows( 'kuresel_akczij' ) ) : ?>
