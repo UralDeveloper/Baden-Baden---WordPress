@@ -43,12 +43,20 @@ if (! empty($block['anchor'])) {
                                         else: $status = "";
                                         endif; ?>
                                         <li class="nav-item" role="presentation">
+                                            <button class="nav-tab btn--link <?php echo $status ?>"
+                                                data-bs-toggle="pill"
+                                                data-bs-target="#pills-<?php echo get_post_field('post_name', $post_ids); ?>"
+                                                role="tab"
+                                                aria-controls="pills-<?php echo get_post_field('post_name', $post_ids); ?>"
+                                                aria-selected="selected"><?php echo get_the_title($post_ids); ?></button>
+                                            <?/*
                                             <a class="nav-tab btn--link <?php echo $status ?>"
                                                 data-bs-toggle="pill"
                                                 href="#pills-<?php echo get_post_field('post_name', $post_ids); ?>"
                                                 role="tab"
                                                 aria-controls="pills-<?php echo get_post_field('post_name', $post_ids); ?>"
                                                 aria-selected="true"><?php echo get_the_title($post_ids); ?></a>
+                                            */?>
                                         </li>
                                     <?php endforeach; ?>
                                 </ul>

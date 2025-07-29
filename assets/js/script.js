@@ -93,51 +93,186 @@ let galleryCarousel_swiper = new Swiper('.galleryCarousel-carousel', {
     spaceBetween: 12,
 });
 
-document.addEventListener("DOMContentLoaded", function () {
-    let tabLinks = document.querySelectorAll("#pills-tab .nav-tab");
+// document.addEventListener("DOMContentLoaded", function () {
+//     let tabLinks = document.querySelectorAll("#pills-tab .nav-tab");
+
+//     tabLinks.forEach(link => {
+//         link.addEventListener("shown.bs.tab", function (event) {
+//             let targetId = event.target.getAttribute("href").replace("#", "");
+//             let correspondingTab = document.querySelector(`#pills-tabContent-slides #${targetId}-slide`);
+
+//             if (correspondingTab) {
+//                 document.querySelectorAll("#pills-tabContent-slides .tab-pane").forEach(tab => {
+//                     tab.classList.remove("show", "active");
+//                 });
+//                 correspondingTab.classList.add("show", "active");
+//             }
+//         });
+//     });
+// });
+
+
+// document.addEventListener("DOMContentLoaded", function () {
+//     document.querySelectorAll(".whoceTers").forEach(section => {
+//         let tabLinks = section.querySelectorAll(".nav-tab");
+
+//         tabLinks.forEach(link => {
+//             link.addEventListener("click", function (event) {
+//                 event.preventDefault(); // Предотвращаем добавление #id в URL
+//             });
+
+//             link.addEventListener("shown.bs.tab", function (event) {
+//                 let targetId = event.target.getAttribute("href").replace("#", "");
+
+//                 let slidesContainer = section.querySelector(".whoceTers__content");
+//                 if (!slidesContainer) return;
+
+//                 let correspondingTab = slidesContainer.querySelector(`#${targetId}-slide`);
+
+//                 if (correspondingTab) {
+//                     slidesContainer.querySelectorAll(".tab-pane").forEach(tab => {
+//                         tab.classList.remove("show", "active");
+//                     });
+//                     correspondingTab.classList.add("show", "active");
+//                 }
+//             });
+//         });
+//     });
+// });
+
+document.addEventListener("DOMContentLoaded", function() {
+    const tabLinks = document.querySelectorAll("#pills-tab .nav-tab");
 
     tabLinks.forEach(link => {
-        link.addEventListener("shown.bs.tab", function (event) {
-            let targetId = event.target.getAttribute("href").replace("#", "");
-            let correspondingTab = document.querySelector(`#pills-tabContent-slides #${targetId}-slide`);
-
-            if (correspondingTab) {
-                document.querySelectorAll("#pills-tabContent-slides .tab-pane").forEach(tab => {
+        link.addEventListener("shown.bs.tab", function(event) {
+            try {
+                // 1. Получаем элемент, который вызвал событие
+                const targetElement = event.target;
+                
+                // 2. Пытаемся получить target из разных возможных атрибутов
+                const targetValue = targetElement.getAttribute("data-bs-target") || 
+                                  targetElement.getAttribute("href") ||
+                                  targetElement.getAttribute("data-target");
+                
+                // 3. Если не получили значение - выходим
+                if (!targetValue) {
+                    console.error("Элемент не содержит атрибутов data-bs-target, href или data-target", targetElement);
+                    return;
+                }
+                
+                // 4. Извлекаем чистый ID (удаляем # и параметры)
+                const targetId = targetValue.replace(/^.*#/, "").split("?")[0];
+                if (!targetId) {
+                    console.error("Не удалось извлечь ID из:", targetValue);
+                    return;
+                }
+                
+                // 5. Находим контейнер слайдов
+                const slidesContainer = document.querySelector("#pills-tabContent-slides");
+                if (!slidesContainer) {
+                    console.warn("Не найден контейнер слайдов #pills-tabContent-slides");
+                    return;
+                }
+                
+                // 6. Ищем соответствующий слайд
+                const correspondingTab = slidesContainer.querySelector(`#${targetId}-slide`);
+                if (!correspondingTab) {
+                    console.warn("Не найден слайд с ID:", `#${targetId}-slide`);
+                    return;
+                }
+                
+                // 7. Обновляем состояние табов
+                slidesContainer.querySelectorAll(".tab-pane").forEach(tab => {
                     tab.classList.remove("show", "active");
                 });
                 correspondingTab.classList.add("show", "active");
+                
+            } catch (error) {
+                console.error("Произошла ошибка при обработке таба:", error);
             }
         });
     });
 });
 
-document.addEventListener("DOMContentLoaded", function () {
+document.addEventListener("DOMContentLoaded", function() {
     document.querySelectorAll(".whoceTers").forEach(section => {
-        let tabLinks = section.querySelectorAll(".nav-tab");
+        const tabLinks = section.querySelectorAll(".nav-tab");
 
         tabLinks.forEach(link => {
-            link.addEventListener("click", function (event) {
-                event.preventDefault(); // Предотвращаем добавление #id в URL
+            // Предотвращаем стандартное поведение
+            link.addEventListener("click", function(event) {
+                if (link.tagName === 'A') {
+                    event.preventDefault();
+                }
             });
 
-            link.addEventListener("shown.bs.tab", function (event) {
-                let targetId = event.target.getAttribute("href").replace("#", "");
-
-                let slidesContainer = section.querySelector(".whoceTers__content");
-                if (!slidesContainer) return;
-
-                let correspondingTab = slidesContainer.querySelector(`#${targetId}-slide`);
-
-                if (correspondingTab) {
+            // Обработка показа таба
+            link.addEventListener("shown.bs.tab", function(event) {
+                try {
+                    // 1. Получаем элемент, который вызвал событие
+                    const targetElement = event.target;
+                    
+                    // 2. Пытаемся получить target из разных атрибутов
+                    const targetValue = targetElement.getAttribute("data-bs-target") || 
+                                      targetElement.getAttribute("href") ||
+                                      targetElement.getAttribute("data-target");
+                    
+                    // 3. Проверяем, что значение получено
+                    if (!targetValue) {
+                        console.error("Не найден атрибут цели у элемента:", targetElement);
+                        return;
+                    }
+                    
+                    // 4. Извлекаем чистый ID
+                    const targetId = extractTargetId(targetValue);
+                    if (!targetId) {
+                        console.error("Не удалось извлечь ID из:", targetValue);
+                        return;
+                    }
+                    
+                    // 5. Находим контейнер и таб
+                    const slidesContainer = section.querySelector(".whoceTers__content");
+                    if (!slidesContainer) {
+                        console.warn("Не найден контейнер слайдов");
+                        return;
+                    }
+                    
+                    // 6. Ищем соответствующий слайд
+                    const correspondingTab = slidesContainer.querySelector(`#${targetId}-slide`);
+                    if (!correspondingTab) {
+                        console.warn("Не найден таб для ID:", targetId);
+                        return;
+                    }
+                    
+                    // 7. Обновляем классы
                     slidesContainer.querySelectorAll(".tab-pane").forEach(tab => {
                         tab.classList.remove("show", "active");
                     });
                     correspondingTab.classList.add("show", "active");
+                    
+                } catch (error) {
+                    console.error("Ошибка при обработке таба:", error);
                 }
             });
         });
     });
 });
+
+// Вспомогательная функция для извлечения ID
+function extractTargetId(targetValue) {
+    try {
+        // Удаляем всё до последнего # и параметры после ?
+        const cleanValue = targetValue.split('?')[0];
+        const hashIndex = cleanValue.lastIndexOf('#');
+        
+        if (hashIndex === -1) return null;
+        
+        return cleanValue.substring(hashIndex + 1);
+    } catch (e) {
+        console.error("Ошибка при извлечении ID:", e);
+        return null;
+    }
+}
 
 
 document.addEventListener("DOMContentLoaded", function () {
