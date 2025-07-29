@@ -4,7 +4,7 @@ Theme URI: http://underscores.me/
 Author: Alexandr Vlasov
 Author URI: http://alexandr.pw
 Description: Description
-Version: 1.6.24
+Version: 1.6.25
 Tested up to: 5.4
 Requires PHP: 5.6
 License: GNU General Public License v2 or later
@@ -393,4 +393,13 @@ body {
     .titleBlock {
         margin-bottom: 40px;
     }
+}
+.titleWrapper ul li button {
+    text-decoration: none;
+    font-weight: 400;
+    color: #4e5d70;
+    cursor: pointer;
+    background: none;
+    border: none;
+    text-transform: unset;
 }
